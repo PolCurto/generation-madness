@@ -8,6 +8,7 @@ public class Room
     private RoomType _type;
     private Vector2 _position;
     private List<Room> _connectedRooms;
+    public GameObject _sceneRoom;
 
     public enum RoomType
     {
@@ -29,8 +30,12 @@ public class Room
         _connectedRooms.Add(newRoom);
     }
 
+    public void AddSceneRoom(GameObject sceneRoom)
+    {
+        _sceneRoom = sceneRoom;
+    }
+
     public Vector2 Positon { get { return _position; } set { _position = value; } }
     public RoomType Type { get { return _type; } set { _type = value; } }
-
     public List<Room> ConnectedRooms => _connectedRooms;
 }

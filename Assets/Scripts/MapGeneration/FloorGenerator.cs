@@ -22,18 +22,16 @@ public class FloorGenerator : MonoBehaviour
     private Walker walker;
     private Room[,] _floorGrid;
     private List<Room> _roomsList;
-    private List<Rigidbody2D> _sceneRoomsList;
 
     void Start()
     {
         _floorGrid = new Room[_gridHeight, _gridWidth];
         _roomsList = new List<Room>();
-        _sceneRoomsList = new List<Rigidbody2D>();
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
 
         GenerateFloor();
         RenderFloor();
-        PullRoomsTogether();
+        StartCoroutine(PullRoomsTogether());
     }
 
     /// <summary>
@@ -147,16 +145,18 @@ public class FloorGenerator : MonoBehaviour
         foreach(Room room in _roomsList)
         {
             room.Positon *= new Vector2(_movementScalar, _movementScalar);
+            GameObject newRoom;
 
             switch (room.Type)
             {
                 case Room.RoomType.Start:
-                    Instantiate(_startRoom, room.Positon, Quaternion.identity);
+                    newRoom = Instantiate(_startRoom, room.Positon, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Normal:
-                    GameObject newRoom = Instantiate(_normalRooms[0], room.Positon, Quaternion.identity);
-                    _sceneRoomsList.Add(newRoom.GetComponent<Rigidbody2D>());
+                    newRoom = Instantiate(_normalRooms[0], room.Positon, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Boss:
@@ -168,29 +168,45 @@ public class FloorGenerator : MonoBehaviour
     private IEnumerator PullRoomsTogether()
     {
         float timer = 0;
-        Vector2 velocity = Vector2.one;
+        Vector2 velocity = Vector2.zero;
 
-        while (timer < 2000)
+        Vector2[] directions = new Vector2[_roomsList.Count];
+        List<Rigidbody2D> sceneRooms = new List<Rigidbody2D>();
+
+        for (int i = 0; i < _roomsList.Count; i++)
         {
+            
+
+            if (_roomsList[i]._sceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            {
+                sceneRooms.Add(rigidbody);
+            }
+            
+        }
+
+        while (timer < 5)
+        {
+            yield return null;
+
             timer += Time.deltaTime;
 
-            foreach (Rigidbody2D room in _sceneRoomsList)
+            for (int i = 0; i < sceneRooms.Count; i++)
             {
-                Vector2 direction = room.position - _roomsList[0].Positon;
+                //directions[i] = (_roomsList[0].Positon - sceneRooms[i].position).normalized;
+                velocity = Vector2.MoveTowards(sceneRooms[i].position, _roomsList[0].Positon, .01f);
+                //velocity.y = Mathf.MoveTowards(velocity.y, .005f * directions[i].y, .1f * Time.fixedDeltaTime);
 
-                velocity.x = Mathf.MoveTowards(velocity.x, 1 * direction.x, 100 * Time.fixedDeltaTime);
-                velocity.y = Mathf.MoveTowards(velocity.y, 1 * direction.y, 100 * Time.fixedDeltaTime);
-
-                room.velocity = velocity;
+                sceneRooms[i].position = velocity;
             }
         }
 
-        foreach (Rigidbody2D room in _sceneRoomsList)
+        /*
+        foreach (Rigidbody2D room in sceneRooms)
         {
             room.velocity = Vector2.zero;
         }
+        */
     }
-
 
     private void Update()
     {
@@ -198,7 +214,7 @@ public class FloorGenerator : MonoBehaviour
         {
             foreach (Room connectedRoom in room.ConnectedRooms)
             {
-                Debug.DrawLine(room.Positon, connectedRoom.Positon);
+                Debug.DrawLine(room._sceneRoom.transform.position, connectedRoom._sceneRoom.transform.position);
             }
         }
     }
