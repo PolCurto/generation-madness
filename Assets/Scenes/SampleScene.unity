@@ -156,15 +156,15 @@ MonoBehaviour:
   _bossRoom: {fileID: 802136469}
   _normalRooms:
   - {fileID: 1005421178}
-  _maxRooms: 20
+  _maxRooms: 15
   _gridWidth: 30
   _gridHeight: 30
   _movementScalar: 40
   _adjacentRooms: 1
-  _walkersTimeToLive: 10
+  _connectionChance: 1
+  _walkersTimeToLive: 5
   _pullTime: 5
-  _pullSpeed: 0.05
-  stop: 0
+  _pullSpeed: 0.5
 --- !u!4 &284666
 Transform:
   m_ObjectHideFlags: 0
@@ -457,7 +457,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
