@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class FloorGenerator : MonoBehaviour
+public class FloorGeneratortartExtreme : MonoBehaviour
 {
     [SerializeField] private GameObject _startRoom;
     [SerializeField] private GameObject _bossRoom;
@@ -18,7 +18,6 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private int _adjacentRooms;
     [Range(0f, 1f)]
     [SerializeField] private float _connectionChance;
-    [SerializeField] private int _maxDeadEnds;
 
     [Header("Walkers Params")]
     //[SerializeField] private int _numWalkers;
@@ -54,7 +53,7 @@ public class FloorGenerator : MonoBehaviour
 
         walker = new Walker(_startPosition, _walkersTimeToLive);
 
-        Room startRoom = new Room(Room.RoomType.Start, walker.Position);
+        Room startRoom = new Room(Room.RoomType.Normal, walker.Position);
         _floorGrid[walker.Position.x, walker.Position.y] = startRoom;
         _roomsList.Add(startRoom);
 
@@ -109,10 +108,56 @@ public class FloorGenerator : MonoBehaviour
         }
 
         // If there are not enough dead ends generates the level again
-        if (_deadEnds.Count < 4 || _deadEnds.Count > _maxDeadEnds)
+        if (_deadEnds.Count < 5)
         {
             GenerateFloor();
             return;
+        }
+
+        // Searches for the starting room
+        CreateBossRoom();
+        Room bossRoom = _deadEnds[^1];
+        bossRoom.Type = Room.RoomType.Boss;
+        Room startRoom = bossRoom;
+
+        foreach (Room deadEnd in _deadEnds)
+        {
+            if (deadEnd.Type == Room.RoomType.Normal)
+            {
+                float prevDistance = Mathf.Abs(startRoom.Position.x - bossRoom.Position.x) + Mathf.Abs(startRoom.Position.y - bossRoom.Position.y);
+                float currentDistance = Mathf.Abs(deadEnd.Position.x - bossRoom.Position.x) + Mathf.Abs(deadEnd.Position.y - bossRoom.Position.y);
+                if (currentDistance > prevDistance)
+                {
+                    startRoom = deadEnd;
+                }
+            }
+        }
+
+        startRoom.Type = Room.RoomType.Start;
+
+        // Recalculates the depth from the new start room
+        _roomsList.Remove(startRoom);
+        _roomsList.Insert(0, startRoom);
+
+        // Resets the room depth
+        foreach (Room room in _roomsList)
+        {
+            room.Depth = 100;
+        }
+
+        startRoom.Depth = 0;
+
+        foreach (Room room in _roomsList)
+        {
+            Debug.Log(room.Type);
+             // Sets the depth of each generated room
+            foreach (Room connectedRoom in room.ConnectedRooms)
+            {
+                if (connectedRoom.Depth > room.Depth + 1)
+                {
+                    connectedRoom.Depth = room.Depth + 1;
+                }
+            }
         }
 
         // Checks for loops
@@ -138,9 +183,6 @@ public class FloorGenerator : MonoBehaviour
         _deadEnds.Sort((r1, r2) => r1.Depth.CompareTo(r2.Depth));
 
         // Special rooms
-        CreateBossRoom();
-        Room bossRoom = _deadEnds[^1];
-        bossRoom.Type = Room.RoomType.Boss;
 
         // Sets the key room as far from the boss room as possible
         Room keyRoom = bossRoom;
@@ -157,6 +199,8 @@ public class FloorGenerator : MonoBehaviour
                 }
             }
         }
+        keyRoom.Type = Room.RoomType.KeyRoom;
+
 
         foreach (Room deadEnd in _deadEnds)
         {
@@ -166,7 +210,6 @@ public class FloorGenerator : MonoBehaviour
                 break;
             }
         }
-
         foreach (Room deadEnd in _deadEnds)
         {
             if (deadEnd.Type == Room.RoomType.Normal)
@@ -176,7 +219,6 @@ public class FloorGenerator : MonoBehaviour
             }
         }
 
-        keyRoom.Type = Room.RoomType.KeyRoom;
     }
 
     /// <summary>
@@ -358,8 +400,18 @@ public class FloorGenerator : MonoBehaviour
     private IEnumerator PullRoomsTogether()
     {
         float timer = 0;
-        Vector2 velocity;
+        Vector2 newPosition;
         List<Rigidbody2D> sceneRooms = new List<Rigidbody2D>();
+        Room startRoom = null;
+
+        // Gets the start room
+        foreach(Room room in _roomsList)
+        {
+            if (room.Type == Room.RoomType.Start)
+            {
+                startRoom = room;
+            }
+        }
 
         // Gets all the rooms rigidbodies
         for (int i = 0; i < _roomsList.Count; i++)
@@ -379,8 +431,8 @@ public class FloorGenerator : MonoBehaviour
 
             for (int i = 0; i < sceneRooms.Count; i++)
             {
-                velocity = Vector2.MoveTowards(sceneRooms[i].position, _roomsList[0].Position, _pullSpeed);
-                sceneRooms[i].MovePosition(velocity);
+                newPosition = Vector2.MoveTowards(sceneRooms[i].position, startRoom.Position, _pullSpeed);
+                sceneRooms[i].MovePosition(newPosition);
             }
         }
 
