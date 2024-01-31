@@ -13,21 +13,30 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private int _gridWidth;
     [SerializeField] private int _gridHeight;
     [SerializeField] private int _movementScalar;
+    [Range(0, 2)]
+    [SerializeField] private int _adjacentRooms;
 
     [Header("Walkers Params")]
     //[SerializeField] private int _numWalkers;
     [SerializeField] private int _walkersTimeToLive;
+
+    [Header("Generation Params")]
+    [SerializeField] private float _pullTime;
+    [SerializeField] private float _pullSpeed;
 
     private Vector2Int _startPosition;
     private Walker walker;
     private Room[,] _floorGrid;
     private List<Room> _roomsList;
 
+    public bool stop;
+
     void Start()
     {
         _floorGrid = new Room[_gridHeight, _gridWidth];
         _roomsList = new List<Room>();
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
+        stop = false;
 
         GenerateFloor();
         RenderFloor();
@@ -41,7 +50,7 @@ public class FloorGenerator : MonoBehaviour
     {
         walker = new Walker(_startPosition, _walkersTimeToLive);
 
-        Room startRoom = new Room(0, Room.RoomType.Start, walker.Position);
+        Room startRoom = new Room(Room.RoomType.Start, walker.Position);
         _floorGrid[walker.Position.x, walker.Position.y] = startRoom;
         _roomsList.Add(startRoom);
 
@@ -66,6 +75,25 @@ public class FloorGenerator : MonoBehaviour
                 roomsLeft--;
             }
         }
+
+        ClassifyRooms();
+    }
+
+    private void ClassifyRooms()
+    {
+        _roomsList[0].DepthIsSet = true;
+
+        foreach (Room room in _roomsList)
+        {
+            foreach (Room connectedRoom in room.ConnectedRooms)
+            {
+                if (!connectedRoom.DepthIsSet)
+                {
+                    connectedRoom.Depth = room.Depth + 1;
+                    connectedRoom.DepthIsSet = true;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -73,7 +101,7 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void CreateRoom()
     {
-        Room newRoom = new Room(0, Room.RoomType.Normal, walker.Position);
+        Room newRoom = new Room(Room.RoomType.Normal, walker.Position);
         Room previousRoom = _floorGrid[walker.PreviousPosition.x, walker.PreviousPosition.y];
 
         newRoom.AddConnectedRoom(previousRoom);
@@ -124,7 +152,7 @@ public class FloorGenerator : MonoBehaviour
             if (_floorGrid[walker.Position.x, walker.Position.y + 1] == null) emptyRooms++;
             if (_floorGrid[walker.Position.x, walker.Position.y - 1] == null) emptyRooms++;
 
-            if (emptyRooms > 2)
+            if (emptyRooms > _adjacentRooms)
             {
                 return true;
             }
@@ -132,6 +160,16 @@ public class FloorGenerator : MonoBehaviour
             {
                 walker.Position = walker.PreviousPosition;
             }
+        }
+        else
+        {
+            
+            Room currentRoom = _floorGrid[walker.Position.x, walker.Position.y];
+            Room previousRoom = _floorGrid[walker.PreviousPosition.x, walker.PreviousPosition.y];
+
+            currentRoom.AddConnectedRoom(previousRoom);
+            previousRoom.AddConnectedRoom(currentRoom);
+            
         }
 
         return false;
@@ -144,7 +182,10 @@ public class FloorGenerator : MonoBehaviour
     {
         foreach(Room room in _roomsList)
         {
-            room.Positon *= new Vector2(_movementScalar, _movementScalar);
+            room.Positon *= _movementScalar;
+
+            // Center to 0
+            room.Positon -= _startPosition * _movementScalar;
             GameObject newRoom;
 
             switch (room.Type)
@@ -156,6 +197,17 @@ public class FloorGenerator : MonoBehaviour
 
                 case Room.RoomType.Normal:
                     newRoom = Instantiate(_normalRooms[0], room.Positon, Quaternion.identity);
+
+                    if (Random.Range(0f, 1f) < 0.75f)
+                    {
+                        Vector3 var = newRoom.transform.localScale;
+                        var.x *= Random.Range(1, 3);
+                        var.y *= Random.Range(1, 3);
+                        newRoom.transform.localScale = var;
+                    }
+                    float value = room.Depth * 40;
+                    newRoom.GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
+
                     room.AddSceneRoom(newRoom);
                     break;
 
@@ -175,16 +227,13 @@ public class FloorGenerator : MonoBehaviour
 
         for (int i = 0; i < _roomsList.Count; i++)
         {
-            
-
             if (_roomsList[i]._sceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
                 sceneRooms.Add(rigidbody);
             }
-            
         }
 
-        while (timer < 5)
+        while (timer < _pullTime)
         {
             yield return null;
 
@@ -193,25 +242,28 @@ public class FloorGenerator : MonoBehaviour
             for (int i = 0; i < sceneRooms.Count; i++)
             {
                 //directions[i] = (_roomsList[0].Positon - sceneRooms[i].position).normalized;
-                velocity = Vector2.MoveTowards(sceneRooms[i].position, _roomsList[0].Positon, .01f);
+                velocity = Vector2.MoveTowards(sceneRooms[i].position, _roomsList[0].Positon, _pullSpeed);
                 //velocity.y = Mathf.MoveTowards(velocity.y, .005f * directions[i].y, .1f * Time.fixedDeltaTime);
 
                 sceneRooms[i].position = velocity;
             }
         }
 
-        /*
-        foreach (Rigidbody2D room in sceneRooms)
-        {
-            room.velocity = Vector2.zero;
-        }
-        */
     }
 
     private void Update()
     {
         foreach (Room room in _roomsList)
         {
+            if (stop)
+            {
+                if (room._sceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
+                {
+                    rigidbody.velocity = Vector2.zero;
+
+                }
+            }
+
             foreach (Room connectedRoom in room.ConnectedRooms)
             {
                 Debug.DrawLine(room._sceneRoom.transform.position, connectedRoom._sceneRoom.transform.position);
