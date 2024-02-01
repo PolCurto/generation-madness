@@ -156,14 +156,15 @@ MonoBehaviour:
   _bossRoom: {fileID: 802136469}
   _normalRooms:
   - {fileID: 1005421178}
-  _maxRooms: 15
-  _gridWidth: 30
-  _gridHeight: 30
+  _maxRooms: 10
+  _gridWidth: 50
+  _gridHeight: 50
   _movementScalar: 40
   _adjacentRooms: 1
-  _connectionChance: 0.493
+  _connectionChance: 0.5
   _maxDeadEnds: 5
-  _walkersTimeToLive: 5
+  _minDepth: 6
+  _walkersTimeToLive: 10
   _pullTime: 3
   _pullSpeed: 0.75
 --- !u!4 &284666

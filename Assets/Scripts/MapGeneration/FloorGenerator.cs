@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Threading;
 using UnityEngine;
 
 public class FloorGenerator : MonoBehaviour
 {
+    #region Global Variables
     [SerializeField] private GameObject _startRoom;
     [SerializeField] private GameObject _bossRoom;
     [SerializeField] private GameObject[] _normalRooms;
@@ -19,6 +21,7 @@ public class FloorGenerator : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float _connectionChance;
     [SerializeField] private int _maxDeadEnds;
+    [SerializeField] private int _minDepth;
 
     [Header("Walkers Params")]
     //[SerializeField] private int _numWalkers;
@@ -33,16 +36,64 @@ public class FloorGenerator : MonoBehaviour
     private Room[,] _floorGrid;
     private List<Room> _roomsList;
     private List<Room> _deadEnds;
+    private List<Corridor> _corridors;
+    #endregion
 
+    #region Unity Methods
     void Start()
     {
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
-
+        /*
         GenerateFloor();
         RenderFloor();
+        GenerateCorridors();
         //StartCoroutine(PullRoomsTogether());
+        */
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        {
+            GenerateFloor();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            RenderFloor();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GenerateCorridors();
+        }
+
+        if (_corridors != null)
+        {
+            foreach (Corridor corridor in _corridors)
+            {
+                for (int i = 0; i < corridor.SpacePoints.Count - 1; i++)
+                {
+                    Debug.DrawLine(corridor.SpacePoints[i], corridor.SpacePoints[i + 1]);
+                }
+            }
+        }
+        
+
+        /*
+        foreach (Room room in _roomsList)
+        {
+            foreach (Room connectedRoom in room.ConnectedRooms)
+            {
+                Debug.DrawLine(room.SceneRoom.transform.position, connectedRoom.SceneRoom.transform.position);
+            }  
+        }
+        */
+    }
+    #endregion
+
+
+    #region Floor Logic
     /// <summary>
     /// Generates the rooms distribution within the floor
     /// </summary>
@@ -51,6 +102,7 @@ public class FloorGenerator : MonoBehaviour
         _floorGrid = new Room[_gridHeight, _gridWidth];
         _roomsList = new List<Room>();
         _deadEnds = new List<Room>();
+        _corridors = new List<Corridor>();
 
         walker = new Walker(_startPosition, _walkersTimeToLive);
 
@@ -80,20 +132,20 @@ public class FloorGenerator : MonoBehaviour
             }
         }
 
-        ClassifyRooms();
+        GetFloorStructure();
     }
 
     /// <summary>
-    /// Classifies the generated rooms
+    /// Gets the floor depth and dead ends
     /// </summary>
-    private void ClassifyRooms()
+    private void GetFloorStructure()
     {
         _roomsList[0].Depth = 0;
 
         foreach (Room room in _roomsList)
         {
             // Adds all the rooms that are in a extreme of the map
-            if (room.ConnectedRooms.Count < 2)
+            if (room.ConnectedRooms.Count < 2 && room.Type != Room.RoomType.Start)
             {
                 _deadEnds.Add(room);
             }
@@ -108,13 +160,32 @@ public class FloorGenerator : MonoBehaviour
             }
         }
 
-        // If there are not enough dead ends generates the level again
+        // If there are not enough dead ends generates the floor again
         if (_deadEnds.Count < 4 || _deadEnds.Count > _maxDeadEnds)
         {
             GenerateFloor();
             return;
         }
 
+        // Sort the dead ends by their depth
+        _deadEnds.Sort((r1, r2) => r1.Depth.CompareTo(r2.Depth));
+
+        // If there is no room deep enough generates the floor again
+        if (_deadEnds[^1].Depth < _minDepth)
+        {
+            GenerateFloor();
+            return;
+        }
+        
+
+        SetSpecialRooms();
+    }
+
+    /// <summary>
+    /// Stablishes the special rooms of the floor
+    /// </summary>
+    private void SetSpecialRooms()
+    {
         // Checks for loops
         foreach (Room room in _roomsList)
         {
@@ -133,11 +204,8 @@ public class FloorGenerator : MonoBehaviour
                 }
             }
         }
-
-        // Sort the dead ends by their depth
-        _deadEnds.Sort((r1, r2) => r1.Depth.CompareTo(r2.Depth));
-
-        // Special rooms
+        
+        // Creates the boss room as far from the start as possible
         CreateBossRoom();
         Room bossRoom = _deadEnds[^1];
         bossRoom.Type = Room.RoomType.Boss;
@@ -157,7 +225,9 @@ public class FloorGenerator : MonoBehaviour
                 }
             }
         }
+        keyRoom.Type = Room.RoomType.KeyRoom;
 
+        // Creates the charatcer room
         foreach (Room deadEnd in _deadEnds)
         {
             if (deadEnd.Type == Room.RoomType.Normal)
@@ -167,6 +237,7 @@ public class FloorGenerator : MonoBehaviour
             }
         }
 
+        // Creates the treasure room
         foreach (Room deadEnd in _deadEnds)
         {
             if (deadEnd.Type == Room.RoomType.Normal)
@@ -175,8 +246,6 @@ public class FloorGenerator : MonoBehaviour
                 break;
             }
         }
-
-        keyRoom.Type = Room.RoomType.KeyRoom;
     }
 
     /// <summary>
@@ -195,7 +264,7 @@ public class FloorGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Creates the boss room
+    /// Creates the boss room 
     /// </summary>
     private void CreateBossRoom()
     {
@@ -274,7 +343,9 @@ public class FloorGenerator : MonoBehaviour
 
         return false;
     }
+    #endregion
 
+    #region Floor Visuals
     /// <summary>
     /// Renders the floor with the selected rooms once the loop has ended
     /// </summary>
@@ -346,7 +417,6 @@ public class FloorGenerator : MonoBehaviour
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
                     room.AddSceneRoom(newRoom);
                     break;
-
             }
         }
     }
@@ -364,7 +434,7 @@ public class FloorGenerator : MonoBehaviour
         // Gets all the rooms rigidbodies
         for (int i = 0; i < _roomsList.Count; i++)
         {
-            if (_roomsList[i]._sceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            if (_roomsList[i].SceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
                 sceneRooms.Add(rigidbody);
             }
@@ -389,21 +459,93 @@ public class FloorGenerator : MonoBehaviour
 
         foreach (Room room in _roomsList)
         {
-            if (room._sceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            if (room.SceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
                 rigidbody.velocity = Vector2.zero;
             }
         }
-    }
 
-    private void Update()
+        GenerateCorridors();
+    }
+    #endregion
+
+    #region Corridors
+    private void GenerateCorridors()
     {
         foreach (Room room in _roomsList)
         {
             foreach (Room connectedRoom in room.ConnectedRooms)
             {
-                Debug.DrawLine(room._sceneRoom.transform.position, connectedRoom._sceneRoom.transform.position);
+                if (!CheckDuplicatedCorridors(room, connectedRoom))
+                {
+                    Vector2 roomPosition = room.SceneRoom.transform.position;
+                    Vector2 connectedRoomPosition = connectedRoom.SceneRoom.transform.position;
+
+                    Corridor corridor = new Corridor(room, connectedRoom);
+                    Debug.Log("New corridor with origin room: " + room.Type + " | " + roomPosition + " and destination room: " + connectedRoom.Type + " | " + connectedRoomPosition);
+
+                    float timer = 0;
+
+                    while (timer < 100)
+                    {
+                        if (CheckConnectedRoomPosition(roomPosition, connectedRoomPosition))
+                        {
+                            corridor.AddNewPosition(new Vector2(connectedRoomPosition.x, corridor.SpacePoints[^1].y));
+                        }
+                        else
+                        {
+                            corridor.AddNewPosition(new Vector2(corridor.SpacePoints[^1].x, connectedRoomPosition.y));
+                        }
+
+                        if (corridor.SpacePoints[^1] == connectedRoomPosition)
+                        {
+                            break;
+                        }
+
+                        timer++;
+                    }
+
+                    room.AddCorridor(corridor);
+                    connectedRoom.AddCorridor(corridor);
+                    _corridors.Add(corridor);
+                }
             }
         }
     }
+
+    /// <summary>
+    /// Checks for the corridors to avoid creating duplicated ones
+    /// </summary>
+    /// <returns>If the corridor already exists</returns>
+    private bool CheckDuplicatedCorridors(Room room, Room connectedRoom)
+    {
+        // Avoids repeated corridors
+        foreach (Room otherRoom in _roomsList)
+        {
+            foreach (Corridor corridor in otherRoom.Corridors)
+            {
+                if (corridor.OriginRoom == connectedRoom && corridor.DestinationRoom == room)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckConnectedRoomPosition(Vector2 roomPosition, Vector2 connectedRoomPosition)
+    {
+        Vector2 positionDif = roomPosition - connectedRoomPosition;
+
+        if (Mathf.Abs(positionDif.x) > Mathf.Abs(positionDif.y))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
 }
