@@ -156,17 +156,17 @@ MonoBehaviour:
   _bossRoom: {fileID: 802136469}
   _normalRooms:
   - {fileID: 1005421178}
-  _maxRooms: 10
+  _maxRooms: 15
   _gridWidth: 50
   _gridHeight: 50
-  _movementScalar: 40
+  _movementScalar: 50
   _adjacentRooms: 1
   _connectionChance: 0.5
   _maxDeadEnds: 5
   _minDepth: 6
-  _walkersTimeToLive: 10
-  _pullTime: 3
-  _pullSpeed: 0.75
+  _walkersTimeToLive: 5
+  _pullTime: 1
+  _pullSpeed: 1
 --- !u!4 &284666
 Transform:
   m_ObjectHideFlags: 0
@@ -527,7 +527,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &1977401955
 GameObject:

@@ -65,6 +65,11 @@ public class FloorGenerator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            StartCoroutine(PullRoomsTogether());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
             GenerateCorridors();
         }
 
@@ -102,7 +107,6 @@ public class FloorGenerator : MonoBehaviour
         _floorGrid = new Room[_gridHeight, _gridWidth];
         _roomsList = new List<Room>();
         _deadEnds = new List<Room>();
-        _corridors = new List<Corridor>();
 
         walker = new Walker(_startPosition, _walkersTimeToLive);
 
@@ -465,13 +469,15 @@ public class FloorGenerator : MonoBehaviour
             }
         }
 
-        GenerateCorridors();
+        //GenerateCorridors();
     }
     #endregion
 
     #region Corridors
     private void GenerateCorridors()
     {
+        _corridors = new List<Corridor>();
+
         foreach (Room room in _roomsList)
         {
             foreach (Room connectedRoom in room.ConnectedRooms)
@@ -488,7 +494,7 @@ public class FloorGenerator : MonoBehaviour
 
                     while (timer < 100)
                     {
-                        if (CheckConnectedRoomPosition(roomPosition, connectedRoomPosition))
+                        if (CheckConnectedRoomPosition(corridor.SpacePoints[^1], connectedRoomPosition))
                         {
                             corridor.AddNewPosition(new Vector2(connectedRoomPosition.x, corridor.SpacePoints[^1].y));
                         }
