@@ -1,13 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
+using UnityEditor;
 using UnityEngine;
 
 public class FloorGenerator : MonoBehaviour
 {
     #region Global Variables
+    [SerializeField] private TilesController _tilesController;
+
+    [Header("Rooms")]
+    [SerializeField] private GameObject _testingRoom;
     [SerializeField] private GameObject _startRoom;
+    [SerializeField] private GameObject _treasureRoom;
+    [SerializeField] private GameObject _characterRoom;
+    [SerializeField] private GameObject _keyRoom;
+    [SerializeField] private GameObject _managementRoom;
     [SerializeField] private GameObject _bossRoom;
     [SerializeField] private GameObject[] _normalRooms;
 
@@ -34,7 +44,7 @@ public class FloorGenerator : MonoBehaviour
     private Vector2Int _startPosition;
     private Walker walker;
     private Room[,] _floorGrid;
-    private List<Room> _roomsList;
+    private List<Room> _rooms;
     private List<Room> _deadEnds;
     private List<Corridor> _corridors;
     #endregion
@@ -73,6 +83,16 @@ public class FloorGenerator : MonoBehaviour
             GenerateCorridors();
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            RenderFloorPrototype();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            _tilesController.GetRoomsToMainGrid(_rooms);
+        }
+
         if (_corridors != null)
         {
             foreach (Corridor corridor in _corridors)
@@ -105,14 +125,14 @@ public class FloorGenerator : MonoBehaviour
     private void GenerateFloor()
     {
         _floorGrid = new Room[_gridHeight, _gridWidth];
-        _roomsList = new List<Room>();
+        _rooms = new List<Room>();
         _deadEnds = new List<Room>();
 
         walker = new Walker(_startPosition, _walkersTimeToLive);
 
         Room startRoom = new Room(Room.RoomType.Start, walker.Position);
         _floorGrid[walker.Position.x, walker.Position.y] = startRoom;
-        _roomsList.Add(startRoom);
+        _rooms.Add(startRoom);
 
         int roomsLeft = _maxRooms;
 
@@ -144,9 +164,9 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void GetFloorStructure()
     {
-        _roomsList[0].Depth = 0;
+        _rooms[0].Depth = 0;
 
-        foreach (Room room in _roomsList)
+        foreach (Room room in _rooms)
         {
             // Adds all the rooms that are in a extreme of the map
             if (room.ConnectedRooms.Count < 2 && room.Type != Room.RoomType.Start)
@@ -191,7 +211,7 @@ public class FloorGenerator : MonoBehaviour
     private void SetSpecialRooms()
     {
         // Checks for loops
-        foreach (Room room in _roomsList)
+        foreach (Room room in _rooms)
         {
             if (room.ConnectedRooms.Count > 1)
             {
@@ -216,15 +236,16 @@ public class FloorGenerator : MonoBehaviour
 
         // Sets the key room as far from the boss room as possible
         Room keyRoom = bossRoom;
+        float prevDistance = 0;
 
         foreach (Room deadEnd in _deadEnds)
         {
             if (deadEnd.Type == Room.RoomType.Normal)
             {
-                float prevDistance = Mathf.Abs(keyRoom.Position.x - bossRoom.Position.x) + Mathf.Abs(keyRoom.Position.y - bossRoom.Position.y);
-                float currentDistance = Mathf.Abs(deadEnd.Position.x - bossRoom.Position.x) + Mathf.Abs(deadEnd.Position.y - bossRoom.Position.y);
+                float currentDistance = Vector2.Distance(deadEnd.Position, bossRoom.Position);
                 if (currentDistance > prevDistance)
                 {
+                    prevDistance = currentDistance;
                     keyRoom = deadEnd;
                 }
             }
@@ -264,7 +285,7 @@ public class FloorGenerator : MonoBehaviour
         previousRoom.AddConnectedRoom(newRoom);
 
         _floorGrid[walker.Position.x, walker.Position.y] = newRoom;
-        _roomsList.Add(newRoom);
+        _rooms.Add(newRoom);
     }
 
     /// <summary>
@@ -280,7 +301,7 @@ public class FloorGenerator : MonoBehaviour
 
         CreateRoom();
         _deadEnds.RemoveAt(_deadEnds.Count - 1);
-        _deadEnds.Add(_roomsList[^1]);
+        _deadEnds.Add(_rooms[^1]);
     }
 
     /// <summary>
@@ -353,9 +374,9 @@ public class FloorGenerator : MonoBehaviour
     /// <summary>
     /// Renders the floor with the selected rooms once the loop has ended
     /// </summary>
-    private void RenderFloor()
+    private void RenderFloorPrototype()
     {
-        foreach(Room room in _roomsList)
+        foreach (Room room in _rooms)
         {
             room.Position *= _movementScalar;
 
@@ -366,12 +387,13 @@ public class FloorGenerator : MonoBehaviour
             switch (room.Type)
             {
                 case Room.RoomType.Start:
-                    newRoom = Instantiate(_startRoom, room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
+                    newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Normal:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
 
                     if (Random.Range(0f, 1f) < 0.75f)
                     {
@@ -387,38 +409,96 @@ public class FloorGenerator : MonoBehaviour
                     break;
 
                 case Room.RoomType.Treasure:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 200f/255, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Character:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Loop:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.KeyRoom:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Checkpoint:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case Room.RoomType.Boss:
-                    newRoom = Instantiate(_normalRooms[0], room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+                    room.AddSceneRoom(newRoom);
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Renders the floor with the selected rooms once the loop has ended
+    /// </summary>
+    private void RenderFloor()
+    {
+        foreach(Room room in _rooms)
+        {
+            room.Position *= _movementScalar;
+
+            // Center to 0
+            room.Position -= _startPosition * _movementScalar;
+            GameObject newRoom;
+
+            switch (room.Type)
+            {
+                case Room.RoomType.Start:
+                    newRoom = Instantiate(_startRoom, room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.Normal:
+                    newRoom = Instantiate(_normalRooms[Random.Range(0,2)], room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.Treasure:
+                    newRoom = Instantiate(_treasureRoom, room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.Character:
+                    newRoom = Instantiate(_characterRoom, room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.Loop:
+                    newRoom = Instantiate(_normalRooms[Random.Range(0, 2)], room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.KeyRoom:
+                    newRoom = Instantiate(_keyRoom, room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.Checkpoint:
+                    newRoom = Instantiate(_managementRoom, room.Position, Quaternion.identity);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case Room.RoomType.Boss:
+                    newRoom = Instantiate(_bossRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
             }
@@ -436,9 +516,9 @@ public class FloorGenerator : MonoBehaviour
         List<Rigidbody2D> sceneRooms = new List<Rigidbody2D>();
 
         // Gets all the rooms rigidbodies
-        for (int i = 0; i < _roomsList.Count; i++)
+        for (int i = 0; i < _rooms.Count; i++)
         {
-            if (_roomsList[i].SceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
+            if (_rooms[i].SceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
                 sceneRooms.Add(rigidbody);
             }
@@ -453,7 +533,15 @@ public class FloorGenerator : MonoBehaviour
 
             for (int i = 0; i < sceneRooms.Count; i++)
             {
-                velocity = Vector2.MoveTowards(sceneRooms[i].position, _roomsList[0].Position, _pullSpeed);
+                if (Random.Range(0f, 1f) < 0.8f)
+                {
+                    velocity = Vector2.MoveTowards(sceneRooms[i].position, _rooms[0].Position, _pullSpeed);
+                }
+                else
+                {
+                    velocity = Vector2.MoveTowards(sceneRooms[i].position, new Vector2(sceneRooms[i].position.x + Random.Range(-1, 1), sceneRooms[i].position.y + Random.Range(-1, 1)), _pullSpeed);
+                }
+
                 sceneRooms[i].MovePosition(velocity);
             }
         }
@@ -461,7 +549,7 @@ public class FloorGenerator : MonoBehaviour
         // Waits and stops the rooms from moving again
         yield return new WaitForSeconds(0.1f);
 
-        foreach (Room room in _roomsList)
+        foreach (Room room in _rooms)
         {
             if (room.SceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
@@ -478,7 +566,7 @@ public class FloorGenerator : MonoBehaviour
     {
         _corridors = new List<Corridor>();
 
-        foreach (Room room in _roomsList)
+        foreach (Room room in _rooms)
         {
             foreach (Room connectedRoom in room.ConnectedRooms)
             {
@@ -488,20 +576,13 @@ public class FloorGenerator : MonoBehaviour
                     Vector2 connectedRoomPosition = connectedRoom.SceneRoom.transform.position;
 
                     Corridor corridor = new Corridor(room, connectedRoom);
-                    Debug.Log("New corridor with origin room: " + room.Type + " | " + roomPosition + " and destination room: " + connectedRoom.Type + " | " + connectedRoomPosition);
+                    //Debug.Log("New corridor with origin room: " + room.Type + " | " + roomPosition + " and destination room: " + connectedRoom.Type + " | " + connectedRoomPosition);
 
                     float timer = 0;
 
                     while (timer < 100)
                     {
-                        if (CheckConnectedRoomPosition(corridor.SpacePoints[^1], connectedRoomPosition))
-                        {
-                            corridor.AddNewPosition(new Vector2(connectedRoomPosition.x, corridor.SpacePoints[^1].y));
-                        }
-                        else
-                        {
-                            corridor.AddNewPosition(new Vector2(corridor.SpacePoints[^1].x, connectedRoomPosition.y));
-                        }
+                        SetCorridorPoint(CheckConnectedRoomPosition(corridor.SpacePoints[^1], connectedRoomPosition), connectedRoomPosition, corridor, room, connectedRoom);
 
                         if (corridor.SpacePoints[^1] == connectedRoomPosition)
                         {
@@ -519,6 +600,72 @@ public class FloorGenerator : MonoBehaviour
         }
     }
 
+    private void SetCorridorPoint(bool horizontal, Vector2 connectedRoomPosition, Corridor corridor, Room room, Room connectedRoom)
+    {
+        float xPos = horizontal ? connectedRoomPosition.x : corridor.SpacePoints[^1].x;
+        float yPos = horizontal ? corridor.SpacePoints[^1].y : connectedRoomPosition.y;
+
+        Vector2 newPosition = new Vector2(xPos, yPos);
+  
+        bool hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
+
+        /*
+        while (hasCollided)
+        {
+            if (horizontal)
+            {
+                if (connectedRoomPosition.x > corridor.SpacePoints[^1].x) xPos--;
+                else xPos++;
+            }
+            else
+            {
+                if (connectedRoomPosition.y > corridor.SpacePoints[^1].y) xPos--;
+                else yPos++;
+            }
+            newPosition.x = xPos;
+            newPosition.y = yPos;
+
+            hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
+        }
+        */
+        
+        corridor.AddNewPosition(newPosition);
+    }
+
+    private bool CheckCorridorCollision(Vector2 newPosition, Room room, Room connectedRoom, Corridor corridor, bool horizontal)
+    {
+        Vector2 boxCenter = corridor.SpacePoints[^1];
+        Vector2 boxSize;
+
+        if (horizontal)
+        {
+            boxCenter.x = (newPosition.x - corridor.SpacePoints[^1].x) / 2 + corridor.SpacePoints[^1].x;
+            boxSize.x = Mathf.Abs(newPosition.x - corridor.SpacePoints[^1].x);
+            boxSize.y = 1f;
+        }
+        else
+        {
+            boxCenter.y = (newPosition.y - corridor.SpacePoints[^1].y) / 2 + corridor.SpacePoints[^1].y;
+            boxSize.x = 1f;
+            boxSize.y = Mathf.Abs(newPosition.y - corridor.SpacePoints[^1].y);
+        }
+
+        Collider2D[] rooms = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0, LayerMask.GetMask("Room"));
+
+        foreach (Collider2D roomCollider in rooms)
+        {
+            if (roomCollider.gameObject != room.SceneRoom && roomCollider.gameObject != connectedRoom.SceneRoom)
+            {
+                Debug.Log("Corridor collided with origin: " + room.Type + " | " + room.SceneRoom.transform.position + " and destination: " + connectedRoom.Type + " | " + connectedRoom.SceneRoom.transform.position);
+                Debug.Log("Collided with: " + roomCollider.transform.position);
+                Debug.Log("Collider center: " + boxCenter + " | Collider size: " + boxSize);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Checks for the corridors to avoid creating duplicated ones
     /// </summary>
@@ -526,7 +673,7 @@ public class FloorGenerator : MonoBehaviour
     private bool CheckDuplicatedCorridors(Room room, Room connectedRoom)
     {
         // Avoids repeated corridors
-        foreach (Room otherRoom in _roomsList)
+        foreach (Room otherRoom in _rooms)
         {
             foreach (Corridor corridor in otherRoom.Corridors)
             {
