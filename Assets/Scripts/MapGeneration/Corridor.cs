@@ -7,26 +7,34 @@ public class Corridor
     private Room _originRoom;
     private Room _destinationRoom;
 
-    private List<Vector2> _spacePoints;
+    private List<Vector2Int> _positions;
+    private List<bool> _orientation;
 
     public Corridor(Room originRoom, Room destinationRoom)
     {
         _originRoom = originRoom;
         _destinationRoom = destinationRoom;
-        _spacePoints = new List<Vector2>
+        _positions = new List<Vector2Int>
         {
-            originRoom.SceneRoom.transform.position
+            Vector2Int.RoundToInt(originRoom.Position)
         };
+        _orientation = new List<bool>
+        {
+            true
+        };
+
     }
 
-    public void AddNewPosition(Vector2 position)
+    public void AddNewPosition(Vector2Int position, bool horizontal)
     {
-        _spacePoints.Add(position);
+        _positions.Add(position);
+        _orientation.Add(horizontal);
     }
 
     public Room OriginRoom => _originRoom;
     public Room DestinationRoom => _destinationRoom;
 
-    public List<Vector2> SpacePoints { get { return _spacePoints; } set { _spacePoints = value; } }
+    public List<Vector2Int> Positions { get { return _positions; } set { _positions = value; } }
+    public List<bool> Orientation { get { return _orientation; } set { _orientation = value; } }
 
 }

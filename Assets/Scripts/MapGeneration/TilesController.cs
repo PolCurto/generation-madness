@@ -1,3 +1,4 @@
+using SuperTiled2Unity;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,88 +8,68 @@ using UnityEngine.Tilemaps;
 public class TilesController : MonoBehaviour
 {
     [SerializeField] private Tilemap _floorTilemap, _wallTilemap;
+    [SerializeField] private TileBase _floorTile;
 
-    private int _roomWidth = 30;
-    private int _roomHeight = 20;
-
+    /// <summary>
+    /// Copies the rooms tilemaps to the general level grid
+    /// </summary>
+    /// <param name="rooms"></param>
     public void GetRoomsToMainGrid(List<Room> rooms)
     {
-        Vector2Int startPosition;
-
         foreach (Room room in rooms)
         {
-            startPosition = Vector2Int.RoundToInt(room.Position);
-            startPosition.x -= _roomWidth / 2;
-            startPosition.y -= _roomHeight / 2;
-
             Tilemap[] roomTilemaps = room.SceneRoom.GetComponentsInChildren<Tilemap>();
-            PassOnTiles(roomTilemaps[0], _floorTilemap, startPosition);
-            PassOnTiles(roomTilemaps[1], _wallTilemap, startPosition);
+            PassOnTiles(roomTilemaps[0], _floorTilemap);
+            PassOnTiles(roomTilemaps[1], _wallTilemap);
+            Destroy(room.SceneRoom);
         }
     }
 
-    private void PassOnTiles(Tilemap originTilemap, Tilemap destinationTilemap, Vector2Int position)
+    /// <summary>
+    /// Gets the tiles of the given tilemap and copies them to the same world position in the destination tilemap
+    /// </summary>
+    /// <param name="originTilemap">Tilemap to copy tiles from</param>
+    /// <param name="destinationTilemap">Tilemap to copy tiles to</param>
+    private void PassOnTiles(Tilemap originTilemap, Tilemap destinationTilemap)
     {
         originTilemap.CompressBounds();
-
         BoundsInt roomBounds = originTilemap.cellBounds;
-        TileBase[] roomTiles = originTilemap.GetTilesBlock(roomBounds);
 
-        Vector2Int basePosition = Vector2Int.zero;
-        Debug.Log("Room bounds x: " + roomBounds.size.x + " y: " + roomBounds.size.y);
-
-        foreach (var pos in originTilemap.cellBounds.allPositionsWithin)
+        foreach (Vector3Int localPos in originTilemap.cellBounds.allPositionsWithin)
         {
-            Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
-            Vector3 worldPlace = originTilemap.CellToWorld(localPlace);
-            if (originTilemap.HasTile(localPlace))
+            Vector3 worldPos = originTilemap.CellToWorld(localPos);
+            if (originTilemap.HasTile(localPos))
             {
-                TileBase tile = originTilemap.GetTile(localPlace);
-                var place = destinationTilemap.WorldToCell(worldPlace);
-                destinationTilemap.SetTile(place, tile);
+                TileBase tile = originTilemap.GetTile(localPos);
+                Vector3Int finalPos = destinationTilemap.WorldToCell(worldPos);
+                destinationTilemap.SetTile(finalPos, tile);
             }
         }
+    }
 
-        /*
-        for (int x = 0; x < roomBounds.size.x; x++)
+    public void DrawCorridors(List<Corridor> corridors)
+    {
+        int i;
+        foreach(Corridor corridor in corridors)
         {
-            for (int y = 0; y < roomBounds.size.y; y++)
+            i = 0;
+            foreach(Vector2Int position in corridor.Positions)
             {
-                TileBase tile = roomTiles[x + y * roomBounds.size.x];
-
-                if (tile != null)
+                Vector3Int localPos = _floorTilemap.WorldToCell(new Vector3Int(position.x, position.y));
+                if (!_floorTilemap.HasTile(localPos))
                 {
-                    Debug.Log("x:" + x + " y:" + y + " tile:" + tile.name);
+                    bool horizontal = corridor.Orientation[i];
+                    Vector3Int auxPos = horizontal ? _floorTilemap.WorldToCell(new Vector3Int(position.x, position.y - 1)) : _floorTilemap.WorldToCell(new Vector3Int(position.x - 1, position.y));
 
-                    basePosition.x = position.x + x;
-                    basePosition.y = position.y + y;
+                    _floorTilemap.SetTile(localPos, _floorTile);
+                    _floorTilemap.SetTile(auxPos, _floorTile);
 
-                    var roomTilePosition = originTilemap.CellToWorld((Vector3Int)basePosition);
-                    var tilePosition = destinationTilemap.WorldToCell((Vector3Int)basePosition);
-                    destinationTilemap.SetTile(tilePosition, tile);
+                    if (_wallTilemap.HasTile(localPos)) _wallTilemap.SetTile(localPos, null);
+                    if (_wallTilemap.HasTile(auxPos)) _wallTilemap.SetTile(auxPos, null);
                 }
+                i++;
             }
         }
-        */
 
-        /*
-        for (int x = 0; x < roomBounds.size.x; x++)
-        {
-            for (int y = 0; y < roomBounds.size.y; y++)
-            {
-                basePosition.x = position.x + x;
-                basePosition.y = position.y + y;
-
-                var tilePosition = originTilemap.WorldToCell((Vector3Int)basePosition);
-                TileBase tile = originTilemap.GetTile(tilePosition);
-
-                if (tile != null)
-                {
-                    Debug.Log("x:" + x + " y:" + y + " tile:" + tile.name);
-                    destinationTilemap.SetTile((Vector3Int)basePosition, tile);
-                }
-            }
-        }
-        */
     }
 }

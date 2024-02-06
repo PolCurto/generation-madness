@@ -90,6 +90,10 @@ public class FloorGenerator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
+            foreach (Room room in _rooms)
+            {
+                room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
+            }
             _tilesController.GetRoomsToMainGrid(_rooms);
         }
 
@@ -97,9 +101,9 @@ public class FloorGenerator : MonoBehaviour
         {
             foreach (Corridor corridor in _corridors)
             {
-                for (int i = 0; i < corridor.SpacePoints.Count - 1; i++)
+                for (int i = 0; i < corridor.Positions.Count - 1; i++)
                 {
-                    Debug.DrawLine(corridor.SpacePoints[i], corridor.SpacePoints[i + 1]);
+                    Debug.DrawLine(new Vector3 (corridor.Positions[i].x, corridor.Positions[i].y), new Vector3(corridor.Positions[i + 1].x, corridor.Positions[i + 1].y));
                 }
             }
         }
@@ -555,9 +559,8 @@ public class FloorGenerator : MonoBehaviour
             {
                 rigidbody.velocity = Vector2.zero;
             }
+            room.SceneRoom.transform.position = Vector3Int.RoundToInt(room.SceneRoom.transform.position);
         }
-
-        //GenerateCorridors();
     }
     #endregion
 
@@ -572,42 +575,51 @@ public class FloorGenerator : MonoBehaviour
             {
                 if (!CheckDuplicatedCorridors(room, connectedRoom))
                 {
-                    Vector2 roomPosition = room.SceneRoom.transform.position;
-                    Vector2 connectedRoomPosition = connectedRoom.SceneRoom.transform.position;
-
+                    Vector2Int connectedRoomPosition = Vector2Int.RoundToInt(connectedRoom.Position);
                     Corridor corridor = new Corridor(room, connectedRoom);
-                    //Debug.Log("New corridor with origin room: " + room.Type + " | " + roomPosition + " and destination room: " + connectedRoom.Type + " | " + connectedRoomPosition);
 
-                    float timer = 0;
+                    int iterations = 0;
 
-                    while (timer < 100)
+                    while (iterations < 2)
                     {
-                        SetCorridorPoint(CheckConnectedRoomPosition(corridor.SpacePoints[^1], connectedRoomPosition), connectedRoomPosition, corridor, room, connectedRoom);
+                        bool moveHorizontal = CheckConnectedRoomPosition(corridor.Positions[^1], connectedRoomPosition);
+                        SetCorridorLine(moveHorizontal, connectedRoomPosition, corridor);
 
-                        if (corridor.SpacePoints[^1] == connectedRoomPosition)
-                        {
-                            break;
-                        }
-
-                        timer++;
+                        if (corridor.Positions[^1] == connectedRoomPosition) break;
+                        iterations++;
                     }
-
                     room.AddCorridor(corridor);
                     connectedRoom.AddCorridor(corridor);
                     _corridors.Add(corridor);
                 }
             }
         }
+
+        _tilesController.DrawCorridors(_corridors);
     }
 
-    private void SetCorridorPoint(bool horizontal, Vector2 connectedRoomPosition, Corridor corridor, Room room, Room connectedRoom)
+    private void SetCorridorLine(bool horizontal, Vector2Int connectedRoomPosition, Corridor corridor)
     {
-        float xPos = horizontal ? connectedRoomPosition.x : corridor.SpacePoints[^1].x;
-        float yPos = horizontal ? corridor.SpacePoints[^1].y : connectedRoomPosition.y;
+        Vector2Int position = corridor.Positions[0];
 
-        Vector2 newPosition = new Vector2(xPos, yPos);
-  
-        bool hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
+            while (position.x != connectedRoomPosition.x)
+            {
+                if (position.x < connectedRoomPosition.x) position.x += 1;
+                else position.x -= 1;
+                corridor.AddNewPosition(position, true);
+            }
+   
+            while (position.y != connectedRoomPosition.y)
+            {
+                if (position.y < connectedRoomPosition.y) position.y += 1;
+                else position.y -= 1;
+                corridor.AddNewPosition(position, false);
+            }
+        
+
+        
+
+        //bool hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
 
         /*
         while (hasCollided)
@@ -628,26 +640,25 @@ public class FloorGenerator : MonoBehaviour
             hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
         }
         */
-        
-        corridor.AddNewPosition(newPosition);
     }
 
+    /*
     private bool CheckCorridorCollision(Vector2 newPosition, Room room, Room connectedRoom, Corridor corridor, bool horizontal)
     {
-        Vector2 boxCenter = corridor.SpacePoints[^1];
+        Vector2 boxCenter = corridor.Positions[^1];
         Vector2 boxSize;
 
         if (horizontal)
         {
-            boxCenter.x = (newPosition.x - corridor.SpacePoints[^1].x) / 2 + corridor.SpacePoints[^1].x;
-            boxSize.x = Mathf.Abs(newPosition.x - corridor.SpacePoints[^1].x);
+            boxCenter.x = (newPosition.x - corridor.Positions[^1].x) / 2 + corridor.Positions[^1].x;
+            boxSize.x = Mathf.Abs(newPosition.x - corridor.Positions[^1].x);
             boxSize.y = 1f;
         }
         else
         {
-            boxCenter.y = (newPosition.y - corridor.SpacePoints[^1].y) / 2 + corridor.SpacePoints[^1].y;
+            boxCenter.y = (newPosition.y - corridor.Positions[^1].y) / 2 + corridor.Positions[^1].y;
             boxSize.x = 1f;
-            boxSize.y = Mathf.Abs(newPosition.y - corridor.SpacePoints[^1].y);
+            boxSize.y = Mathf.Abs(newPosition.y - corridor.Positions[^1].y);
         }
 
         Collider2D[] rooms = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0, LayerMask.GetMask("Room"));
@@ -665,6 +676,7 @@ public class FloorGenerator : MonoBehaviour
 
         return false;
     }
+    */
 
     /// <summary>
     /// Checks for the corridors to avoid creating duplicated ones
@@ -691,14 +703,8 @@ public class FloorGenerator : MonoBehaviour
     {
         Vector2 positionDif = roomPosition - connectedRoomPosition;
 
-        if (Mathf.Abs(positionDif.x) > Mathf.Abs(positionDif.y))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (Mathf.Abs(positionDif.x) > Mathf.Abs(positionDif.y)) return true;
+        else return false;
     }
     #endregion
 }
