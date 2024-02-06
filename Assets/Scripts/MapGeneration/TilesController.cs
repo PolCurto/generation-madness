@@ -11,13 +11,30 @@ public class TilesController : MonoBehaviour
     [Header("Tilemaps")]
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private Tilemap _wallTilemap;
+    [SerializeField] private Tilemap _detailsTilemap;
 
     [Header("Tiles")]
     [SerializeField] private TileBase _floorTile;
     [SerializeField] private TileBase _wallTile;
+    [SerializeField] private TileBase _limitTile;
 
     [Header("Wall Parameters")]
     [SerializeField] private int _tileRange;
+
+    private Vector3Int[] _surroundings = new Vector3Int[]
+    {
+        new Vector3Int (1, 0, 0),       // Right
+        new Vector3Int (1, -1, 0),      // Bottom - Right
+        new Vector3Int (0, -1, 0),      // Bottom
+        new Vector3Int (-1, -1, 0),     // Bottom - Left
+        new Vector3Int (-1, 0, 0),      // Left
+        new Vector3Int (-1, 1, 0),      // Top - Left
+        new Vector3Int (0, 1, 0),       // Top
+        new Vector3Int (1, 1, 0),       // Top - Right
+        new Vector3Int (0, -2, 0),      // Special case
+        new Vector3Int (1, -2, 0),      // Special case
+        new Vector3Int (-1, -2, 0)      // Special case
+    };
 
     /// <summary>
     /// Copies the rooms tilemaps to the general level grid
@@ -90,23 +107,53 @@ public class TilesController : MonoBehaviour
     /// </summary>
     public void DrawWalls()
     {
-        Debug.Log("Draw walls");
-
         // Té molt marge de millora però tarda molt menys
         foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
         {
-            Debug.Log("Loop");
-
             if (_floorTilemap.HasTile(floorTilePos))
             {
-                for (int x = floorTilePos.x - _tileRange; x < floorTilePos.x + _tileRange; x++)
+                for (int x = floorTilePos.x - _tileRange; x <= floorTilePos.x + _tileRange; x++)
                 {
-                    for (int y = floorTilePos.y - _tileRange; y < floorTilePos.y + _tileRange; y++)
+                    for (int y = floorTilePos.y - _tileRange; y <= floorTilePos.y + _tileRange; y++)
                     {
                         if (!_floorTilemap.HasTile(new Vector3Int(x, y))) _wallTilemap.SetTile(new Vector3Int(x, y), _wallTile);
                     }
                 }
             }
+        }
+    }
+
+    private void CleanWalls()
+    {
+        foreach (Vector3Int wallTilePos in _wallTilemap.cellBounds.allPositionsWithin)
+        {
+            if (_wallTilemap.HasTile(wallTilePos))
+            {
+                if (!CheckSurroundings(wallTilePos))
+                {
+                    _detailsTilemap.SetTile(wallTilePos, _limitTile);
+                }
+            }
+        }
+    }
+
+    private bool CheckSurroundings(Vector3Int position)
+    {
+        foreach (Vector3Int offset in _surroundings)
+        {
+            if (!_wallTilemap.HasTile(position + offset) && !_floorTilemap.HasTile(position + offset))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            CleanWalls();
         }
     }
 }
