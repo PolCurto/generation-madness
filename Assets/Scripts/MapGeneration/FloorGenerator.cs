@@ -97,6 +97,11 @@ public class FloorGenerator : MonoBehaviour
             _tilesController.GetRoomsToMainGrid(_rooms);
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            _tilesController.DrawWalls();
+        }
+
         if (_corridors != null)
         {
             foreach (Corridor corridor in _corridors)
@@ -616,9 +621,6 @@ public class FloorGenerator : MonoBehaviour
                 corridor.AddNewPosition(position, false);
             }
         
-
-        
-
         //bool hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
 
         /*

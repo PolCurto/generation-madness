@@ -4,11 +4,20 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class TilesController : MonoBehaviour
 {
-    [SerializeField] private Tilemap _floorTilemap, _wallTilemap;
+    [Header("Tilemaps")]
+    [SerializeField] private Tilemap _floorTilemap;
+    [SerializeField] private Tilemap _wallTilemap;
+
+    [Header("Tiles")]
     [SerializeField] private TileBase _floorTile;
+    [SerializeField] private TileBase _wallTile;
+
+    [Header("Wall Parameters")]
+    [SerializeField] private int _tileRange;
 
     /// <summary>
     /// Copies the rooms tilemaps to the general level grid
@@ -37,16 +46,20 @@ public class TilesController : MonoBehaviour
 
         foreach (Vector3Int localPos in originTilemap.cellBounds.allPositionsWithin)
         {
-            Vector3 worldPos = originTilemap.CellToWorld(localPos);
             if (originTilemap.HasTile(localPos))
             {
                 TileBase tile = originTilemap.GetTile(localPos);
+                Vector3 worldPos = originTilemap.CellToWorld(localPos);
                 Vector3Int finalPos = destinationTilemap.WorldToCell(worldPos);
                 destinationTilemap.SetTile(finalPos, tile);
             }
         }
     }
 
+    /// <summary>
+    /// Draws the corridors floor tiles in the calculated positions, and adds an extra tile to make them have 2 tiles of with
+    /// </summary>
+    /// <param name="corridors"></param>
     public void DrawCorridors(List<Corridor> corridors)
     {
         int i;
@@ -70,6 +83,30 @@ public class TilesController : MonoBehaviour
                 i++;
             }
         }
+    }
 
+    /// <summary>
+    /// Draws the walls to the map to cover the corridors
+    /// </summary>
+    public void DrawWalls()
+    {
+        Debug.Log("Draw walls");
+
+        // Té molt marge de millora però tarda molt menys
+        foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
+        {
+            Debug.Log("Loop");
+
+            if (_floorTilemap.HasTile(floorTilePos))
+            {
+                for (int x = floorTilePos.x - _tileRange; x < floorTilePos.x + _tileRange; x++)
+                {
+                    for (int y = floorTilePos.y - _tileRange; y < floorTilePos.y + _tileRange; y++)
+                    {
+                        if (!_floorTilemap.HasTile(new Vector3Int(x, y))) _wallTilemap.SetTile(new Vector3Int(x, y), _wallTile);
+                    }
+                }
+            }
+        }
     }
 }
