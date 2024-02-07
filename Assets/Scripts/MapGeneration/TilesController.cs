@@ -47,6 +47,7 @@ public class TilesController : MonoBehaviour
             Tilemap[] roomTilemaps = room.SceneRoom.GetComponentsInChildren<Tilemap>();
             PassOnTiles(roomTilemaps[0], _floorTilemap);
             PassOnTiles(roomTilemaps[1], _wallTilemap);
+            PassOnTiles(roomTilemaps[2], _detailsTilemap);
             Destroy(room.SceneRoom);
         }
     }
@@ -123,6 +124,9 @@ public class TilesController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Covers the outer borders with empty tiles to merge with the background
+    /// </summary>
     private void CleanWalls()
     {
         foreach (Vector3Int wallTilePos in _wallTilemap.cellBounds.allPositionsWithin)
@@ -137,6 +141,11 @@ public class TilesController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if there are tiles surrounding the given position
+    /// </summary>
+    /// <param name="position">Reference position</param>
+    /// <returns></returns>
     private bool CheckSurroundings(Vector3Int position)
     {
         foreach (Vector3Int offset in _surroundings)

@@ -112,7 +112,6 @@ public class FloorGenerator : MonoBehaviour
                 }
             }
         }
-        
 
         /*
         foreach (Room room in _roomsList)
@@ -570,6 +569,9 @@ public class FloorGenerator : MonoBehaviour
     #endregion
 
     #region Corridors
+    /// <summary>
+    /// Generates the corridors that connect the existing rooms
+    /// </summary>
     private void GenerateCorridors()
     {
         _corridors = new List<Corridor>();
@@ -603,6 +605,12 @@ public class FloorGenerator : MonoBehaviour
         _tilesController.DrawCorridors(_corridors);
     }
 
+    /// <summary>
+    /// Sets the positions of the corridor while it is straight
+    /// </summary>
+    /// <param name="horizontal"></param>
+    /// <param name="connectedRoomPosition">Position of the room to connect</param>
+    /// <param name="corridor">Current corridor</param>
     private void SetCorridorLine(bool horizontal, Vector2Int connectedRoomPosition, Corridor corridor)
     {
         Vector2Int position = corridor.Positions[0];
@@ -701,6 +709,12 @@ public class FloorGenerator : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Checks the position of the room to connect
+    /// </summary>
+    /// <param name="roomPosition">Origin room position</param>
+    /// <param name="connectedRoomPosition">Destination room position</param>
+    /// <returns>If the room is closer in the x or the y axis</returns>
     private bool CheckConnectedRoomPosition(Vector2 roomPosition, Vector2 connectedRoomPosition)
     {
         Vector2 positionDif = roomPosition - connectedRoomPosition;
