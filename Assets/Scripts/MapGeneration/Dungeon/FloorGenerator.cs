@@ -615,19 +615,40 @@ public class FloorGenerator : MonoBehaviour
     {
         Vector2Int position = corridor.Positions[0];
 
+        if (horizontal)
+        {
             while (position.x != connectedRoomPosition.x)
             {
                 if (position.x < connectedRoomPosition.x) position.x += 1;
                 else position.x -= 1;
                 corridor.AddNewPosition(position, true);
             }
-   
+
             while (position.y != connectedRoomPosition.y)
             {
                 if (position.y < connectedRoomPosition.y) position.y += 1;
                 else position.y -= 1;
                 corridor.AddNewPosition(position, false);
             }
+        }
+
+        else
+        {
+            while (position.y != connectedRoomPosition.y)
+            {
+                if (position.y < connectedRoomPosition.y) position.y += 1;
+                else position.y -= 1;
+                corridor.AddNewPosition(position, false);
+            }
+
+            while (position.x != connectedRoomPosition.x)
+            {
+                if (position.x < connectedRoomPosition.x) position.x += 1;
+                else position.x -= 1;
+                corridor.AddNewPosition(position, true);
+            }
+        }
+
         
         //bool hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
 
