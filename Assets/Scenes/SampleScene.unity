@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &284665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,6 +1286,57 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1020859763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1020859765}
+  - component: {fileID: 1020859764}
+  m_Layer: 0
+  m_Name: CaveGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1020859764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020859763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5534eb7a5ded944afd335d8ee7ff00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _noiseDensity: 50
+  _width: 70
+  _height: 50
+  _iterations: 0
+  _floorTilemap: {fileID: 1364577370}
+  _floorTile: {fileID: 11400000, guid: 27e89b612492d2d4f919a8f8768e0ae4, type: 2}
+  _wallTile: {fileID: 11400000, guid: 1ab8cf93c8559d34eb9ae415f5b55f01, type: 2}
+--- !u!4 &1020859765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020859763}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.36777478, y: 1.3730296, z: -0.14408498}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232093457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,3 +1794,4 @@ SceneRoots:
   - {fileID: 8569136568999203890}
   - {fileID: 667128580}
   - {fileID: 1232093459}
+  - {fileID: 1020859765}

@@ -8,7 +8,9 @@ public class Room
     private RoomType _type;
     private Vector2 _position;
     private List<Room> _connectedRooms;
-    public GameObject _sceneRoom;
+    private GameObject _sceneRoom;
+    private int _width;
+    private int _height;
 
     private List<Corridor> _corridors;
 
@@ -51,6 +53,8 @@ public class Room
     }
 
     public int Depth { get { return _depth; } set { _depth = value; } }
+    public int Width { get { return _width; } set { _width = value; } }
+    public int Height { get { return _height; } set { _height = value; } }
     public Vector2 Position { get { return _position; } set { _position = value; } }
     public RoomType Type { get { return _type; } set { _type = value; } }
     public GameObject SceneRoom => _sceneRoom; 

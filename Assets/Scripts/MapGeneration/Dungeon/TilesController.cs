@@ -45,6 +45,11 @@ public class TilesController : MonoBehaviour
         foreach (Room room in rooms)
         {
             Tilemap[] roomTilemaps = room.SceneRoom.GetComponentsInChildren<Tilemap>();
+
+            roomTilemaps[1].CompressBounds();
+            room.Width = roomTilemaps[1].size.x;
+            room.Height = roomTilemaps[1].size.y;
+
             PassOnTiles(roomTilemaps[0], _floorTilemap);
             PassOnTiles(roomTilemaps[1], _wallTilemap);
             PassOnTiles(roomTilemaps[2], _detailsTilemap);
@@ -60,7 +65,6 @@ public class TilesController : MonoBehaviour
     private void PassOnTiles(Tilemap originTilemap, Tilemap destinationTilemap)
     {
         originTilemap.CompressBounds();
-        BoundsInt roomBounds = originTilemap.cellBounds;
 
         foreach (Vector3Int localPos in originTilemap.cellBounds.allPositionsWithin)
         {

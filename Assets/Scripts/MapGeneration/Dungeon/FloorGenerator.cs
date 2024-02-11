@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FloorGenerator : MonoBehaviour
 {
@@ -585,16 +586,9 @@ public class FloorGenerator : MonoBehaviour
                     Vector2Int connectedRoomPosition = Vector2Int.RoundToInt(connectedRoom.Position);
                     Corridor corridor = new Corridor(room, connectedRoom);
 
-                    int iterations = 0;
-
-                    while (iterations < 2)
-                    {
-                        bool moveHorizontal = CheckConnectedRoomPosition(corridor.Positions[^1], connectedRoomPosition);
-                        SetCorridorLine(moveHorizontal, connectedRoomPosition, corridor);
-
-                        if (corridor.Positions[^1] == connectedRoomPosition) break;
-                        iterations++;
-                    }
+                    bool moveHorizontal = CheckConnectedRoomPosition(corridor.Positions[^1], connectedRoomPosition);
+                    SetCorridorLine(moveHorizontal, connectedRoomPosition, corridor);  
+                    
                     room.AddCorridor(corridor);
                     connectedRoom.AddCorridor(corridor);
                     _corridors.Add(corridor);
@@ -613,101 +607,139 @@ public class FloorGenerator : MonoBehaviour
     /// <param name="corridor">Current corridor</param>
     private void SetCorridorLine(bool horizontal, Vector2Int connectedRoomPosition, Corridor corridor)
     {
-        Vector2Int position = corridor.Positions[0];
+        Vector2Int originalPosition = corridor.Positions[0];
+        Vector2Int position = originalPosition;
 
         if (horizontal)
         {
-            while (position.x != connectedRoomPosition.x)
-            {
-                if (position.x < connectedRoomPosition.x) position.x += 1;
-                else position.x -= 1;
-                corridor.AddNewPosition(position, true);
-            }
+            position = SetCorridorHorizontalLine(position, connectedRoomPosition, corridor);
 
-            while (position.y != connectedRoomPosition.y)
+            if (CorridorCollides(corridor.Positions[^1], corridor.DestinationRoom, corridor.OriginRoom))
             {
-                if (position.y < connectedRoomPosition.y) position.y += 1;
-                else position.y -= 1;
-                corridor.AddNewPosition(position, false);
-            }
-        }
+                corridor.ResetPositions();
+                position = originalPosition;
+                while (position.y != connectedRoomPosition.y)
+                {
+                    if (position.y < connectedRoomPosition.y) position.y += 1;
+                    else position.y -= 1;
+                    corridor.AddNewPosition(position, false);
+                }
 
-        else
-        {
-            while (position.y != connectedRoomPosition.y)
-            {
-                if (position.y < connectedRoomPosition.y) position.y += 1;
-                else position.y -= 1;
-                corridor.AddNewPosition(position, false);
-            }
+                while (position.x != connectedRoomPosition.x)
+                {
+                    if (position.x < connectedRoomPosition.x) position.x += 1;
+                    else position.x -= 1;
+                    corridor.AddNewPosition(position, true);
 
-            while (position.x != connectedRoomPosition.x)
-            {
-                if (position.x < connectedRoomPosition.x) position.x += 1;
-                else position.x -= 1;
-                corridor.AddNewPosition(position, true);
-            }
-        }
-
-        
-        //bool hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
-
-        /*
-        while (hasCollided)
-        {
-            if (horizontal)
-            {
-                if (connectedRoomPosition.x > corridor.SpacePoints[^1].x) xPos--;
-                else xPos++;
+                }
             }
             else
             {
-                if (connectedRoomPosition.y > corridor.SpacePoints[^1].y) xPos--;
-                else yPos++;
+                while (position.y != connectedRoomPosition.y)
+                {
+                    if (position.y < connectedRoomPosition.y) position.y += 1;
+                    else position.y -= 1;
+                    corridor.AddNewPosition(position, false);
+                }
             }
-            newPosition.x = xPos;
-            newPosition.y = yPos;
-
-            hasCollided = CheckCorridorCollision(newPosition, room, connectedRoom, corridor, horizontal);
         }
-        */
-    }
 
-    /*
-    private bool CheckCorridorCollision(Vector2 newPosition, Room room, Room connectedRoom, Corridor corridor, bool horizontal)
-    {
-        Vector2 boxCenter = corridor.Positions[^1];
-        Vector2 boxSize;
-
-        if (horizontal)
-        {
-            boxCenter.x = (newPosition.x - corridor.Positions[^1].x) / 2 + corridor.Positions[^1].x;
-            boxSize.x = Mathf.Abs(newPosition.x - corridor.Positions[^1].x);
-            boxSize.y = 1f;
-        }
         else
         {
-            boxCenter.y = (newPosition.y - corridor.Positions[^1].y) / 2 + corridor.Positions[^1].y;
-            boxSize.x = 1f;
-            boxSize.y = Mathf.Abs(newPosition.y - corridor.Positions[^1].y);
+            while (position.y != connectedRoomPosition.y)
+            {
+                if (position.y < connectedRoomPosition.y) position.y += 1;
+                else position.y -= 1;
+                corridor.AddNewPosition(position, false);
+            }
+
+            if (CorridorCollides(corridor.Positions[^1], corridor.DestinationRoom, corridor.OriginRoom))
+            {
+                corridor.ResetPositions();
+                position = originalPosition;
+                while (position.x != connectedRoomPosition.x)
+                {
+                    if (position.x < connectedRoomPosition.x) position.x += 1;
+                    else position.x -= 1;
+                    corridor.AddNewPosition(position, true);
+                }
+                while (position.y != connectedRoomPosition.y)
+                {
+                    if (position.y < connectedRoomPosition.y) position.y += 1;
+                    else position.y -= 1;
+                    corridor.AddNewPosition(position, false);
+                }
+            }
+            else
+            {
+                while (position.x != connectedRoomPosition.x)
+                {
+                    if (position.x < connectedRoomPosition.x) position.x += 1;
+                    else position.x -= 1;
+                    corridor.AddNewPosition(position, true);
+                }
+            }
+        }
+    }
+
+    private Vector2Int SetCorridorHorizontalLine(Vector2Int position, Vector2Int connectedRoomPosition, Corridor corridor)
+    {
+        while (position.x != connectedRoomPosition.x)
+        {
+            if (position.x < connectedRoomPosition.x) position.x += 1;
+            else position.x -= 1;
+            corridor.AddNewPosition(position, true);
+
+            if (IsWithinRoomBounds(position, corridor.DestinationRoom)) break;
         }
 
-        Collider2D[] rooms = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0, LayerMask.GetMask("Room"));
+        return position;
+    }
 
-        foreach (Collider2D roomCollider in rooms)
+    private void SetCorridorVerticalLine()
+    {
+
+    }
+
+    private bool IsWithinRoomBounds(Vector2Int position, Room room)
+    {
+        if (position.x < room.Position.x + (room.Width / 2) && position.x > room.Position.x - (room.Width / 2) &&
+            position.y < room.Position.y + (room.Height / 2) && position.y > room.Position.y - (room.Height / 2))
         {
-            if (roomCollider.gameObject != room.SceneRoom && roomCollider.gameObject != connectedRoom.SceneRoom)
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
+    
+    /// <summary>
+    /// Checks if the positions is within any existing room
+    /// </summary>
+    /// <param name="position">Position to check</param>
+    /// <param name="destinationRoom">Destination room</param>
+    /// <param name="originRoom">Origin room</param>
+    /// <returns></returns>
+    private bool CorridorCollides(Vector2Int position, Room destinationRoom, Room originRoom)
+    {
+        foreach(Room room in _rooms)
+        {
+            if (room == destinationRoom || room == originRoom) continue;
+            
+            if (position.x < room.Position.x + (room.Width / 2) && position.x > room.Position.x - (room.Width / 2) &&
+                position.y < room.Position.y + (room.Height / 2) && position.y > room.Position.y - (room.Height / 2))
             {
-                Debug.Log("Corridor collided with origin: " + room.Type + " | " + room.SceneRoom.transform.position + " and destination: " + connectedRoom.Type + " | " + connectedRoom.SceneRoom.transform.position);
-                Debug.Log("Collided with: " + roomCollider.transform.position);
-                Debug.Log("Collider center: " + boxCenter + " | Collider size: " + boxSize);
+                Debug.Log("Collision at: " + position + " Origin: " + originRoom.Position + " Destiny: " + destinationRoom.Position + " with room: + " + room.Position);
                 return true;
             }
+            
         }
 
         return false;
     }
-    */
+    
 
     /// <summary>
     /// Checks for the corridors to avoid creating duplicated ones

@@ -31,6 +31,18 @@ public class Corridor
         _orientation.Add(horizontal);
     }
 
+    public void ResetPositions()
+    {
+        _positions = new List<Vector2Int>
+        {
+            Vector2Int.RoundToInt(_originRoom.Position)
+        };
+        _orientation = new List<bool>
+        {
+            true
+        };
+    }
+
     public Room OriginRoom => _originRoom;
     public Room DestinationRoom => _destinationRoom;
 
