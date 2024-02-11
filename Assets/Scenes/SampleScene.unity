@@ -1316,8 +1316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _noiseDensity: 50
-  _width: 70
-  _height: 50
+  _width: 120
+  _height: 80
   _iterations: 0
   _floorTilemap: {fileID: 1364577370}
   _floorTile: {fileID: 11400000, guid: 27e89b612492d2d4f919a8f8768e0ae4, type: 2}

@@ -49,10 +49,22 @@ public class CaveGenerator : MonoBehaviour
     {
         bool[,] noiseGrid = GenerateNoise();
 
-        // for (int i = 0; i < _iterations; i++) 
-        // { 
-        //CellullarAutomataIteration(noiseGrid);
-        //}
+        bool completed = false;
+        int i = 0;
+
+        while (!completed) 
+        {
+            // Avoid any possible infinite loop
+            if (i == 100)
+            {
+                Debug.Log("its over 9000");
+                break;
+            }
+
+            if (CellullarAutomataIteration(noiseGrid)) completed = false;
+
+            i++;
+        }
 
         _caveGrid = noiseGrid;
         PaintTiles();
@@ -78,7 +90,7 @@ public class CaveGenerator : MonoBehaviour
         return noiseGrid;
     }
 
-    private void CellullarAutomataIteration(bool[,] noiseGrid)
+    private bool CellullarAutomataIteration(bool[,] noiseGrid)
     {
         bool[,] tempGrid = (bool[,])noiseGrid.Clone();
 
@@ -91,14 +103,14 @@ public class CaveGenerator : MonoBehaviour
             }
         }
 
-        PaintTiles();
+        if (tempGrid == noiseGrid) return true;
+        else return false;
     }
 
     private int CountNeighbourWalls(Vector2Int position, bool[,] grid)
     {
         int neighbourWalls = 0;
 
-        Debug.Log("Original position " + position);
         for (int y = position.y - 1; y <= position.y + 1; y++)
         {
             for (int x = position.x - 1; x <= position.x + 1; x++)
