@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class CaveGenerator : MonoBehaviour
 {
@@ -16,14 +17,16 @@ public class CaveGenerator : MonoBehaviour
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private TileBase _floorTile;
     [SerializeField] private TileBase _wallTile;
+    [SerializeField] private TileBase _exampleFillTile;
 
     private bool[,] _caveGrid;
+    private List<Vector2Int> _floorPositions;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _floorPositions = new List<Vector2Int>();
     }
 
     // Update is called once per frame
@@ -39,19 +42,25 @@ public class CaveGenerator : MonoBehaviour
             CellullarAutomataIteration(_caveGrid);
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            RemoveDisconnectedSpaces();
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             PaintTiles();
         }
     }
 
+    #region Cave Generation
     private void GenerateCave()
     {
         bool[,] noiseGrid = GenerateNoise();
 
         bool completed = false;
         int i = 0;
-
+        
         while (!completed) 
         {
             // Avoid any possible infinite loop
@@ -65,6 +74,7 @@ public class CaveGenerator : MonoBehaviour
 
             i++;
         }
+        
 
         _caveGrid = noiseGrid;
         PaintTiles();
@@ -82,8 +92,15 @@ public class CaveGenerator : MonoBehaviour
         {
             for (int x = 0; x < _width; x++)
             {
-                if (Random.Range(0, 100) < _noiseDensity) noiseGrid[x, y] = true;
-                else noiseGrid[x, y] = false;
+                if (x == 0 || x == _width - 1 || y == 0 || y == _height - 1)
+                {
+                    noiseGrid[x, y] = true;
+                }
+                else
+                {
+                    if (Random.Range(0, 100) < _noiseDensity) noiseGrid[x, y] = true;
+                    else noiseGrid[x, y] = false;
+                } 
             }
         }
 
@@ -98,7 +115,12 @@ public class CaveGenerator : MonoBehaviour
         {
             for (int x = 0; x < _width; x++)
             {
-                if (CountNeighbourWalls(new Vector2Int(x, y), tempGrid) > 4) noiseGrid[x, y] = true;
+                int numWalls = CountNeighbourWalls(new Vector2Int(x, y), tempGrid);
+
+                if (numWalls > 4)
+                {
+                    noiseGrid[x, y] = true;
+                }
                 else noiseGrid[x, y] = false;
             }
         }
@@ -136,6 +158,52 @@ public class CaveGenerator : MonoBehaviour
         if (x >= _width || x < 0 || y >= _height || y < 0) return false;
         else return true;
     }
+    #endregion
+
+    #region Cave Refinement
+    private void RemoveDisconnectedSpaces()
+    {
+        int x = 0, y = 0;
+
+        while (_caveGrid[x, y])
+        {
+            x++;
+            y++;
+        }
+
+        bool[,] grid = _caveGrid;
+        FloodTiles(x, y, grid);
+
+        foreach(Vector2Int position in _floorPositions)
+        {
+            var gridPos = _floorTilemap.WorldToCell(new Vector3Int(position.x, position.y));
+            _floorTilemap.SetTile(gridPos, _exampleFillTile);
+        }
+    }
+
+    private void FloodTiles(int x, int y, bool[,] grid)
+    {
+        if (x >= 0 && x < _width && y >= 0 && y < _height)
+        {
+            if (!grid[x, y])
+            {
+                grid[x, y] = true;
+                _floorPositions.Add(new Vector2Int(x, y));
+
+                FloodTiles(x + 1, y, grid);
+                FloodTiles(x - 1, y, grid);
+                FloodTiles(x, y + 1, grid);
+                FloodTiles(x, y - 1, grid);
+            }
+        }
+    }
+
+    private void Show()
+    {
+
+    }
+
+    #endregion
 
     private void PaintTiles()
     {

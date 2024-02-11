@@ -1315,13 +1315,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5534eb7a5ded944afd335d8ee7ff00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noiseDensity: 50
-  _width: 120
-  _height: 80
+  _noiseDensity: 49
+  _width: 50
+  _height: 50
   _iterations: 0
   _floorTilemap: {fileID: 1364577370}
   _floorTile: {fileID: 11400000, guid: 27e89b612492d2d4f919a8f8768e0ae4, type: 2}
-  _wallTile: {fileID: 11400000, guid: 1ab8cf93c8559d34eb9ae415f5b55f01, type: 2}
+  _wallTile: {fileID: 11400000, guid: b9ef89ce6bf495b47bf79cbaf6359b81, type: 2}
+  _exampleFillTile: {fileID: 11400000, guid: edfbc7743d508fd42b7a68a5d966b902, type: 2}
 --- !u!4 &1020859765
 Transform:
   m_ObjectHideFlags: 0
