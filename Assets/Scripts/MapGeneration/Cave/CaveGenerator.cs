@@ -6,15 +6,20 @@ using UnityEngine.UIElements;
 
 public class CaveGenerator : MonoBehaviour
 {
+    [SerializeField] private TilesController _tilesController;
+    [SerializeField] private GameObject _grid;
+
     [Header("Generation Params")]
     [Range(0, 100)]
     [SerializeField] private int _noiseDensity;
     [SerializeField] private int _width;
     [SerializeField] private int _height;
     [SerializeField] private int _iterations;
+    [SerializeField] private int _minFloorTiles;
 
     [Header("Tiles")]
     [SerializeField] private Tilemap _floorTilemap;
+    [SerializeField] private Tilemap _wallsTilemap;
     [SerializeField] private TileBase _floorTile;
     [SerializeField] private TileBase _wallTile;
     [SerializeField] private TileBase _exampleFillTile;
@@ -22,14 +27,6 @@ public class CaveGenerator : MonoBehaviour
     private bool[,] _caveGrid;
     private List<Vector2Int> _floorPositions;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _floorPositions = new List<Vector2Int>();
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -44,7 +41,7 @@ public class CaveGenerator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            RemoveDisconnectedSpaces();
+            DefineFinalShape();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
@@ -56,28 +53,26 @@ public class CaveGenerator : MonoBehaviour
     #region Cave Generation
     private void GenerateCave()
     {
+        _floorPositions = new List<Vector2Int>();
+        _floorTilemap.ClearAllTiles();
+        _wallsTilemap.ClearAllTiles();
+
         bool[,] noiseGrid = GenerateNoise();
 
-        bool completed = false;
         int i = 0;
         
-        while (!completed) 
+        while (i < _iterations) 
         {
-            // Avoid any possible infinite loop
-            if (i == 100)
-            {
-                Debug.Log("its over 9000");
-                break;
-            }
-
-            if (CellullarAutomataIteration(noiseGrid)) completed = false;
-
+            if (CellullarAutomataIteration(noiseGrid)) break;
             i++;
         }
         
-
         _caveGrid = noiseGrid;
         PaintTiles();
+        DefineFinalShape();
+        _tilesController.DrawWalls(_wallTile);
+        _tilesController.CleanWalls();
+        CenterCave();
     }
 
     /// <summary>
@@ -161,7 +156,7 @@ public class CaveGenerator : MonoBehaviour
     #endregion
 
     #region Cave Refinement
-    private void RemoveDisconnectedSpaces()
+    private void DefineFinalShape()
     {
         int x = 0, y = 0;
 
@@ -174,10 +169,24 @@ public class CaveGenerator : MonoBehaviour
         bool[,] grid = _caveGrid;
         FloodTiles(x, y, grid);
 
-        foreach(Vector2Int position in _floorPositions)
+        if (_floorPositions.Count > _minFloorTiles)
         {
-            var gridPos = _floorTilemap.WorldToCell(new Vector3Int(position.x, position.y));
-            _floorTilemap.SetTile(gridPos, _exampleFillTile);
+            RemoveDisconnectedSpaces();
+        }
+        else
+        {
+            GenerateCave();
+        }
+    }
+
+    private void RemoveDisconnectedSpaces()
+    {
+        foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
+        {
+            if (!_floorPositions.Contains(new Vector2Int(floorTilePos.x, floorTilePos.y)))
+            {
+                _floorTilemap.SetTile(floorTilePos, null);
+            }
         }
     }
 
@@ -198,11 +207,13 @@ public class CaveGenerator : MonoBehaviour
         }
     }
 
-    private void Show()
+    private void CenterCave()
     {
-
+        Vector3 newPosition = Vector3.zero;
+        newPosition.x -= _width / 2;
+        newPosition.y -= _height / 2;
+        _grid.transform.position = newPosition;
     }
-
     #endregion
 
     private void PaintTiles()
@@ -213,8 +224,7 @@ public class CaveGenerator : MonoBehaviour
             {
                 Vector3Int gridPosition = _floorTilemap.WorldToCell(new Vector3Int(x, y));
 
-                if (_caveGrid[x, y]) _floorTilemap.SetTile(gridPosition, _wallTile);
-                else _floorTilemap.SetTile(gridPosition, _floorTile);
+                if (!_caveGrid[x, y]) _floorTilemap.SetTile(gridPosition, _floorTile);
             }
         }
     }

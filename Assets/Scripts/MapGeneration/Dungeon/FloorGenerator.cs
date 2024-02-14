@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 public class FloorGenerator : MonoBehaviour
@@ -41,6 +42,7 @@ public class FloorGenerator : MonoBehaviour
     [Header("Generation Params")]
     [SerializeField] private float _pullTime;
     [SerializeField] private float _pullSpeed;
+    [SerializeField] private TileBase _wallTile;
 
     private Vector2Int _startPosition;
     private Walker walker;
@@ -100,7 +102,7 @@ public class FloorGenerator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            _tilesController.DrawWalls();
+            _tilesController.DrawWalls(_wallTile);
         }
 
         if (_corridors != null)

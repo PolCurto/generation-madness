@@ -110,7 +110,7 @@ public class TilesController : MonoBehaviour
     /// <summary>
     /// Draws the walls to the map to cover the corridors
     /// </summary>
-    public void DrawWalls()
+    public void DrawWalls(TileBase wallTile)
     {
         // Té molt marge de millora però tarda molt menys
         foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
@@ -121,7 +121,7 @@ public class TilesController : MonoBehaviour
                 {
                     for (int y = floorTilePos.y - _tileRange; y <= floorTilePos.y + _tileRange; y++)
                     {
-                        if (!_floorTilemap.HasTile(new Vector3Int(x, y))) _wallTilemap.SetTile(new Vector3Int(x, y), _wallTile);
+                        if (!_floorTilemap.HasTile(new Vector3Int(x, y))) _wallTilemap.SetTile(new Vector3Int(x, y), wallTile);
                     }
                 }
             }
@@ -131,7 +131,7 @@ public class TilesController : MonoBehaviour
     /// <summary>
     /// Covers the outer borders with empty tiles to merge with the background
     /// </summary>
-    private void CleanWalls()
+    public void CleanWalls()
     {
         foreach (Vector3Int wallTilePos in _wallTilemap.cellBounds.allPositionsWithin)
         {
@@ -160,13 +160,5 @@ public class TilesController : MonoBehaviour
             }
         }
         return true;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            CleanWalls();
-        }
     }
 }

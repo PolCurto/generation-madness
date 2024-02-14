@@ -174,6 +174,7 @@ MonoBehaviour:
   _walkersTimeToLive: 5
   _pullTime: 0.2
   _pullSpeed: 5
+  _wallTile: {fileID: 0}
 --- !u!4 &284666
 Transform:
   m_ObjectHideFlags: 0
@@ -205,6 +206,7 @@ GameObject:
   - component: {fileID: 128393068}
   - component: {fileID: 128393070}
   - component: {fileID: 128393069}
+  - component: {fileID: 128393071}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -356,6 +358,42 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &128393071
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128393067}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &306146750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,13 +1353,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5534eb7a5ded944afd335d8ee7ff00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noiseDensity: 49
-  _width: 50
-  _height: 50
+  _tilesController: {fileID: 306146751}
+  _noiseDensity: 50
+  _width: 100
+  _height: 100
   _iterations: 0
+  _minFloorTiles: 3500
   _floorTilemap: {fileID: 1364577370}
-  _floorTile: {fileID: 11400000, guid: 27e89b612492d2d4f919a8f8768e0ae4, type: 2}
-  _wallTile: {fileID: 11400000, guid: b9ef89ce6bf495b47bf79cbaf6359b81, type: 2}
+  _wallsTilemap: {fileID: 128393070}
+  _floorTile: {fileID: 11400000, guid: 1fe6b35e786c326488cd477f0d81ea80, type: 2}
+  _wallTile: {fileID: 11400000, guid: 814567339ef6ee4429655a371c794f4b, type: 2}
   _exampleFillTile: {fileID: 11400000, guid: edfbc7743d508fd42b7a68a5d966b902, type: 2}
 --- !u!4 &1020859765
 Transform:
@@ -1503,6 +1544,46 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1467104940 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+  m_PrefabInstance: {fileID: 8569136568999203890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!70 &1467104943
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467104940}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.6}
+  m_Size: {x: 0.75, y: 1.25}
+  m_Direction: 0
 --- !u!1 &1544489619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,6 +1852,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8429291906498627166, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429291906498627166, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
@@ -1781,7 +1866,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1467104943}
   m_SourcePrefab: {fileID: 100100000, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -1790,9 +1878,9 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1544489621}
   - {fileID: 284666}
+  - {fileID: 1020859765}
   - {fileID: 306146752}
   - {fileID: 1548451641}
   - {fileID: 8569136568999203890}
   - {fileID: 667128580}
   - {fileID: 1232093459}
-  - {fileID: 1020859765}
