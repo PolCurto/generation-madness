@@ -565,6 +565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _floorTilemap: {fileID: 373301089}
+  _exampleTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
   _startPositionArea: 2
 --- !u!1001 &1072086805
 PrefabInstance:
