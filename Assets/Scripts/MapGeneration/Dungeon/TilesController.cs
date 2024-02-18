@@ -57,6 +57,16 @@ public class TilesController : MonoBehaviour
         }
     }
 
+    public void PrefabToMainGrid(GameObject prefab)
+    {
+        Tilemap[] objectTilemaps = prefab.GetComponentsInChildren<Tilemap>();
+
+        PassOnTiles(objectTilemaps[0], _floorTilemap);
+        PassOnTiles(objectTilemaps[1], _wallTilemap);
+        PassOnTiles(objectTilemaps[2], _detailsTilemap);
+        Destroy(prefab);
+    }
+
     /// <summary>
     /// Gets the tiles of the given tilemap and copies them to the same world position in the destination tilemap
     /// </summary>

@@ -21,7 +21,6 @@ public class CaveGenerator : MonoBehaviour
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private Tilemap _wallsTilemap;
     [SerializeField] private TileBase _floorTile;
-    [SerializeField] private TileBase _wallTile;
     [SerializeField] private TileBase _exampleFillTile;
 
     private bool[,] _caveGrid;
@@ -32,21 +31,6 @@ public class CaveGenerator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             GenerateCave();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            CellullarAutomataIteration(_caveGrid);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            DefineFinalShape();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            PaintTiles();
         }
     }
 
@@ -70,8 +54,6 @@ public class CaveGenerator : MonoBehaviour
         _caveGrid = noiseGrid;
         PaintTiles();
         DefineFinalShape();
-        _tilesController.DrawWalls(_wallTile);
-        _tilesController.CleanWalls();
         CenterCave();
     }
 

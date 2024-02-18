@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 433787272}
   - component: {fileID: 433787273}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: CaveGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -495,78 +495,6 @@ Transform:
   - {fileID: 553614529}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1021374348
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1021374350}
-  - component: {fileID: 1021374349}
-  - component: {fileID: 1021374351}
-  m_Layer: 0
-  m_Name: CaveGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1021374349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021374348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d5534eb7a5ded944afd335d8ee7ff00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tilesController: {fileID: 1457728017}
-  _grid: {fileID: 433787271}
-  _noiseDensity: 50
-  _width: 100
-  _height: 100
-  _iterations: 50
-  _minFloorTiles: 3500
-  _floorTilemap: {fileID: 373301089}
-  _wallsTilemap: {fileID: 1955579609}
-  _floorTile: {fileID: 11400000, guid: 4810874faec62de468274fb805c7fe0c, type: 2}
-  _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
-  _exampleFillTile: {fileID: 11400000, guid: edfbc7743d508fd42b7a68a5d966b902, type: 2}
---- !u!4 &1021374350
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021374348}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1021374351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021374348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ab20115be4376144a91e611d55c20f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _floorTilemap: {fileID: 373301089}
-  _exampleTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
-  _startPositionArea: 2
 --- !u!1001 &1072086805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -877,6 +805,8 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -901,30 +831,30 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 1.82e-43
+      e00: 7.0684684e+28
       e01: 0
-      e02: 1.0297705e-38
-      e03: 1.0297705e-38
-      e10: 0
+      e02: -1.0285598e-38
+      e03: -1.0285598e-38
+      e10: 2.7900757e+20
       e11: 0
-      e12: 7.95e-43
-      e13: 7.95e-43
-      e20: 12.03923
-      e21: -1.6105611e-23
-      e22: -2.4376702e-19
-      e23: 9.6691e+9
-      e30: 4.5904e-41
-      e31: 7.97e-43
-      e32: 7.95e-43
-      e33: 7.97e-43
+      e12: 5e-43
+      e13: 5e-43
+      e20: -6.832115
+      e21: -4.224984e-13
+      e22: 5.2962544e-29
+      e23: -8.779727e+9
+      e30: 4.5905e-41
+      e31: 5.04e-43
+      e32: 5.02e-43
+      e33: 5.03e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 3.9842e-41, g: 3.9842e-41, b: 3.9842e-41, a: 3.9842e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: -7, z: 0}
-  m_Size: {x: 108, y: 7, z: 1}
+  m_Size: {x: 108, y: 9, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -1207,13 +1137,150 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &5098639564842293892
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 459985904123481674, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_Name
+      value: CaveGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _grid
+      value: 
+      objectReference: {fileID: 433787271}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _floorTilemap
+      value: 
+      objectReference: {fileID: 373301089}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _noiseDensity
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallsTilemap
+      value: 
+      objectReference: {fileID: 1955579609}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _minFloorTiles
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _tilesController
+      value: 
+      objectReference: {fileID: 1457728017}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _bossRoom
+      value: 
+      objectReference: {fileID: 8322169871981495501, guid: 4b7c0e0ac67f8484385c0b661f8840c6, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _ammoChest
+      value: 
+      objectReference: {fileID: 7393901375183727749, guid: c42b576eb6fa1714e9ba0dfd8ef99dda, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _startArea
+      value: 
+      objectReference: {fileID: 9145481707697847977, guid: 1afa08c3b44da244b801b8c3ca6a413f, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponArea
+      value: 
+      objectReference: {fileID: 7873665298485291223, guid: 5f4df713390005f4c8ec52188ce87b27, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _floorTilemap
+      value: 
+      objectReference: {fileID: 373301089}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _healingChest
+      value: 
+      objectReference: {fileID: 989211842980675411, guid: aae2719427ce8bf4fa4679dbf4d29a5f, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _treasureArea
+      value: 
+      objectReference: {fileID: 4202691301378999364, guid: fdcd26e7094d80a438fd0611a06c7a9c, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponOffset
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _numAmmoChests
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _treasureOffset
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _chestsMaxOffset
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _chestsMinOffset
+      value: -500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _tilesController
+      value: 
+      objectReference: {fileID: 1457728017}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _numHealingChests
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: abfcc470d62752e499680ccf748d243b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 433787272}
   - {fileID: 919814061}
-  - {fileID: 1021374350}
+  - {fileID: 5098639564842293892}
   - {fileID: 1505498161}
   - {fileID: 1457728018}
   - {fileID: 1072086805}

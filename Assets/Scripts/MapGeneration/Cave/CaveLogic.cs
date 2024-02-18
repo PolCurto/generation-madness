@@ -1,17 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class CaveLogic : MonoBehaviour
 {
+    [SerializeField] private TilesController _tilesController;
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private TileBase _exampleTile;
-    [SerializeField] private Tilemap _bossRoom;
+    [SerializeField] private TileBase _wallTile;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject _startArea;
+    [SerializeField] private GameObject _bossRoom;
+    [SerializeField] private GameObject _weaponArea;
+    [SerializeField] private GameObject _treasureArea;
+    [SerializeField] private GameObject _ammoChest;
+    [SerializeField] private GameObject _healingChest;
+ 
     [Header("Cave Logic Parameters")]
     [SerializeField] private int _startPositionArea;
+    [SerializeField] private int _chestsMinOffset;
+    [SerializeField] private int _chestsMaxOffset;
+    [SerializeField] private int _numAmmoChests;
+    [SerializeField] private int _numHealingChests;
 
     private bool _startPointIsSet;
     private Vector2Int _worldStartPoint;
@@ -25,20 +39,36 @@ public class CaveLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SetStartingPoint();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SetTilesDepth();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SetSpecialZones();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            
+        }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            SetBoss();
+           
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            _tilesController.DrawWalls(_wallTile);
+            _tilesController.CleanWalls();
         }
     }
 
+    /// <summary>
+    /// Sets an starting point in the generated map as close as it can to the (0, 0)  position
+    /// </summary>
     private void SetStartingPoint()
     {
         Vector2Int startPosition = (Vector2Int) _floorTilemap.WorldToCell(Vector3Int.zero);
@@ -80,6 +110,9 @@ public class CaveLogic : MonoBehaviour
             }
         }
 
+        var startArea = Instantiate(_startArea, (Vector3Int)_worldStartPoint, Quaternion.identity);
+        _tilesController.PrefabToMainGrid(startArea);
+
         Debug.Log(_worldStartPoint);
     }
 
@@ -106,11 +139,6 @@ public class CaveLogic : MonoBehaviour
                 {
                     visitedTilesDepth[neighbor] = depth;
                     tilesToVisit.Enqueue(neighbor);
-
-
-                    //Tile tile = _exampleTile as Tile;
-                    //tile.color = new Color(depth/255, 0, 0);
-                    //_floorTilemap.SetTile((Vector3Int)neighbor, tile);
                 }
             }
         }
@@ -121,21 +149,104 @@ public class CaveLogic : MonoBehaviour
         {
             _gridPositions.Add(new GridPos(depth.Value, depth.Key));
         }
+
+        Debug.Log("Depth set");
     }
 
+    private void SetSpecialZones()
+    {
+        SetBoss();
+        Vector3Int treasurePosition = SetTreasurePoint();
+        SetWeaponPoint(treasurePosition);
+
+        for (int i = 0; i < _numAmmoChests; i++) 
+        {
+            SetChest(_ammoChest);
+        }
+
+        for (int i = 0; i < _numHealingChests; i++)
+        {
+            SetChest(_healingChest);
+        }
+    }
+
+    /// <summary>
+    /// Sets the boss zone in the deepest tile of the generated map
+    /// </summary>
     private void SetBoss()
     {
-        Vector2Int bossPosition = _gridPositions[^1].Position;
-        Debug.Log(_floorTilemap.CellToWorld((Vector3Int)bossPosition));
-
+        Vector3 bossPosition = _floorTilemap.CellToWorld((Vector3Int)_gridPositions[^1].Position);
+        var bossRoom = Instantiate(_bossRoom, bossPosition, Quaternion.identity);
+        _tilesController.PrefabToMainGrid(bossRoom);
     }
 
-    private void SetTreasurePoint()
+    /// <summary>
+    /// Sets the treasure zone in the furthes area regarding the boss
+    /// </summary>
+    private Vector3Int SetTreasurePoint()
     {
+        int maxDepth = _gridPositions[^1].Depth;
+        float oldDistance = 0;
+        Vector2Int gridPosition = new Vector2Int();
+        Debug.Log(maxDepth);
 
+        foreach(GridPos gridPos in _gridPositions)
+        {
+            if (gridPos.Depth > _gridPositions[^1].Depth * 0.75) break;
+
+            float currDistance = Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position);
+            if (currDistance > oldDistance)
+            {
+                oldDistance = currDistance;
+                gridPosition = gridPos.Position;
+            }
+        }
+
+        Vector3 worldPosition = _floorTilemap.CellToWorld((Vector3Int)gridPosition);
+        Debug.Log("Treasure position: " + worldPosition);
+
+        var treasureArea = Instantiate(_treasureArea, worldPosition, Quaternion.identity);
+        _tilesController.PrefabToMainGrid(treasureArea);
+
+        return Vector3Int.RoundToInt(worldPosition);
     }
 
+    /// <summary>
+    /// Sets the weapon zone in an isolated area regarding the boss and the treasure positions
+    /// </summary>
+    private void SetWeaponPoint(Vector3Int treasurePosition)
+    {
+        float oldDistance = 0;
+        Vector2Int gridPosition = new Vector2Int();
 
+        foreach (GridPos gridPos in _gridPositions)
+        {
+            if (gridPos.Depth > _gridPositions[^1].Depth * 0.5) break;
+
+            float currDistance = Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position) + Vector2Int.Distance(gridPos.Position, (Vector2Int)_floorTilemap.WorldToCell(treasurePosition));
+            if (currDistance > oldDistance)
+            {
+                oldDistance = currDistance;
+                gridPosition = gridPos.Position;
+            }
+        }
+
+        Vector3 worldPosition = _floorTilemap.CellToWorld((Vector3Int)gridPosition);
+        Debug.Log("Weapon position: " + worldPosition);
+
+        var weaponArea = Instantiate(_weaponArea, worldPosition, Quaternion.identity);
+        _tilesController.PrefabToMainGrid(weaponArea);
+    }
+
+    /// <summary>
+    /// Sets a chest randomly in the map
+    /// </summary>
+    private void SetChest(GameObject chest)
+    {
+        int offset = _gridPositions.Count / 2 - Random.Range(_chestsMinOffset, _chestsMaxOffset);
+        Vector3 chestPos = _floorTilemap.CellToWorld((Vector3Int)_gridPositions[offset].Position);
+        Instantiate(chest, chestPos, Quaternion.identity);
+    }
 
     private List<Vector2Int> GetNeighbors(Vector2Int position)
     {
