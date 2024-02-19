@@ -47,11 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilesController: {fileID: 0}
   _grid: {fileID: 0}
-  _noiseDensity: 49
+  _noiseDensity: 51
   _width: 100
   _height: 100
   _iterations: 50
-  _minFloorTiles: 3500
+  _minFloorTiles: 3000
   _floorTilemap: {fileID: 0}
   _wallsTilemap: {fileID: 0}
   _floorTile: {fileID: 11400000, guid: 4810874faec62de468274fb805c7fe0c, type: 2}
@@ -72,6 +72,14 @@ MonoBehaviour:
   _floorTilemap: {fileID: 0}
   _exampleTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
-  _bossRoom: {fileID: 0}
-  _tresure: {fileID: 0}
+  _startArea: {fileID: 9145481707697847977, guid: 1afa08c3b44da244b801b8c3ca6a413f, type: 3}
+  _bossRoom: {fileID: 8322169871981495501, guid: 4b7c0e0ac67f8484385c0b661f8840c6, type: 3}
+  _weaponArea: {fileID: 7873665298485291223, guid: 5f4df713390005f4c8ec52188ce87b27, type: 3}
+  _treasureArea: {fileID: 4202691301378999364, guid: fdcd26e7094d80a438fd0611a06c7a9c, type: 3}
+  _ammoChest: {fileID: 7393901375183727749, guid: c42b576eb6fa1714e9ba0dfd8ef99dda, type: 3}
+  _healingChest: {fileID: 989211842980675411, guid: aae2719427ce8bf4fa4679dbf4d29a5f, type: 3}
   _startPositionArea: 2
+  _chestsMinOffset: -500
+  _chestsMaxOffset: 500
+  _numAmmoChests: 2
+  _numHealingChests: 2

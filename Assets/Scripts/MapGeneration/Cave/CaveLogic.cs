@@ -31,10 +31,12 @@ public class CaveLogic : MonoBehaviour
     private Vector2Int _worldStartPoint;
     private Vector2Int _gridStartPoint;
     private List<GridPos> _gridPositions;
+    private List<GameObject> _chests;
 
     private void Start()
     {
         _gridPositions = new List<GridPos>();
+        _chests = new List<GameObject>();
     }
 
     private void Update()
@@ -243,9 +245,42 @@ public class CaveLogic : MonoBehaviour
     /// </summary>
     private void SetChest(GameObject chest)
     {
-        int offset = _gridPositions.Count / 2 - Random.Range(_chestsMinOffset, _chestsMaxOffset);
-        Vector3 chestPos = _floorTilemap.CellToWorld((Vector3Int)_gridPositions[offset].Position);
-        Instantiate(chest, chestPos, Quaternion.identity);
+        int tileDepth = _gridPositions[^1].Depth / 2 + Random.Range(_chestsMinOffset, _chestsMaxOffset);
+        Debug.Log(tileDepth);
+
+        float oldDistance = 0;
+        float currDistance;
+        Vector2Int gridPosition = new Vector2Int();
+
+        Debug.Log("Chests count: " + _chests.Count);
+
+        foreach (GridPos gridPos in _gridPositions)
+        {
+            if (gridPos.Depth >= tileDepth - 20 && gridPos.Depth <= tileDepth + 20)
+            {
+                if (_chests.Count == 0)
+                {
+                    gridPosition = gridPos.Position;
+                    break;
+                }
+                currDistance = 0;
+                foreach (GameObject c in _chests)
+                {
+                    currDistance += Vector2Int.Distance(gridPos.Position, (Vector2Int)_floorTilemap.WorldToCell(c.transform.position));
+                }
+
+                if (currDistance > oldDistance)
+                {
+                    oldDistance = currDistance;
+                    gridPosition = gridPos.Position;
+                }
+            }
+        }
+        
+        Vector3 worldPosition = _floorTilemap.CellToWorld((Vector3Int)gridPosition);
+        worldPosition.x += 0.5f;
+        worldPosition.y += 0.5f;
+        _chests.Add(Instantiate(chest, worldPosition, Quaternion.identity));
     }
 
     private List<Vector2Int> GetNeighbors(Vector2Int position)

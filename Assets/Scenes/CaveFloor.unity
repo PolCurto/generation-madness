@@ -1159,76 +1159,32 @@ PrefabInstance:
       objectReference: {fileID: 373301089}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _noiseDensity
-      value: 51
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _wallsTilemap
       value: 
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _minFloorTiles
-      value: 3000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1457728017}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _bossRoom
-      value: 
-      objectReference: {fileID: 8322169871981495501, guid: 4b7c0e0ac67f8484385c0b661f8840c6, type: 3}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _ammoChest
-      value: 
-      objectReference: {fileID: 7393901375183727749, guid: c42b576eb6fa1714e9ba0dfd8ef99dda, type: 3}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _startArea
-      value: 
-      objectReference: {fileID: 9145481707697847977, guid: 1afa08c3b44da244b801b8c3ca6a413f, type: 3}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _weaponArea
-      value: 
-      objectReference: {fileID: 7873665298485291223, guid: 5f4df713390005f4c8ec52188ce87b27, type: 3}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 
       objectReference: {fileID: 373301089}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _healingChest
-      value: 
-      objectReference: {fileID: 989211842980675411, guid: aae2719427ce8bf4fa4679dbf4d29a5f, type: 3}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _treasureArea
-      value: 
-      objectReference: {fileID: 4202691301378999364, guid: fdcd26e7094d80a438fd0611a06c7a9c, type: 3}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _weaponOffset
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _numAmmoChests
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _treasureOffset
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _chestsMaxOffset
-      value: 500
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _chestsMinOffset
-      value: -500
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1457728017}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _numHealingChests
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
