@@ -1166,9 +1166,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _minFloorTiles
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1457728017}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemyZone
+      value: 
+      objectReference: {fileID: 5480985395189605892, guid: 46008d6288dcaf34d9c7dd40afc55d11, type: 3}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 
@@ -1182,9 +1190,29 @@ PrefabInstance:
       value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemiesDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1457728017}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _minEnemiesDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 4810090923118679187, guid: 298f244d32cb1d843bfcda3e7d7e1be8, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 4892958769259977148, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
     - target: {fileID: 8533789846296695189, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -7,18 +7,19 @@ using UnityEngine.Tilemaps;
 
 public class CaveLogic : MonoBehaviour
 {
-    [SerializeField] private TilesController _tilesController;
-    [SerializeField] private Tilemap _floorTilemap;
-    [SerializeField] private TileBase _exampleTile;
-    [SerializeField] private TileBase _wallTile;
-
-    [Header("Prefabs")]
+    [Header("Areas")]
     [SerializeField] private GameObject _startArea;
     [SerializeField] private GameObject _bossRoom;
     [SerializeField] private GameObject _weaponArea;
     [SerializeField] private GameObject _treasureArea;
+
+    [Header("Objects")]
     [SerializeField] private GameObject _ammoChest;
     [SerializeField] private GameObject _healingChest;
+
+    [Header("Enemies")]
+    [SerializeField] private GameObject _enemyZone;
+    [SerializeField] private GameObject[] _enemies;
  
     [Header("Cave Logic Parameters")]
     [SerializeField] private int _startPositionArea;
@@ -26,17 +27,28 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private int _chestsMaxOffset;
     [SerializeField] private int _numAmmoChests;
     [SerializeField] private int _numHealingChests;
+    [SerializeField] private int _minEnemiesDistance;
 
+    [Header("Tiles")]
+    [SerializeField] private TilesController _tilesController;
+    [SerializeField] private Tilemap _floorTilemap;
+    [SerializeField] private TileBase _wallTile;
+
+    private int _maxDepth;
     private bool _startPointIsSet;
     private Vector2Int _worldStartPoint;
     private Vector2Int _gridStartPoint;
     private List<GridPos> _gridPositions;
     private List<GameObject> _chests;
+    private List<EnemyZone> _enemyZones;
+    private Vector3 _cellToWorldOffset;
 
     private void Start()
     {
         _gridPositions = new List<GridPos>();
         _chests = new List<GameObject>();
+        _enemyZones = new List<EnemyZone>();
+        _cellToWorldOffset = new Vector3(0.5f, 0.5f);
     }
 
     private void Update()
@@ -55,11 +67,11 @@ public class CaveLogic : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            
+            SetEnemyZones();
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-           
+            Spawn();
         }
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
@@ -68,6 +80,7 @@ public class CaveLogic : MonoBehaviour
         }
     }
 
+    #region Basic Logic
     /// <summary>
     /// Sets an starting point in the generated map as close as it can to the (0, 0)  position
     /// </summary>
@@ -154,7 +167,9 @@ public class CaveLogic : MonoBehaviour
 
         Debug.Log("Depth set");
     }
+    #endregion
 
+    #region Special Zones
     private void SetSpecialZones()
     {
         SetBoss();
@@ -187,10 +202,10 @@ public class CaveLogic : MonoBehaviour
     /// </summary>
     private Vector3Int SetTreasurePoint()
     {
-        int maxDepth = _gridPositions[^1].Depth;
+        _maxDepth = _gridPositions[^1].Depth;
         float oldDistance = 0;
         Vector2Int gridPosition = new Vector2Int();
-        Debug.Log(maxDepth);
+        Debug.Log(_maxDepth);
 
         foreach(GridPos gridPos in _gridPositions)
         {
@@ -246,13 +261,10 @@ public class CaveLogic : MonoBehaviour
     private void SetChest(GameObject chest)
     {
         int tileDepth = _gridPositions[^1].Depth / 2 + Random.Range(_chestsMinOffset, _chestsMaxOffset);
-        Debug.Log(tileDepth);
 
         float oldDistance = 0;
         float currDistance;
         Vector2Int gridPosition = new Vector2Int();
-
-        Debug.Log("Chests count: " + _chests.Count);
 
         foreach (GridPos gridPos in _gridPositions)
         {
@@ -282,6 +294,137 @@ public class CaveLogic : MonoBehaviour
         worldPosition.y += 0.5f;
         _chests.Add(Instantiate(chest, worldPosition, Quaternion.identity));
     }
+    #endregion
+
+    #region Enemy Spawn
+    private void SetEnemyZones()
+    {
+        /*
+        foreach (GridPos gridPos in _gridPositions)
+        {
+            if (gridPos.Depth == 15 || gridPos.Depth == 30 || gridPos.Depth == 45 || gridPos.Depth == 60 || gridPos.Depth == 75 || gridPos.Depth == 90)
+            {
+                var a = Instantiate(_enemyZone, _floorTilemap.CellToWorld((Vector3Int)gridPos.Position) + new Vector3(0.5f, 0.5f), Quaternion.identity);
+                float value = gridPos.Depth;
+                a.GetComponent<SpriteRenderer>().color = new Color((255 - (value * 2)) / 255, (255 - (value * 2)) / 255, (255 - (value * 2)) / 255);
+            }
+        }
+        */
+        List<Vector2Int> enemyPositions = new List<Vector2Int>();
+
+        foreach (GridPos gridPos in _gridPositions)
+        {
+            if (gridPos.Depth <= 20 || !IsValidArea(1, gridPos.Position) || Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position) < 20) continue;
+
+            bool isValid = true;
+
+            foreach (EnemyZone zone in _enemyZones)
+            {
+                if (Vector2Int.Distance(gridPos.Position, zone.Position) <= _minEnemiesDistance) isValid = false;
+            }
+
+            if (isValid)
+            {
+                Instantiate(_enemyZone, _floorTilemap.CellToWorld((Vector3Int)gridPos.Position) + _cellToWorldOffset, Quaternion.identity);
+
+                float depthLimit = _maxDepth / 3;
+                EnemyZone.ZoneType type = 0;
+
+                if (gridPos.Depth <= depthLimit) type = EnemyZone.ZoneType.Easy;
+                else if (gridPos.Depth > depthLimit && gridPos.Depth <= depthLimit * 2) type = EnemyZone.ZoneType.Medium;
+                else if (gridPos.Depth > depthLimit) type = EnemyZone.ZoneType.Hard;
+
+                _enemyZones.Add(new EnemyZone(type, gridPos.Position, 7));
+            }
+        }
+        /*
+        foreach (EnemyZone zone in _enemyZones)
+        {
+            switch (zone.Type)
+            {
+                case EnemyZone.ZoneType.Easy:
+                    SpawnEnemies(SetEnemyPool(5));
+                    break;
+                case EnemyZone.ZoneType.Medium:
+                    SpawnEnemies(SetEnemyPool(10));
+                    break;
+                case EnemyZone.ZoneType.Hard:
+                    SpawnEnemies(SetEnemyPool(15));
+                    break;
+            }
+        }
+        */
+    }
+
+    private void Spawn()
+    {
+        List<Enemy> availableEnemies = new List<Enemy>();
+
+        foreach (GameObject enemy in _enemies)
+        {
+            availableEnemies.Add(enemy.GetComponent<Enemy>());
+        }
+
+        foreach (EnemyZone zone in _enemyZones)
+        {
+            switch (zone.Type)
+            {
+                case EnemyZone.ZoneType.Easy:
+                   // SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
+                    break;
+                case EnemyZone.ZoneType.Medium:
+                    //SpawnEnemies(zone, SetEnemyPool(10, availableEnemies));
+                    break;
+                case EnemyZone.ZoneType.Hard:
+                    SpawnEnemies(zone, SetEnemyPool(15, availableEnemies));
+                    break;
+            }
+        }
+    }
+
+    private List<Enemy> SetEnemyPool(int enemyPoints, List<Enemy> availableEnemies)
+    {
+        List<Enemy> enemiesToSpawn = new List<Enemy>();
+        
+        while (enemyPoints > 0)
+        {
+            var enemy = availableEnemies[Random.Range(0, 2)];
+
+            if (enemy.Cost() <= enemyPoints)
+            {
+                enemyPoints -= enemy.Cost();
+                enemiesToSpawn.Add(enemy);
+            }
+        }
+
+        return enemiesToSpawn;
+    }
+
+    private void SpawnEnemies(EnemyZone zone, List<Enemy> enemies)
+    {
+        Vector2Int center = zone.Position;
+        int offset = Mathf.RoundToInt(zone.Area / 2);
+
+        int numEnemies = enemies.Count;
+        int i = 0;
+
+        for (int y = center.y - offset; y <= center.y + offset; y += 2)
+        {
+            for (int x = center.x - offset; x <= center.x + offset; x ++)
+            {
+                Vector3Int gridPosition = new Vector3Int(x, y);
+                if (_floorTilemap.HasTile(gridPosition))
+                {
+                    Instantiate(enemies[i].gameObject, _floorTilemap.CellToWorld(new Vector3Int(x, y)) + _cellToWorldOffset, Quaternion.identity);
+                    i++;
+                    x++;
+                    numEnemies--;
+                    if (numEnemies <= 0) return;
+                }
+            }
+        }
+    }
+    #endregion
 
     private List<Vector2Int> GetNeighbors(Vector2Int position)
     {
