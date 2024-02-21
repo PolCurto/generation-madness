@@ -105,13 +105,13 @@ public class CaveLogic : MonoBehaviour
             switch (counter)
             {
                 case 0: offset = Vector2Int.right * multiplier; break;
-                case 1: offset = new Vector2Int(1, -1); break;          // Bottom - Right
+                case 1: offset = new Vector2Int(1, -1) * multiplier; break;          // Bottom - Right
                 case 2: offset = Vector2Int.down * multiplier; break;
-                case 3: offset = new Vector2Int(-1, -1); break;         // Bottom - Left
+                case 3: offset = new Vector2Int(-1, -1) * multiplier; break;         // Bottom - Left
                 case 4: offset = Vector2Int.left * multiplier; break;
-                case 5: offset = new Vector2Int(-1, 1); break;          // Top - Left
+                case 5: offset = new Vector2Int(-1, 1) * multiplier; break;          // Top - Left
                 case 6: offset = Vector2Int.up * multiplier; break;
-                case 7: offset = new Vector2Int(1, 1); break;           // Top - Right
+                case 7: offset = new Vector2Int(1, 1) * multiplier; break;           // Top - Right
             }
 
             if (IsValidArea(_startPositionArea, startPosition + offset))

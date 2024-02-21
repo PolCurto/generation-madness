@@ -160,8 +160,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.6}
-  m_Size: {x: 0.75, y: 1.25}
+  m_Offset: {x: 0, y: 0.1}
+  m_Size: {x: 0.75, y: 1}
   m_Direction: 0
 --- !u!4 &87407797 stripped
 Transform:
@@ -543,6 +543,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5362233831900269479, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: _velocity
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: _maxVelocity
       value: 7
@@ -551,8 +559,20 @@ PrefabInstance:
       propertyPath: _acceleration
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5539502407857933545, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8429291906498627166, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
@@ -962,7 +982,7 @@ GameObject:
   - component: {fileID: 1955579609}
   - component: {fileID: 1955579608}
   - component: {fileID: 1955579607}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}

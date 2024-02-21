@@ -7,10 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
 
     [Header("Movement Parameters")]
-    [SerializeField] private float _maxVelocity;
-    [SerializeField] private float _acceleration;
+    [SerializeField] private float _velocity;
 
-    private Vector2 _direction;
+    private Vector2 _playerInput;
 
     void Start()
     {
@@ -32,17 +31,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleInputs()
     {
-        if (Input.GetKeyDown(KeyCode.W)) _direction.y += 1;
-        if (Input.GetKeyUp(KeyCode.W)) _direction.y -= 1;
-
-        if (Input.GetKeyDown(KeyCode.A)) _direction.x -= 1;
-        if (Input.GetKeyUp(KeyCode.A)) _direction.x += 1;
-
-        if (Input.GetKeyDown(KeyCode.S)) _direction.y -= 1;
-        if (Input.GetKeyUp(KeyCode.S)) _direction.y += 1;
-
-        if (Input.GetKeyDown(KeyCode.D)) _direction.x += 1;
-        if (Input.GetKeyUp(KeyCode.D)) _direction.x -= 1;
+        _playerInput.x = Input.GetAxisRaw("Horizontal");
+        _playerInput.y = Input.GetAxisRaw("Vertical");
+        _playerInput.Normalize();
     }
 
     /// <summary>
@@ -50,10 +41,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        Vector2 newVelocity = Vector2.MoveTowards(_rigidbody.velocity, _maxVelocity * _direction, _acceleration);
-
-        if (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y) == 2) newVelocity *= 0.8f;
-
-        _rigidbody.velocity = newVelocity;
+        Vector2 moveForce = _playerInput * _velocity * Time.deltaTime * 100;
+        _rigidbody.velocity = moveForce;
     }
 }
