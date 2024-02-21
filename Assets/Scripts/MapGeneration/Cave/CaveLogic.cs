@@ -28,6 +28,7 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private int _numAmmoChests;
     [SerializeField] private int _numHealingChests;
     [SerializeField] private int _minEnemiesDistance;
+    [SerializeField] private int _enemyMinDepth;
 
     [Header("Tiles")]
     [SerializeField] private TilesController _tilesController;
@@ -104,9 +105,13 @@ public class CaveLogic : MonoBehaviour
             switch (counter)
             {
                 case 0: offset = Vector2Int.right * multiplier; break;
-                case 1: offset = Vector2Int.down * multiplier; break;
-                case 2: offset = Vector2Int.left * multiplier; break;
-                case 3: offset = Vector2Int.up * multiplier; break;
+                case 1: offset = new Vector2Int(1, -1); break;          // Bottom - Right
+                case 2: offset = Vector2Int.down * multiplier; break;
+                case 3: offset = new Vector2Int(-1, -1); break;         // Bottom - Left
+                case 4: offset = Vector2Int.left * multiplier; break;
+                case 5: offset = new Vector2Int(-1, 1); break;          // Top - Left
+                case 6: offset = Vector2Int.up * multiplier; break;
+                case 7: offset = new Vector2Int(1, 1); break;           // Top - Right
             }
 
             if (IsValidArea(_startPositionArea, startPosition + offset))
@@ -118,7 +123,7 @@ public class CaveLogic : MonoBehaviour
 
             counter++;
 
-            if (counter == 4)
+            if (counter == 8)
             {
                 counter = 0;
                 multiplier++;
@@ -128,7 +133,7 @@ public class CaveLogic : MonoBehaviour
         var startArea = Instantiate(_startArea, (Vector3Int)_worldStartPoint, Quaternion.identity);
         _tilesController.PrefabToMainGrid(startArea);
 
-        Debug.Log(_worldStartPoint);
+        Debug.Log("Start Point: " + _worldStartPoint);
     }
 
     /// <summary>
@@ -299,22 +304,11 @@ public class CaveLogic : MonoBehaviour
     #region Enemy Spawn
     private void SetEnemyZones()
     {
-        /*
-        foreach (GridPos gridPos in _gridPositions)
-        {
-            if (gridPos.Depth == 15 || gridPos.Depth == 30 || gridPos.Depth == 45 || gridPos.Depth == 60 || gridPos.Depth == 75 || gridPos.Depth == 90)
-            {
-                var a = Instantiate(_enemyZone, _floorTilemap.CellToWorld((Vector3Int)gridPos.Position) + new Vector3(0.5f, 0.5f), Quaternion.identity);
-                float value = gridPos.Depth;
-                a.GetComponent<SpriteRenderer>().color = new Color((255 - (value * 2)) / 255, (255 - (value * 2)) / 255, (255 - (value * 2)) / 255);
-            }
-        }
-        */
         List<Vector2Int> enemyPositions = new List<Vector2Int>();
 
         foreach (GridPos gridPos in _gridPositions)
         {
-            if (gridPos.Depth <= 20 || !IsValidArea(1, gridPos.Position) || Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position) < 20) continue;
+            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.Position) || Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position) < 20) continue;
 
             bool isValid = true;
 
@@ -370,10 +364,10 @@ public class CaveLogic : MonoBehaviour
             switch (zone.Type)
             {
                 case EnemyZone.ZoneType.Easy:
-                   // SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
                     break;
                 case EnemyZone.ZoneType.Medium:
-                    //SpawnEnemies(zone, SetEnemyPool(10, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(10, availableEnemies));
                     break;
                 case EnemyZone.ZoneType.Hard:
                     SpawnEnemies(zone, SetEnemyPool(15, availableEnemies));
@@ -408,21 +402,25 @@ public class CaveLogic : MonoBehaviour
         int numEnemies = enemies.Count;
         int i = 0;
 
-        for (int y = center.y - offset; y <= center.y + offset; y += 2)
+        while (numEnemies > 0)
         {
-            for (int x = center.x - offset; x <= center.x + offset; x ++)
+            for (int y = center.y - offset; y <= center.y + offset; y += 2)
             {
-                Vector3Int gridPosition = new Vector3Int(x, y);
-                if (_floorTilemap.HasTile(gridPosition))
+                for (int x = center.x - offset; x <= center.x + offset; x++)
                 {
-                    Instantiate(enemies[i].gameObject, _floorTilemap.CellToWorld(new Vector3Int(x, y)) + _cellToWorldOffset, Quaternion.identity);
-                    i++;
-                    x++;
-                    numEnemies--;
-                    if (numEnemies <= 0) return;
+                    Vector3Int gridPosition = new Vector3Int(x, y);
+                    if (_floorTilemap.HasTile(gridPosition))
+                    {
+                        Instantiate(enemies[i].gameObject, _floorTilemap.CellToWorld(new Vector3Int(x, y)) + _cellToWorldOffset, Quaternion.identity);
+                        i++;
+                        x++;
+                        numEnemies--;
+                        if (numEnemies <= 0) return;
+                    }
                 }
             }
-        }
+            offset--;
+        } 
     }
     #endregion
 

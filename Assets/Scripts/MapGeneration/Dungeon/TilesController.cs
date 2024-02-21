@@ -21,7 +21,7 @@ public class TilesController : MonoBehaviour
     [Header("Wall Parameters")]
     [SerializeField] private int _tileRange;
 
-    private Vector3Int[] _surroundings = new Vector3Int[]
+    public Vector3Int[] _surroundings = new Vector3Int[]
     {
         new Vector3Int (1, 0, 0),       // Right
         new Vector3Int (1, -1, 0),      // Bottom - Right

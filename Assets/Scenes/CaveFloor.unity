@@ -611,6 +611,18 @@ MonoBehaviour:
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
   _limitTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
   _tileRange: 3
+  _surroundings:
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: -1, z: 0}
+  - {x: 0, y: -1, z: 0}
+  - {x: -1, y: -1, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 1, y: 1, z: 0}
+  - {x: 0, y: -2, z: 0}
+  - {x: 1, y: -2, z: 0}
+  - {x: -1, y: -2, z: 0}
 --- !u!4 &1457728018
 Transform:
   m_ObjectHideFlags: 0
@@ -1182,6 +1194,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373301089}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemyMinDepth
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _chestsMaxOffset
       value: 30
       objectReference: {fileID: 0}
@@ -1203,7 +1219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minEnemiesDistance
-      value: 20
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _enemies.Array.data[0]
