@@ -14,7 +14,11 @@ public class BasicGunEnemy : Enemy
     protected override void Update()
     {
         base.Update();
-        //MoveAround();
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
         FollowPlayer();
     }
 
@@ -23,7 +27,7 @@ public class BasicGunEnemy : Enemy
         if (!_playerDetected) return;
 
         Vector2 direction = (Vector2)_player.position - _rigidbody.position;
-        Vector2 moveForce = direction.normalized * _velocity * Time.deltaTime * 100;
+        Vector2 moveForce = direction.normalized * _velocity;
         _rigidbody.velocity = moveForce;
     }
 }

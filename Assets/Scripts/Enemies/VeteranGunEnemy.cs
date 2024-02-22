@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class VeteranGunEnemy : Enemy
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    /*
     protected override void Update()
     {
-        
+        base.Update();
     }
-    */
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        FollowPlayer();
+    }
+
+    private void FollowPlayer()
+    {
+        if (!_playerDetected) return;
+
+        Vector2 direction = (Vector2)_player.position - _rigidbody.position;
+        Vector2 moveForce = direction.normalized * _velocity;
+        _rigidbody.velocity = moveForce;
+    }
 }

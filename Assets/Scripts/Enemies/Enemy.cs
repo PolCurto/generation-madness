@@ -12,8 +12,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected int _cost;
     [SerializeField] protected int _maxLife;
     [SerializeField] protected float _velocity;
+    [SerializeField] protected float _distanceToAct;
 
     protected Transform _player;
+    private bool _isColiding;
 
     #endregion
 
@@ -21,6 +23,15 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _player = GameObject.Find("Player").transform;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _isColiding = true;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _isColiding = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,7 +52,7 @@ public class Enemy : MonoBehaviour
 
     protected void Start()
     {
-        StartCoroutine(MoveAround());
+
     }
 
     protected virtual void Update()
@@ -52,7 +63,8 @@ public class Enemy : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         DetectPlayer();
-        LoosePlayer();
+        LosePlayer();
+        MoveAround();
     }
     #endregion
 
@@ -85,7 +97,7 @@ public class Enemy : MonoBehaviour
         // If it hits the player, the player is detected
         if (hit.collider.CompareTag("Player") && !_playerDetected)
         {
-            StopCoroutine(MoveAround());
+            //StopCoroutine("MoveAround");
             _playerDetected = true;
             Debug.Log("Player Detected");
         }
@@ -94,7 +106,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Stops detecting the player if it exists the detection bounds during a time period
     /// </summary>
-    private void LoosePlayer()
+    private void LosePlayer()
     {
         if (_playerWithinRange || !_playerDetected)
         {
@@ -103,11 +115,11 @@ public class Enemy : MonoBehaviour
         }
 
         _loseTimer += Time.deltaTime;
-        if (_loseTimer >= _loseDetectionTime)
+        if (_loseTimer >= _loseDetectionTime && _playerDetected)
         {
             Debug.Log("Player Lost");
             _playerDetected = false;
-            StartCoroutine(MoveAround());
+            //StartCoroutine("MoveAround");
             _loseTimer = 0;
         }
     }
@@ -120,18 +132,43 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _minWaitingTime;
     [SerializeField] protected float _maxWaitingTime;
 
+    private float _moveTime;
+    private float _moveTimer;
+    private bool _isMoving;
+    private Vector2 _direction;
+
     /// <summary>
     /// Moves around the map when it has not detected the player
     /// </summary>
-    protected IEnumerator MoveAround()
+    protected void MoveAround()
     {
+        if (_playerDetected || Vector2.Distance(_player.transform.position, _rigidbody.position) > _distanceToAct) return;
+
+        if (_moveTimer < _moveTime)
+        {
+            if (_isMoving)
+            {
+                _rigidbody.velocity = _velocity * _direction;
+                if (_isColiding) _moveTimer = _moveTime;
+            }
+            _moveTimer += Time.deltaTime;
+        }
+        else
+        {
+            _moveTimer = 0;
+            _rigidbody.velocity = Vector2.zero;
+            _isMoving = !_isMoving;
+
+            _moveTime = _isMoving ? Random.Range(_minWalkingTime, _maxWalkingTime) : Random.Range(_minWaitingTime, _maxWaitingTime);
+
+            if (_isMoving) _direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        }
+
+        /*
         while (!_playerDetected)
         {
-            Debug.Log("Move Around");
-
             Vector2 direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-
-            _rigidbody.velocity = _velocity * direction * Time.deltaTime * 100;
+            _rigidbody.velocity = _velocity * direction;
 
             float walkingTime = Random.Range(_minWalkingTime, _maxWalkingTime);
             yield return new WaitForSeconds(walkingTime);
@@ -142,6 +179,17 @@ public class Enemy : MonoBehaviour
             float waitingTime = Random.Range(_minWaitingTime, _maxWaitingTime);
             yield return new WaitForSeconds(waitingTime);
         }
+        */
+    }
+
+    private void SetWalkTime()
+    {
+        _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
+    }
+
+    private void SetWaitTime()
+    {
+        _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
     }
     #endregion
 
