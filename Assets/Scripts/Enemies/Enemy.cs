@@ -149,7 +149,11 @@ public class Enemy : MonoBehaviour
             if (_isMoving)
             {
                 _rigidbody.velocity = _velocity * _direction;
-                if (_isColiding) _moveTimer = _moveTime;
+                if (_isColiding)
+                {
+                    _moveTimer = _moveTime;
+                    _isColiding = false;
+                }
             }
             _moveTimer += Time.deltaTime;
         }
@@ -161,7 +165,19 @@ public class Enemy : MonoBehaviour
 
             _moveTime = _isMoving ? Random.Range(_minWalkingTime, _maxWalkingTime) : Random.Range(_minWaitingTime, _maxWaitingTime);
 
-            if (_isMoving) _direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+            if (_isMoving)
+            {
+                // Avoids walking into a wall
+                while (true)
+                {
+                    _direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+                    Debug.DrawRay(transform.position, _direction, Color.yellow);
+                    if (!Physics2D.Raycast(transform.position, _direction, 1, LayerMask.GetMask("Walls")))
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         /*
