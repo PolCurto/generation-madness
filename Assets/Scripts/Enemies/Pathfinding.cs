@@ -23,11 +23,14 @@ public class Pathfinding : MonoBehaviour
         _floorGrid = floorGrid;
     }
 
-    public List<Vector2> FindVectorPath(Vector2Int startPosition, Vector2Int endPosition)
+    public List<Vector2> FindVectorPath(Vector2 startPosition, Vector2 endPosition)
     {
         List<Vector2> vectorPath = new List<Vector2>();
-        List<GridPos> gridPath = FindPath(startPosition, endPosition);
 
+        Vector2Int roundStartPos = new Vector2Int((int)startPosition.x, (int)startPosition.y);
+        Vector2Int roundEndPos = new Vector2Int((int)endPosition.x, (int)endPosition.y);
+
+        List<GridPos> gridPath = FindPath(roundStartPos, roundEndPos);
         
         foreach(GridPos gridPos in gridPath)
         {

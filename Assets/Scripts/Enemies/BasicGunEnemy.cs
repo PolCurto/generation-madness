@@ -36,6 +36,5 @@ public class BasicGunEnemy : Enemy
             _direction = _pathToTake[0];
         }
         */
-        
     }
 }
