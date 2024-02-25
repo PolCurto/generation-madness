@@ -24,10 +24,18 @@ public class BasicGunEnemy : Enemy
 
     private void FollowPlayer()
     {
-        if (!_playerDetected) return;
+        if (!_playerDetected || DistanceToPlayer() < _attackDistance) return;
 
-        Vector2 direction = (Vector2)_player.position - _rigidbody.position;
-        Vector2 moveForce = direction.normalized * _velocity;
+        Vector2 moveForce = _direction.normalized * _velocity;
         _rigidbody.velocity = moveForce;
+
+        /*
+        if (_rigidbody.position == _pathToTake[0])
+        {
+            _pathToTake.Remove(_rigidbody.position);
+            _direction = _pathToTake[0];
+        }
+        */
+        
     }
 }

@@ -35,18 +35,19 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private TileBase _wallTile;
 
+    private Pathfinding pathFinding;
     private int _maxDepth;
     private bool _startPointIsSet;
     private Vector2Int _worldStartPoint;
     private Vector2Int _gridStartPoint;
-    private List<GridPos> _gridPositions;
+    private FloorGrid _floorGrid;
     private List<GameObject> _chests;
     private List<EnemyZone> _enemyZones;
     private Vector3 _cellToWorldOffset;
 
     private void Start()
     {
-        _gridPositions = new List<GridPos>();
+        _floorGrid = new FloorGrid();
         _chests = new List<GameObject>();
         _enemyZones = new List<EnemyZone>();
         _cellToWorldOffset = new Vector3(0.5f, 0.5f);
@@ -60,7 +61,7 @@ public class CaveLogic : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SetTilesDepth();
+            SetFloorGrid();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -139,7 +140,7 @@ public class CaveLogic : MonoBehaviour
     /// <summary>
     /// Sets the distance of each tile regarding the start position
     /// </summary>
-    private void SetTilesDepth()
+    private void SetFloorGrid()
     {
         Queue<Vector2Int> tilesToVisit = new Queue<Vector2Int>();
         Dictionary<Vector2Int, int> visitedTilesDepth = new Dictionary<Vector2Int, int>();
@@ -165,10 +166,25 @@ public class CaveLogic : MonoBehaviour
 
         visitedTilesDepth.OrderByDescending(x => x.Value);
 
+        // Set the Floor Grid
         foreach (KeyValuePair<Vector2Int, int> depth in visitedTilesDepth)
         {
-            _gridPositions.Add(new GridPos(depth.Value, depth.Key));
+            GridPos pos = new GridPos(depth.Key);
+            pos.Depth = depth.Value;
+            pos.WorldPosition = Vector2Int.RoundToInt(_floorTilemap.CellToWorld((Vector3Int)pos.CellPosition));
+            _floorGrid.GridPositions.Add(pos);
         }
+
+        // Get the neighbors
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
+        {
+            foreach (Vector2Int neighbor in GetNeighbors(gridPos.CellPosition))
+            {
+                gridPos.Neighbours.Add(_floorGrid.GetGridPosFromCell(neighbor));
+            }
+        }
+
+        Pathfinding.Instance.SetFloorGrid(_floorGrid);
 
         Debug.Log("Depth set");
     }
@@ -197,7 +213,7 @@ public class CaveLogic : MonoBehaviour
     /// </summary>
     private void SetBoss()
     {
-        Vector3 bossPosition = _floorTilemap.CellToWorld((Vector3Int)_gridPositions[^1].Position);
+        Vector3 bossPosition = _floorTilemap.CellToWorld((Vector3Int)_floorGrid.GridPositions[^1].CellPosition);
         var bossRoom = Instantiate(_bossRoom, bossPosition, Quaternion.identity);
         _tilesController.PrefabToMainGrid(bossRoom);
     }
@@ -207,30 +223,29 @@ public class CaveLogic : MonoBehaviour
     /// </summary>
     private Vector3Int SetTreasurePoint()
     {
-        _maxDepth = _gridPositions[^1].Depth;
+        _maxDepth = _floorGrid.GridPositions[^1].Depth;
         float oldDistance = 0;
-        Vector2Int gridPosition = new Vector2Int();
+        Vector2Int position = new Vector2Int();
         Debug.Log(_maxDepth);
 
-        foreach(GridPos gridPos in _gridPositions)
+        foreach(GridPos gridPos in _floorGrid.GridPositions)
         {
-            if (gridPos.Depth > _gridPositions[^1].Depth * 0.75) break;
+            if (gridPos.Depth > _floorGrid.GridPositions[^1].Depth * 0.75) break;
 
-            float currDistance = Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position);
+            float currDistance = Vector2Int.Distance(gridPos.WorldPosition, _floorGrid.GridPositions[^1].WorldPosition);
             if (currDistance > oldDistance)
             {
                 oldDistance = currDistance;
-                gridPosition = gridPos.Position;
+                position = gridPos.WorldPosition;
             }
         }
 
-        Vector3 worldPosition = _floorTilemap.CellToWorld((Vector3Int)gridPosition);
-        Debug.Log("Treasure position: " + worldPosition);
+        Debug.Log("Treasure position: " + position);
 
-        var treasureArea = Instantiate(_treasureArea, worldPosition, Quaternion.identity);
+        var treasureArea = Instantiate(_treasureArea, (Vector3Int)position, Quaternion.identity);
         _tilesController.PrefabToMainGrid(treasureArea);
 
-        return Vector3Int.RoundToInt(worldPosition);
+        return (Vector3Int)position;
     }
 
     /// <summary>
@@ -239,24 +254,23 @@ public class CaveLogic : MonoBehaviour
     private void SetWeaponPoint(Vector3Int treasurePosition)
     {
         float oldDistance = 0;
-        Vector2Int gridPosition = new Vector2Int();
+        Vector2Int position = new Vector2Int();
 
-        foreach (GridPos gridPos in _gridPositions)
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            if (gridPos.Depth > _gridPositions[^1].Depth * 0.5) break;
+            if (gridPos.Depth > _floorGrid.GridPositions[^1].Depth * 0.5) break;
 
-            float currDistance = Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position) + Vector2Int.Distance(gridPos.Position, (Vector2Int)_floorTilemap.WorldToCell(treasurePosition));
+            float currDistance = Vector2Int.Distance(gridPos.WorldPosition, _floorGrid.GridPositions[^1].WorldPosition) + Vector2Int.Distance(gridPos.WorldPosition, (Vector2Int)treasurePosition);
             if (currDistance > oldDistance)
             {
                 oldDistance = currDistance;
-                gridPosition = gridPos.Position;
+                position = gridPos.WorldPosition;
             }
         }
 
-        Vector3 worldPosition = _floorTilemap.CellToWorld((Vector3Int)gridPosition);
-        Debug.Log("Weapon position: " + worldPosition);
+        Debug.Log("Weapon position: " + position);
 
-        var weaponArea = Instantiate(_weaponArea, worldPosition, Quaternion.identity);
+        var weaponArea = Instantiate(_weaponArea, (Vector3Int)position, Quaternion.identity);
         _tilesController.PrefabToMainGrid(weaponArea);
     }
 
@@ -265,36 +279,36 @@ public class CaveLogic : MonoBehaviour
     /// </summary>
     private void SetChest(GameObject chest)
     {
-        int tileDepth = _gridPositions[^1].Depth / 2 + Random.Range(_chestsMinOffset, _chestsMaxOffset);
+        int tileDepth = _floorGrid.GridPositions[^1].Depth / 2 + Random.Range(_chestsMinOffset, _chestsMaxOffset);
 
         float oldDistance = 0;
         float currDistance;
         Vector2Int gridPosition = new Vector2Int();
 
-        foreach (GridPos gridPos in _gridPositions)
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
             if (gridPos.Depth >= tileDepth - 20 && gridPos.Depth <= tileDepth + 20)
             {
                 if (_chests.Count == 0)
                 {
-                    gridPosition = gridPos.Position;
+                    gridPosition = gridPos.WorldPosition;
                     break;
                 }
                 currDistance = 0;
                 foreach (GameObject c in _chests)
                 {
-                    currDistance += Vector2Int.Distance(gridPos.Position, (Vector2Int)_floorTilemap.WorldToCell(c.transform.position));
+                    currDistance += Vector2Int.Distance(gridPos.WorldPosition, Vector2Int.RoundToInt(c.transform.position));
                 }
 
                 if (currDistance > oldDistance)
                 {
                     oldDistance = currDistance;
-                    gridPosition = gridPos.Position;
+                    gridPosition = gridPos.WorldPosition;
                 }
             }
         }
         
-        Vector3 worldPosition = _floorTilemap.CellToWorld((Vector3Int)gridPosition);
+        Vector3 worldPosition = (Vector3Int)gridPosition;
         worldPosition.x += 0.5f;
         worldPosition.y += 0.5f;
         _chests.Add(Instantiate(chest, worldPosition, Quaternion.identity));
@@ -306,20 +320,20 @@ public class CaveLogic : MonoBehaviour
     {
         List<Vector2Int> enemyPositions = new List<Vector2Int>();
 
-        foreach (GridPos gridPos in _gridPositions)
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.Position) || Vector2Int.Distance(gridPos.Position, _gridPositions[^1].Position) < 20) continue;
+            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.CellPosition) || Vector2Int.Distance(gridPos.CellPosition, _floorGrid.GridPositions[^1].CellPosition) < 20) continue;
 
             bool isValid = true;
 
             foreach (EnemyZone zone in _enemyZones)
             {
-                if (Vector2Int.Distance(gridPos.Position, zone.Position) <= _minEnemiesDistance) isValid = false;
+                if (Vector2Int.Distance(gridPos.CellPosition, zone.Position) <= _minEnemiesDistance) isValid = false;
             }
 
             if (isValid)
             {
-                Instantiate(_enemyZone, _floorTilemap.CellToWorld((Vector3Int)gridPos.Position) + _cellToWorldOffset, Quaternion.identity);
+                Instantiate(_enemyZone, _floorTilemap.CellToWorld((Vector3Int)gridPos.CellPosition) + _cellToWorldOffset, Quaternion.identity);
 
                 float depthLimit = _maxDepth / 3;
                 EnemyZone.ZoneType type = 0;
@@ -328,7 +342,7 @@ public class CaveLogic : MonoBehaviour
                 else if (gridPos.Depth > depthLimit && gridPos.Depth <= depthLimit * 2) type = EnemyZone.ZoneType.Medium;
                 else if (gridPos.Depth > depthLimit) type = EnemyZone.ZoneType.Hard;
 
-                _enemyZones.Add(new EnemyZone(type, gridPos.Position, 7));
+                _enemyZones.Add(new EnemyZone(type, gridPos.CellPosition, 7));
             }
         }
         /*
@@ -364,13 +378,13 @@ public class CaveLogic : MonoBehaviour
             switch (zone.Type)
             {
                 case EnemyZone.ZoneType.Easy:
-                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(1, availableEnemies));
                     break;
                 case EnemyZone.ZoneType.Medium:
-                    SpawnEnemies(zone, SetEnemyPool(10, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(1, availableEnemies));
                     break;
                 case EnemyZone.ZoneType.Hard:
-                    SpawnEnemies(zone, SetEnemyPool(15, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(1, availableEnemies));
                     break;
             }
         }
@@ -430,10 +444,14 @@ public class CaveLogic : MonoBehaviour
 
         Vector2Int[] surroundings = new Vector2Int[]
         {
-            new Vector2Int (1, 0),       // Right
-            new Vector2Int (0, -1),      // Bottom
-            new Vector2Int (-1, 0),      // Left
-            new Vector2Int (0, 1),       // Top
+            new Vector2Int (1, 0),      // Right
+            new Vector2Int (1, -1),     // Right Down
+            new Vector2Int (0, -1),     // Down
+            new Vector2Int (-1, -1),    // Left Down
+            new Vector2Int (-1, 0),     // Left
+            new Vector2Int (-1, 1),     // Left Up
+            new Vector2Int (0, 1),      // Up
+            new Vector2Int (1, 1),      // Right Up
         };
 
         foreach (Vector2Int offset in surroundings)

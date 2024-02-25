@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _velocity;
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
-    [SerializeField] private Collider2D[] _colliders;
+    [SerializeField] protected float _attackDistance;
 
     protected Transform _player;
     private bool _isColiding;
@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _player = GameObject.Find("Player").transform;
+        _pathToTake = new List<Vector2>();
     }
 
     protected void Start()
@@ -62,8 +63,15 @@ public class Enemy : MonoBehaviour
 
         if (!_isEnabled) return;
 
+        Debug.Log("Path nodes: " + _pathToTake.Count);
+        for (int i = 0; i < _pathToTake.Count - 1; i++)
+        {
+            Debug.DrawLine(_pathToTake[i], _pathToTake[i + 1]);
+        }
+        
         DetectPlayer();
         LosePlayer();
+        UpdatePath();
     }
 
     protected virtual void FixedUpdate()
@@ -82,21 +90,13 @@ public class Enemy : MonoBehaviour
 
     private void PlayerPosition()
     {
-        if (_isEnabled && Vector2.Distance(_player.transform.position, _rigidbody.position) > _enablingDistance)
+        if (_isEnabled && DistanceToPlayer() > _enablingDistance)
         {
             _isEnabled = false;
-            foreach(Collider2D collider in _colliders)
-            {
-                collider.enabled = false;
-            }
         }
-        else if (!_isEnabled && Vector2.Distance(_player.transform.position, _rigidbody.position) <= _enablingDistance)
+        else if (!_isEnabled && DistanceToPlayer() <= _enablingDistance)
         {
             _isEnabled = true;
-            foreach (Collider2D collider in _colliders)
-            {
-                collider.enabled = true;
-            }
         }
     }
 
@@ -124,6 +124,7 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine("MoveAround");
             _playerDetected = true;
+            FindPath();
             Debug.Log("Player Detected");
         }
     }
@@ -156,12 +157,36 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _maxWalkingTime;
     [SerializeField] protected float _minWaitingTime;
     [SerializeField] protected float _maxWaitingTime;
+    [SerializeField] protected float _pathfindingRate;
+
 
     private float _moveTime;
     private float _moveTimer;
     private bool _isMoving;
     private bool _willTransition;
-    private Vector2 _direction;
+    protected Vector2 _direction;
+    private float _pathTimer;
+    protected List<Vector2> _pathToTake;
+
+    private void UpdatePath()
+    {
+        if (!_playerDetected) return;
+
+        _pathTimer += Time.deltaTime;
+        
+        if (_pathTimer > _pathfindingRate)
+        {
+            FindPath();
+        }
+    }
+
+    private void FindPath()
+    {
+        Debug.Log("Find path");
+        _pathTimer = 0;
+        _pathToTake = Pathfinding.Instance.FindVectorPath(Vector2Int.RoundToInt(_rigidbody.position), Vector2Int.RoundToInt(_player.position));
+        _direction = _pathToTake[0] - _rigidbody.position;
+    }
 
     /// <summary>
     /// Moves around the map when it has not detected the player
@@ -246,6 +271,11 @@ public class Enemy : MonoBehaviour
     private void SetWaitTime()
     {
         _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
+    }
+
+    protected float DistanceToPlayer()
+    {
+        return Vector2.Distance(_player.transform.position, _rigidbody.position);
     }
     #endregion
 

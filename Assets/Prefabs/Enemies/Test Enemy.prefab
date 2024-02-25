@@ -196,12 +196,13 @@ MonoBehaviour:
   _velocity: 2
   _detectionDistance: 10
   _enablingDistance: 30
-  _colliders: []
+  _attackDistance: 6
   _loseDetectionTime: 2
   _minWalkingTime: 2
   _maxWalkingTime: 4
   _minWaitingTime: 1
   _maxWaitingTime: 2
+  _pathfindingRate: 5
 --- !u!50 &3999422886707647917
 Rigidbody2D:
   serializedVersion: 4
@@ -298,7 +299,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 15
 --- !u!4 &5705245690181352694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7878350319992209165, guid: a40a69218209a3e43a5a585362a35460, type: 3}
