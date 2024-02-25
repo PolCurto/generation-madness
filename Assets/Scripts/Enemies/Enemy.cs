@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _velocity;
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
+    [SerializeField] private Collider2D[] _colliders;
 
     protected Transform _player;
     private bool _isColiding;
@@ -28,6 +29,15 @@ public class Enemy : MonoBehaviour
     protected void Start()
     {
         StartCoroutine("MoveAround");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            StopCoroutine("MoveAround");
+            StartCoroutine("MoveAround");
+        } 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,10 +85,18 @@ public class Enemy : MonoBehaviour
         if (_isEnabled && Vector2.Distance(_player.transform.position, _rigidbody.position) > _enablingDistance)
         {
             _isEnabled = false;
+            foreach(Collider2D collider in _colliders)
+            {
+                collider.enabled = false;
+            }
         }
         else if (!_isEnabled && Vector2.Distance(_player.transform.position, _rigidbody.position) <= _enablingDistance)
         {
             _isEnabled = true;
+            foreach (Collider2D collider in _colliders)
+            {
+                collider.enabled = true;
+            }
         }
     }
 
@@ -193,14 +211,20 @@ public class Enemy : MonoBehaviour
         
         while (!_playerDetected)
         {
-            Vector2 direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+            Vector2 direction = Vector2.zero;
+            bool isWall = true;
+            while (isWall)
+            {
+                direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+                Debug.DrawRay(transform.position, _direction, Color.yellow);
+                isWall = Physics2D.Raycast(transform.position, _direction, 1, LayerMask.GetMask("Walls"));
+            }
             _rigidbody.velocity = _velocity * direction;
 
             float walkingTime = Random.Range(_minWalkingTime, _maxWalkingTime);
             yield return new WaitForSeconds(walkingTime);
 
             _rigidbody.velocity = Vector2.zero;
-            Debug.Log("Wait");
 
             float waitingTime = Random.Range(_minWaitingTime, _maxWaitingTime);
             yield return new WaitForSeconds(waitingTime);
