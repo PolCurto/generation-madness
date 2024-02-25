@@ -190,7 +190,8 @@ MonoBehaviour:
   _cost: 1
   _maxLife: 5
   _velocity: 2
-  _distanceToAct: 20
+  _detectionDistance: 10
+  _enablingDistance: 30
   _loseDetectionTime: 2
   _minWalkingTime: 2
   _maxWalkingTime: 4

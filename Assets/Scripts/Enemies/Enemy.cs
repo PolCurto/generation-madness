@@ -12,11 +12,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected int _cost;
     [SerializeField] protected int _maxLife;
     [SerializeField] protected float _velocity;
-    [SerializeField] protected float _distanceToAct;
+    [SerializeField] protected float _detectionDistance;
+    [SerializeField] protected float _enablingDistance;
 
     protected Transform _player;
     private bool _isColiding;
-
     #endregion
 
     #region Unity Methods
@@ -25,13 +25,9 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").transform;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void Start()
     {
-        _isColiding = true;
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        _isColiding = false;
+        StartCoroutine("MoveAround");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -50,21 +46,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void Start()
-    {
-
-    }
-
     protected virtual void Update()
     {
-        
+        PlayerPosition();
+
+        if (!_isEnabled) return;
+
+        DetectPlayer();
+        LosePlayer();
     }
 
     protected virtual void FixedUpdate()
     {
-        DetectPlayer();
-        LosePlayer();
-        MoveAround();
+        if (!_isEnabled) return;
     }
     #endregion
 
@@ -74,6 +68,19 @@ public class Enemy : MonoBehaviour
     protected bool _playerWithinRange;
     protected bool _playerDetected;
     private float _loseTimer;
+    private bool _isEnabled;
+
+    private void PlayerPosition()
+    {
+        if (_isEnabled && Vector2.Distance(_player.transform.position, _rigidbody.position) > _enablingDistance)
+        {
+            _isEnabled = false;
+        }
+        else if (!_isEnabled && Vector2.Distance(_player.transform.position, _rigidbody.position) <= _enablingDistance)
+        {
+            _isEnabled = true;
+        }
+    }
 
     /// <summary>
     /// Casts a ray to the Player to check for obstacles in the path
@@ -97,7 +104,7 @@ public class Enemy : MonoBehaviour
         // If it hits the player, the player is detected
         if (hit.collider.CompareTag("Player") && !_playerDetected)
         {
-            //StopCoroutine("MoveAround");
+            StopCoroutine("MoveAround");
             _playerDetected = true;
             Debug.Log("Player Detected");
         }
@@ -119,7 +126,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Player Lost");
             _playerDetected = false;
-            //StartCoroutine("MoveAround");
+            StartCoroutine("MoveAround");
             _loseTimer = 0;
         }
     }
@@ -135,15 +142,17 @@ public class Enemy : MonoBehaviour
     private float _moveTime;
     private float _moveTimer;
     private bool _isMoving;
+    private bool _willTransition;
     private Vector2 _direction;
 
     /// <summary>
     /// Moves around the map when it has not detected the player
     /// </summary>
-    protected void MoveAround()
+    protected IEnumerator MoveAround()
     {
-        if (_playerDetected || Vector2.Distance(_player.transform.position, _rigidbody.position) > _distanceToAct) return;
+        //if (_playerDetected) return;
 
+        /*
         if (_moveTimer < _moveTime)
         {
             if (_isMoving)
@@ -179,8 +188,9 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+        */
 
-        /*
+        
         while (!_playerDetected)
         {
             Vector2 direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -195,7 +205,13 @@ public class Enemy : MonoBehaviour
             float waitingTime = Random.Range(_minWaitingTime, _maxWaitingTime);
             yield return new WaitForSeconds(waitingTime);
         }
-        */
+        
+    }
+
+    private void WalkOrWait()
+    {
+        _isMoving = !_isMoving;
+        _willTransition = false;
     }
 
     private void SetWalkTime()

@@ -12,7 +12,7 @@ public class VeteranGunEnemy : Enemy
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        FollowPlayer();
+        //FollowPlayer();
     }
 
     private void FollowPlayer()
