@@ -27,8 +27,15 @@ public class Pathfinding : MonoBehaviour
     {
         List<Vector2> vectorPath = new List<Vector2>();
 
-        Vector2Int roundStartPos = new Vector2Int((int)startPosition.x, (int)startPosition.y);
-        Vector2Int roundEndPos = new Vector2Int((int)endPosition.x, (int)endPosition.y);
+        int xPos = startPosition.x > 0 ? Mathf.FloorToInt(startPosition.x) : Mathf.CeilToInt(startPosition.x);
+        int yPos = startPosition.y > 0 ? Mathf.FloorToInt(startPosition.y) : Mathf.CeilToInt(startPosition.y);
+        Vector2Int roundStartPos = new Vector2Int(xPos, yPos);
+        Debug.Log("Rigidbody pos:" + startPosition);
+        Debug.Log("Start pos round: " + roundStartPos);
+
+        xPos = endPosition.x > 0 ? Mathf.FloorToInt(endPosition.x) : Mathf.CeilToInt(endPosition.x);
+        yPos = endPosition.y > 0 ? Mathf.FloorToInt(endPosition.y) : Mathf.CeilToInt(endPosition.y);
+        Vector2Int roundEndPos = new Vector2Int(xPos, yPos);
 
         List<GridPos> gridPath = FindPath(roundStartPos, roundEndPos);
         

@@ -184,7 +184,8 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Find path");
         _pathTimer = 0;
-        _pathToTake = Pathfinding.Instance.FindVectorPath(Vector2Int.RoundToInt(_rigidbody.position), Vector2Int.RoundToInt(_player.position));
+        _pathToTake = Pathfinding.Instance.FindVectorPath(_rigidbody.position, _player.position);
+        _pathToTake.RemoveAt(0);
         _direction = _pathToTake[0] - _rigidbody.position;
     }
 

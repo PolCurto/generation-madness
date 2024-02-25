@@ -29,12 +29,12 @@ public class BasicGunEnemy : Enemy
         Vector2 moveForce = _direction.normalized * _velocity;
         _rigidbody.velocity = moveForce;
 
-        /*
+        
         if (_rigidbody.position == _pathToTake[0])
         {
-            _pathToTake.Remove(_rigidbody.position);
+            _pathToTake.RemoveAt(0);
             _direction = _pathToTake[0];
         }
-        */
+        
     }
 }
