@@ -196,13 +196,13 @@ MonoBehaviour:
   _velocity: 2
   _detectionDistance: 10
   _enablingDistance: 30
-  _attackDistance: 6
+  _attackDistance: 0
   _loseDetectionTime: 2
   _minWalkingTime: 2
   _maxWalkingTime: 4
   _minWaitingTime: 0
   _maxWaitingTime: 1
-  _pathfindingRate: 1
+  _pathfindingRate: 0.8
 --- !u!50 &3999422886707647917
 Rigidbody2D:
   serializedVersion: 4
@@ -263,7 +263,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.1}
-  m_Size: {x: 0.75, y: 1}
+  m_Size: {x: 0.5, y: 0.7}
   m_Direction: 0
 --- !u!58 &3628514500861673669
 CircleCollider2D:

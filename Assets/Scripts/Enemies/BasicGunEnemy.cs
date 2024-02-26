@@ -30,19 +30,17 @@ public class BasicGunEnemy : Enemy
         Vector2 moveForce = _direction.normalized * _velocity;
         _rigidbody.velocity = moveForce;
         
-        if (IsInPosition())
+        if (IsInGoalPosition())
         {
+            _direction = _pathToTake[1];
             _pathToTake.RemoveAt(0);
-            _direction = _pathToTake[0];
         }
     }
 
-    private bool IsInPosition()
+    private bool IsInGoalPosition()
     {
-        if (_rigidbody.position.magnitude >= _pathToTake[0].magnitude - 0.5f && _rigidbody.position.magnitude <= _pathToTake[0].magnitude + 0.5f)
+        if (Vector2.Distance(transform.position, _pathToTake[0]) < 0.75f)
         {
-            Debug.Log("Enemy magnitude: " + _rigidbody.position.magnitude);
-            Debug.Log("Position magnitude: " + _pathToTake[0].magnitude);
             return true;
         }
         else return false;

@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _attackDistance;
 
     protected Transform _player;
+    private bool _playerInSight;
     private bool _isColiding;
     #endregion
 
@@ -74,8 +75,7 @@ public class Enemy : MonoBehaviour
     {
         if (!_isEnabled) return;
 
-        DetectPlayer();
-        LosePlayer();
+        PlayerDetection();
         Attack();
         UpdatePath();
         MoveAround();
@@ -106,10 +106,43 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Casts a ray to the Player to check for obstacles in the path
     /// </summary>
-    private void DetectPlayer()
+    private void PlayerDetection()
     {
-        if (!_playerWithinRange) return;
+        // If the player is within the enemy detection range, checks if is on sight
+        if (_playerWithinRange)
+        {
+            PlayerInSight();
+            // If it hits the player, the player is detected
+            if (_playerInSight && !_playerDetected)
+            {
+                //StopCoroutine("MoveAround");
+                _playerDetected = true;
+                FindPath();
+                Debug.Log("Player Detected");
+            }
+        }
 
+        // If the player is detected and outside the detection range, stops detecting it after a certain time
+        if (_playerDetected && !_playerWithinRange)
+        {
+            _loseTimer += Time.deltaTime;
+            if (_loseTimer >= _loseDetectionTime && _playerDetected)
+            {
+                Debug.Log("Player Lost");
+                _playerDetected = false;
+                //StartCoroutine("MoveAround");
+                _loseTimer = 0;
+            }
+        }
+        else
+        {
+            _loseTimer = 0;
+            return;
+        }
+    }
+
+    private void PlayerInSight()
+    {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _player.position - transform.position, 20f, LayerMask.GetMask("Player", "Walls"));
 
         // Debug
@@ -122,35 +155,7 @@ public class Enemy : MonoBehaviour
             Debug.DrawRay(transform.position, (_player.position - transform.position), Color.red);
         }
 
-        // If it hits the player, the player is detected
-        if (hit.collider.CompareTag("Player") && !_playerDetected)
-        {
-            //StopCoroutine("MoveAround");
-            _playerDetected = true;
-            FindPath();
-            Debug.Log("Player Detected");
-        }
-    }
-
-    /// <summary>
-    /// Stops detecting the player if it exists the detection bounds during a time period
-    /// </summary>
-    private void LosePlayer()
-    {
-        if (_playerWithinRange || !_playerDetected)
-        {
-            _loseTimer = 0; 
-            return;
-        }
-
-        _loseTimer += Time.deltaTime;
-        if (_loseTimer >= _loseDetectionTime && _playerDetected)
-        {
-            Debug.Log("Player Lost");
-            _playerDetected = false;
-            //StartCoroutine("MoveAround");
-            _loseTimer = 0;
-        }
+        _playerInSight = hit.collider.CompareTag("Player");
     }
     #endregion
 
@@ -188,6 +193,7 @@ public class Enemy : MonoBehaviour
     {
         _pathTimer = 0;
         _pathToTake = Pathfinding.Instance.FindVectorPath(_rigidbody.position, _player.position);
+        _pathToTake.RemoveAt(0);
         if (_pathToTake == null)
         {
             Debug.Log("Path null");
@@ -202,7 +208,7 @@ public class Enemy : MonoBehaviour
     {
         if (_playerDetected) return;
 
-        Vector2 moveForce = _direction.normalized * _velocity;
+        Vector2 moveForce = _direction.normalized * _velocity * Time.deltaTime * 100;
         _rigidbody.velocity = moveForce;
 
         _moveTimer += Time.deltaTime;
@@ -323,7 +329,7 @@ public class Enemy : MonoBehaviour
     {
         if (!_playerDetected) return;
 
-        if (_isAttacking && DistanceToPlayer() > _attackDistance)
+        if (_isAttacking && (DistanceToPlayer() > _attackDistance || !_playerInSight))
         {
             _isAttacking = false;
             return;

@@ -85,6 +85,7 @@ public class Pathfinding : MonoBehaviour
 
             foreach (GridPos neighbourPos in currentPos.Neighbours)
             {
+                // Avoids corners
                 if (_closedList.Contains(neighbourPos) || (neighbourPos.IsCorner() && (neighbourPos != startPos && neighbourPos != endPos))) continue;
 
                 int tempGCost = currentPos.GCost + ManhattanDistance(currentPos, neighbourPos);
@@ -103,7 +104,7 @@ public class Pathfinding : MonoBehaviour
             }
             iterator++;
 
-            if (iterator > 500)
+            if (iterator > 10000)
             {
                 Debug.Log("Esto peta");
                 return null;
