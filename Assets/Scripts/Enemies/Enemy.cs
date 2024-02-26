@@ -29,15 +29,15 @@ public class Enemy : MonoBehaviour
 
     protected void Start()
     {
-        StartCoroutine("MoveAround");
+        //StartCoroutine("MoveAround");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall") && !_playerDetected)
         {
-            StopCoroutine("MoveAround");
-            StartCoroutine("MoveAround");
+            //StopCoroutine("MoveAround");
+            //StartCoroutine("MoveAround");
         } 
     }
 
@@ -63,20 +63,24 @@ public class Enemy : MonoBehaviour
 
         if (!_isEnabled) return;
 
+        /*
         Debug.Log("Path nodes: " + _pathToTake.Count);
         for (int i = 0; i < _pathToTake.Count - 1; i++)
         {
             Debug.DrawLine(_pathToTake[i], _pathToTake[i + 1]);
         }
+        */
         
-        DetectPlayer();
-        LosePlayer();
-        UpdatePath();
+       
     }
 
     protected virtual void FixedUpdate()
     {
         if (!_isEnabled) return;
+
+        DetectPlayer();
+        LosePlayer();
+        UpdatePath();
     }
     #endregion
 
@@ -122,7 +126,7 @@ public class Enemy : MonoBehaviour
         // If it hits the player, the player is detected
         if (hit.collider.CompareTag("Player") && !_playerDetected)
         {
-            StopCoroutine("MoveAround");
+            //StopCoroutine("MoveAround");
             _playerDetected = true;
             FindPath();
             Debug.Log("Player Detected");
@@ -145,7 +149,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Player Lost");
             _playerDetected = false;
-            StartCoroutine("MoveAround");
+            //StartCoroutine("MoveAround");
             _loseTimer = 0;
         }
     }
@@ -190,8 +194,6 @@ public class Enemy : MonoBehaviour
             Debug.Log("Path null");
             return;
         }
-        _pathToTake.RemoveAt(0);
-        _direction = _pathToTake[0] - _rigidbody.position;
     }
 
     /// <summary>

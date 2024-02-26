@@ -40,11 +40,9 @@ public class BasicGunEnemy : Enemy
 
     private bool IsInPosition()
     {
-        if (_rigidbody.position.magnitude >= _pathToTake[0].magnitude - 0.5f && _rigidbody.position.magnitude <= _pathToTake[0].magnitude + 0.5f)
+        if (_rigidbody.position.magnitude >= _pathToTake[0].magnitude - 1f && _rigidbody.position.magnitude <= _pathToTake[0].magnitude + 1f)
         {
-            return true
-
-                ;
+            return true;
         }
         else return false;
     }
