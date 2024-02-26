@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall") && !_playerDetected)
         {
             StopCoroutine("MoveAround");
             StartCoroutine("MoveAround");
@@ -185,6 +185,11 @@ public class Enemy : MonoBehaviour
         Debug.Log("Find path");
         _pathTimer = 0;
         _pathToTake = Pathfinding.Instance.FindVectorPath(_rigidbody.position, _player.position);
+        if (_pathToTake == null)
+        {
+            Debug.Log("Path null");
+            return;
+        }
         _pathToTake.RemoveAt(0);
         _direction = _pathToTake[0] - _rigidbody.position;
     }

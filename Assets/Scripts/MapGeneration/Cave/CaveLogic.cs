@@ -173,6 +173,7 @@ public class CaveLogic : MonoBehaviour
             pos.Depth = depth.Value;
             pos.WorldPosition = Vector2Int.RoundToInt(_floorTilemap.CellToWorld((Vector3Int)pos.CellPosition));
             _floorGrid.GridPositions.Add(pos);
+            Debug.Log(_floorTilemap.CellToWorld((Vector3Int)depth.Key));
         }
 
         // Get the neighbors
