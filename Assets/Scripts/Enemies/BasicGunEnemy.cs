@@ -24,7 +24,7 @@ public class BasicGunEnemy : Enemy
 
     private void FollowPlayer()
     {
-        if (!_playerDetected || DistanceToPlayer() < _attackDistance) return;
+        if (!_playerDetected || _isAttacking) return;
 
         _direction = _pathToTake[0] - _rigidbody.position;
         Vector2 moveForce = _direction.normalized * _velocity;
@@ -32,7 +32,6 @@ public class BasicGunEnemy : Enemy
         
         if (IsInPosition())
         {
-            Debug.Log("We're rich");
             _pathToTake.RemoveAt(0);
             _direction = _pathToTake[0];
         }

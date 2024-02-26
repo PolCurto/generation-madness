@@ -80,7 +80,9 @@ public class Enemy : MonoBehaviour
 
         DetectPlayer();
         LosePlayer();
+        Attack();
         UpdatePath();
+        MoveAround();
     }
     #endregion
 
@@ -97,6 +99,7 @@ public class Enemy : MonoBehaviour
         if (_isEnabled && DistanceToPlayer() > _enablingDistance)
         {
             _isEnabled = false;
+            _rigidbody.velocity = Vector3.zero;
         }
         else if (!_isEnabled && DistanceToPlayer() <= _enablingDistance)
         {
@@ -166,11 +169,12 @@ public class Enemy : MonoBehaviour
 
     private float _moveTime;
     private float _moveTimer;
-    private bool _isMoving;
+    private bool _isWalking;
     private bool _willTransition;
     protected Vector2 _direction;
     private float _pathTimer;
     protected List<Vector2> _pathToTake;
+    protected bool _isAttacking;
 
     private void UpdatePath()
     {
@@ -199,11 +203,64 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Moves around the map when it has not detected the player
     /// </summary>
+    protected void MoveAround()
+    {
+        if (_playerDetected) return;
+
+        Vector2 moveForce = _direction.normalized * _velocity;
+        _rigidbody.velocity = moveForce;
+
+        _moveTimer += Time.deltaTime;
+
+        if (_moveTimer > _moveTime)
+        {
+            _moveTimer = 0;
+            ChangeDirection();
+        }
+    }
+
+    private void ChangeDirection()
+    {
+        _isWalking = !_isWalking;
+
+        if (_isWalking)
+        {
+            Debug.Log("Walk");
+            _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
+            _direction = GetValidDirection();
+        }
+        else
+        {
+            Debug.Log("Wait");
+            _moveTime = Random.Range(_minWaitingTime, _maxWaitingTime);
+            _direction = Vector2.zero;
+        }
+    }
+
+    private Vector2 GetValidDirection()
+    {
+        Vector2 direction = Vector2.one;
+
+        // Avoids walking into a wall
+        while (true)
+        {
+            direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+            Debug.DrawRay(transform.position, direction, Color.yellow);
+            if (!Physics2D.Raycast(transform.position, direction, 1, LayerMask.GetMask("Walls")))
+            {
+                break;
+            }
+        }
+
+        return direction;
+    }
+
+    /*
     protected IEnumerator MoveAround()
     {
         //if (_playerDetected) return;
 
-        /*
+        
         if (_moveTimer < _moveTime)
         {
             if (_isMoving)
@@ -239,7 +296,7 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        */
+        
 
         
         while (!_playerDetected)
@@ -264,10 +321,33 @@ public class Enemy : MonoBehaviour
         }
         
     }
+    */
+
+    protected void Attack()
+    {
+        if (!_playerDetected) return;
+
+        if (_isAttacking && DistanceToPlayer() > _attackDistance)
+        {
+            _isAttacking = false;
+            return;
+        }
+
+        if (!_isAttacking && DistanceToPlayer() <= _attackDistance)
+        {
+            _isAttacking = true;
+        }
+
+        Debug.Log("Attack");
+
+        _isAttacking = true;
+        _rigidbody.velocity = Vector2.zero;
+
+    }
 
     private void WalkOrWait()
     {
-        _isMoving = !_isMoving;
+        //_isMoving = !_isMoving;
         _willTransition = false;
     }
 
