@@ -28,12 +28,12 @@ public class Pathfinding : MonoBehaviour
         List<Vector2> vectorPath = new List<Vector2>();
 
         Vector2Int roundStartPos = new Vector2Int(Mathf.FloorToInt(startPosition.x),Mathf.FloorToInt(startPosition.y));
-        Debug.Log("Rigidbody pos:" + startPosition);
-        Debug.Log("Start pos round: " + roundStartPos);
+        //Debug.Log("Rigidbody pos:" + startPosition);
+        //Debug.Log("Start pos round: " + roundStartPos);
 
         Vector2Int roundEndPos = new Vector2Int(Mathf.FloorToInt(endPosition.x), Mathf.FloorToInt(endPosition.y));
-        Debug.Log("Player pos:" + endPosition);
-        Debug.Log("End pos round: " + roundEndPos);
+        //Debug.Log("Player pos:" + endPosition);
+        //Debug.Log("End pos round: " + roundEndPos);
 
         List<GridPos> gridPath = FindPath(roundStartPos, roundEndPos);
         if (gridPath == null) return null;
@@ -85,7 +85,7 @@ public class Pathfinding : MonoBehaviour
 
             foreach (GridPos neighbourPos in currentPos.Neighbours)
             {
-                if (_closedList.Contains(neighbourPos)) continue;
+                if (_closedList.Contains(neighbourPos) || (neighbourPos.IsCorner() && (neighbourPos != startPos && neighbourPos != endPos))) continue;
 
                 int tempGCost = currentPos.GCost + ManhattanDistance(currentPos, neighbourPos);
                 if (tempGCost < neighbourPos.GCost) 

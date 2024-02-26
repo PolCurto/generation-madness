@@ -63,15 +63,11 @@ public class Enemy : MonoBehaviour
 
         if (!_isEnabled) return;
 
-        /*
-        Debug.Log("Path nodes: " + _pathToTake.Count);
         for (int i = 0; i < _pathToTake.Count - 1; i++)
         {
             Debug.DrawLine(_pathToTake[i], _pathToTake[i + 1]);
         }
-        */
         
-       
     }
 
     protected virtual void FixedUpdate()
@@ -190,7 +186,6 @@ public class Enemy : MonoBehaviour
 
     private void FindPath()
     {
-        Debug.Log("Find path");
         _pathTimer = 0;
         _pathToTake = Pathfinding.Instance.FindVectorPath(_rigidbody.position, _player.position);
         if (_pathToTake == null)
@@ -323,6 +318,7 @@ public class Enemy : MonoBehaviour
     }
     */
 
+    #region Attack
     protected void Attack()
     {
         if (!_playerDetected) return;
@@ -342,24 +338,8 @@ public class Enemy : MonoBehaviour
 
         _isAttacking = true;
         _rigidbody.velocity = Vector2.zero;
-
     }
-
-    private void WalkOrWait()
-    {
-        //_isMoving = !_isMoving;
-        _willTransition = false;
-    }
-
-    private void SetWalkTime()
-    {
-        _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
-    }
-
-    private void SetWaitTime()
-    {
-        _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
-    }
+    #endregion
 
     protected float DistanceToPlayer()
     {

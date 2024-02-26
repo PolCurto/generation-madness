@@ -24,4 +24,25 @@ public class GridPos
     {
         FCost = GCost + HCost;
     }
+
+    public bool IsCorner()
+    {
+        int counter = 0;
+
+        foreach (GridPos neighbour in Neighbours)
+        {
+            Vector2Int distance = CellPosition - neighbour.CellPosition;
+            if (Mathf.Abs(distance.x) + Mathf.Abs(distance.y) <= 1)
+            {
+                counter++;
+            }
+
+            if (counter >= 3)
+            {
+                
+                return false;
+            }
+        }
+        return true;
+    }
 }

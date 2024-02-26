@@ -593,7 +593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: _velocity
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: _maxVelocity
@@ -1283,7 +1283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minEnemiesDistance
-      value: 5000
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _enemies.Array.data[0]

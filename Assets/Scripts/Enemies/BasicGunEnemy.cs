@@ -39,8 +39,10 @@ public class BasicGunEnemy : Enemy
 
     private bool IsInPosition()
     {
-        if (_rigidbody.position.magnitude >= _pathToTake[0].magnitude - 1f && _rigidbody.position.magnitude <= _pathToTake[0].magnitude + 1f)
+        if (_rigidbody.position.magnitude >= _pathToTake[0].magnitude - 0.5f && _rigidbody.position.magnitude <= _pathToTake[0].magnitude + 0.5f)
         {
+            Debug.Log("Enemy magnitude: " + _rigidbody.position.magnitude);
+            Debug.Log("Position magnitude: " + _pathToTake[0].magnitude);
             return true;
         }
         else return false;
