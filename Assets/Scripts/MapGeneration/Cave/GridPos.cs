@@ -12,6 +12,8 @@ public class GridPos
     public int GCost { get; set; }
     public int HCost { get; set; }
     public int FCost { get; set; }
+    public bool Collapsed { get; set; }
+    public List<Node> PossibleNodes { get; set; }
 
     public GridPos(Vector2Int position)
     {

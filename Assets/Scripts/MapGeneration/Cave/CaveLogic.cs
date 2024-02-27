@@ -47,7 +47,6 @@ public class CaveLogic : MonoBehaviour
 
     private void Start()
     {
-        _floorGrid = new FloorGrid();
         _chests = new List<GameObject>();
         _enemyZones = new List<EnemyZone>();
         _cellToWorldOffset = new Vector3(0.5f, 0.5f);
@@ -178,7 +177,7 @@ public class CaveLogic : MonoBehaviour
         // Get the neighbors
         foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            foreach (Vector2Int neighbor in GetNeighbors(gridPos.CellPosition))
+            foreach (Vector2Int neighbor in GetCloseNeighbors(gridPos.CellPosition))
             {
                 gridPos.Neighbours.Add(_floorGrid.GetGridPosFromCell(neighbor));
             }
@@ -438,6 +437,28 @@ public class CaveLogic : MonoBehaviour
     }
     #endregion
 
+    private List<Vector2Int> GetCloseNeighbors(Vector2Int position)
+    {
+        List<Vector2Int> neighbors = new List<Vector2Int>();
+
+        Vector2Int[] surroundings = new Vector2Int[]
+        {
+            new Vector2Int (1, 0),      // Right
+            new Vector2Int (0, -1),     // Down
+            new Vector2Int (-1, 0),     // Left
+            new Vector2Int (0, 1),      // Up
+        };
+
+        foreach (Vector2Int offset in surroundings)
+        {
+            if (_floorTilemap.HasTile((Vector3Int)position + (Vector3Int)offset))
+            {
+                neighbors.Add(position + offset);
+            }
+        }
+        return neighbors;
+    }
+
     private List<Vector2Int> GetNeighbors(Vector2Int position)
     {
         List<Vector2Int> neighbors = new List<Vector2Int>();
@@ -474,5 +495,10 @@ public class CaveLogic : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void SetFloorGrid(FloorGrid grid)
+    {
+        _floorGrid = grid;
     }
 }

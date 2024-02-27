@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class CaveGenerator : MonoBehaviour
 {
+    [SerializeField] private CaveLogic _caveLogic;
     [SerializeField] private TilesController _tilesController;
     [SerializeField] private GameObject _grid;
 
@@ -24,7 +25,7 @@ public class CaveGenerator : MonoBehaviour
     [SerializeField] private TileBase _exampleFillTile;
 
     private bool[,] _caveGrid;
-    private List<Vector2Int> _floorPositions;
+    private FloorGrid _floorGrid;
 
     void Update()
     {
@@ -37,7 +38,7 @@ public class CaveGenerator : MonoBehaviour
     #region Cave Generation
     private void GenerateCave()
     {
-        _floorPositions = new List<Vector2Int>();
+        _floorGrid = new FloorGrid(_width, _height);
         _floorTilemap.ClearAllTiles();
         _wallsTilemap.ClearAllTiles();
 
@@ -52,8 +53,9 @@ public class CaveGenerator : MonoBehaviour
         }
         
         _caveGrid = noiseGrid;
-        PaintTiles();
         DefineFinalShape();
+        PaintTiles();
+        _caveLogic.SetFloorGrid(_floorGrid);
         CenterCave();
     }
 
@@ -151,24 +153,9 @@ public class CaveGenerator : MonoBehaviour
         bool[,] grid = _caveGrid;
         FloodTiles(x, y, grid);
 
-        if (_floorPositions.Count > _minFloorTiles)
-        {
-            RemoveDisconnectedSpaces();
-        }
-        else
+        if (_floorGrid.GridPositions.Count < _minFloorTiles)
         {
             GenerateCave();
-        }
-    }
-
-    private void RemoveDisconnectedSpaces()
-    {
-        foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
-        {
-            if (!_floorPositions.Contains(new Vector2Int(floorTilePos.x, floorTilePos.y)))
-            {
-                _floorTilemap.SetTile(floorTilePos, null);
-            }
         }
     }
 
@@ -179,7 +166,8 @@ public class CaveGenerator : MonoBehaviour
             if (!grid[x, y])
             {
                 grid[x, y] = true;
-                _floorPositions.Add(new Vector2Int(x, y));
+                GridPos gridPos = new GridPos(new Vector2Int(x, y));
+                _floorGrid.GridPositions.Add(gridPos);
 
                 FloodTiles(x + 1, y, grid);
                 FloodTiles(x - 1, y, grid);
@@ -197,17 +185,12 @@ public class CaveGenerator : MonoBehaviour
         _grid.transform.position = newPosition;
     }
     #endregion
-
+    
     private void PaintTiles()
     {
-        for (int y = 0; y < _height; y++)
+        foreach(GridPos pos in _floorGrid.GridPositions)
         {
-            for (int x = 0; x < _width; x++)
-            {
-                Vector3Int gridPosition = _floorTilemap.WorldToCell(new Vector3Int(x, y));
-
-                if (!_caveGrid[x, y]) _floorTilemap.SetTile(gridPosition, _floorTile);
-            }
+            _floorTilemap.SetTile((Vector3Int)pos.CellPosition, _floorTile);
         }
     }
 }

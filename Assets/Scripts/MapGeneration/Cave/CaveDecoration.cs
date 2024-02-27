@@ -5,14 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class CaveDecoration : MonoBehaviour
 {
-    [SerializeField] private Tilemap _sample;
+    [SerializeField] private GameObject _sample;
 
     private SampleReader _reader;
     private List<Node> _nodes;
 
     private void Start()
     {
-        _reader = new SampleReader(_sample);
+        _reader = new SampleReader(_sample.GetComponentInChildren<Tilemap>());
     }
 
     // Update is called once per frame

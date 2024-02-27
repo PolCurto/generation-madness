@@ -18,10 +18,14 @@ public class FloorGrid
     };
 
     public List<GridPos> GridPositions { get; private set; }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
 
-    public FloorGrid ()
+    public FloorGrid (int width, int height)
     {
         GridPositions = new List<GridPos>();
+        Width = width;
+        Height = height;
     }
 
     public bool TileExistsInWorldPos(Vector2Int position)
