@@ -189,14 +189,17 @@ MonoBehaviour:
   _rigidbody: {fileID: 2642103919654222364}
   _cost: 2
   _maxLife: 5
-  _velocity: 2
+  _maxVelocity: 2
+  _acceleration: 300
   _detectionDistance: 15
-  _enablingDistance: 0
+  _enablingDistance: 50
+  _attackDistance: 0
   _loseDetectionTime: 2
   _minWalkingTime: 3
   _maxWalkingTime: 5
   _minWaitingTime: 0
   _maxWaitingTime: 1
+  _pathfindingRate: 1
 --- !u!50 &2642103919654222364
 Rigidbody2D:
   serializedVersion: 4
@@ -220,7 +223,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4

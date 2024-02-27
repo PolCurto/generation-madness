@@ -24,17 +24,33 @@ public class BasicGunEnemy : Enemy
 
     private void FollowPlayer()
     {
+        // Remove isAttacking
         if (!_playerDetected || _isAttacking) return;
-
-        _direction = _pathToTake[0] - _rigidbody.position;
-        Vector2 moveForce = _direction.normalized * _velocity;
+        
+        /*
+        //_direction = _pathToTake[0] - _rigidbody.position;
+        if (!a)
+        {
+            _direction = (Vector2)_player.position - _rigidbody.position;
+            a = true;
+        }
+            
+        Vector2 moveForce = _maxVelocity * _direction.normalized;
+        _rigidbody.velocity = moveForce;
+        */
+        
+        
+        Vector2 direction = (Vector2)_player.position - _rigidbody.position;
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
         
+        /*
         if (IsInGoalPosition())
         {
             _direction = _pathToTake[1];
             _pathToTake.RemoveAt(0);
         }
+        */
     }
 
     private bool IsInGoalPosition()

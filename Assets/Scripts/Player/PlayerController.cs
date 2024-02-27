@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
 
     [Header("Movement Parameters")]
-    [SerializeField] private float _velocity;
+    [SerializeField] private float _maxVelocity;
+    [SerializeField] private float _acceleration;
 
     private Vector2 _playerInput;
 
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        Vector2 moveForce = _playerInput * _velocity * Time.deltaTime * 100;
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _playerInput * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
     }
 }

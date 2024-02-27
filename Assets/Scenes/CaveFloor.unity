@@ -597,11 +597,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: _maxVelocity
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: _acceleration
-      value: 4
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5539502407857933545, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1229,6 +1229,10 @@ PrefabInstance:
       propertyPath: _grid
       value: 
       objectReference: {fileID: 433787271}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _floorTile
+      value: 
+      objectReference: {fileID: 11400000, guid: ee5cd9005a36bf7419dbe14bcda8eb83, type: 2}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 

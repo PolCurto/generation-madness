@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
     [Header("Global Stats")]
     [SerializeField] protected int _cost;
     [SerializeField] protected int _maxLife;
-    [SerializeField] protected float _velocity;
+    [SerializeField] protected float _maxVelocity;
+    [SerializeField] protected float _acceleration;
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
     [SerializeField] protected float _attackDistance;
+
 
     protected Transform _player;
     private bool _playerInSight;
@@ -68,6 +70,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.DrawLine(_pathToTake[i], _pathToTake[i + 1]);
         }
+
         
     }
 
@@ -208,7 +211,7 @@ public class Enemy : MonoBehaviour
     {
         if (_playerDetected) return;
 
-        Vector2 moveForce = _direction.normalized * _velocity * Time.deltaTime * 100;
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction * _maxVelocity, _acceleration * Time.deltaTime);
         _rigidbody.velocity = moveForce;
 
         _moveTimer += Time.deltaTime;

@@ -12,7 +12,7 @@ public class VeteranGunEnemy : Enemy
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        //FollowPlayer();
+        FollowPlayer();
     }
 
     private void FollowPlayer()
@@ -20,7 +20,7 @@ public class VeteranGunEnemy : Enemy
         if (!_playerDetected) return;
 
         Vector2 direction = (Vector2)_player.position - _rigidbody.position;
-        Vector2 moveForce = direction.normalized * _velocity;
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
     }
 }
