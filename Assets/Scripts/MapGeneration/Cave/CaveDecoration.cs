@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class CaveDecoration : MonoBehaviour
 {
     [SerializeField] private GameObject _sample;
+    [SerializeField] private Tilemap _floorTilemap;
 
     private FloorGrid _floorGrid;
     private SampleReader _reader;
@@ -89,6 +89,50 @@ public class CaveDecoration : MonoBehaviour
         List<GridPos> tempGrid = new List<GridPos>(_floorGrid.GridPositions);
 
         tempGrid.RemoveAll(c => c.Collapsed);
+
+        // Orders the uncollapsed positions by their entropy (lowest possible tiles)
+        tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
+
+        int numOptions = tempGrid[0].PossibleNodes.Count;
+        int stopIndex = default;
+
+        // Gets the positions with the same entropy if there are
+        for (int i = 1; i < tempGrid.Count; i++)
+        {
+            if (tempGrid[i].PossibleNodes.Count > numOptions)
+            {
+                stopIndex = i;
+                break;
+            }
+        }
+
+        // Removes the rest of positions
+        if (stopIndex > 0)
+        {
+            tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
+        }
+
+        CollapseCell(tempGrid);
+    }
+
+    private void CollapseCell(List<GridPos> tempGrid)
+    {
+        // Gets a random tile from the possible ones
+        int randomIndex = Random.Range(0, tempGrid.Count);
+        GridPos posToCollapse = tempGrid[randomIndex];
+
+        posToCollapse.Collapsed = true;
+        Node selectedNode = posToCollapse.PossibleNodes[Random.Range(0, posToCollapse.PossibleNodes.Count)];
+        posToCollapse.PossibleNodes = new List<Node> { selectedNode };
+
+        _floorTilemap.SetTile((Vector3Int)posToCollapse.CellPosition, selectedNode.Tile);
+
+        UpdateGeneration();
+    }
+
+    private void UpdateGeneration()
+    {
+
     }
 
     public void SetFloorGrid(FloorGrid floorGrid)

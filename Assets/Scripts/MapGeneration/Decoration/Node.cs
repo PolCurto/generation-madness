@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 public class Node
 {
     public TileBase Tile { get; set; }
-    private int _entropy;
 
     public List<Node> RightNodes { get; set; }
     public List<Node> LeftNodes { get; set; }
