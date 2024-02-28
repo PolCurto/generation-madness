@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class CaveDecoration : MonoBehaviour
 {
     [SerializeField] private GameObject _sample;
 
+    private FloorGrid _floorGrid;
     private SampleReader _reader;
     private List<Node> _nodes;
 
@@ -65,5 +67,32 @@ public class CaveDecoration : MonoBehaviour
                 m = 1;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            SetPossibleNodes();
+        }
+    }
+
+    private void SetPossibleNodes()
+    {
+        foreach(GridPos gridPos in _floorGrid.GridPositions)
+        {
+            gridPos.PossibleNodes = _nodes;
+        }
+
+        CheckEntropy();
+    }
+
+    private void CheckEntropy()
+    {
+        List<GridPos> tempGrid = new List<GridPos>(_floorGrid.GridPositions);
+
+        tempGrid.RemoveAll(c => c.Collapsed);
+    }
+
+    public void SetFloorGrid(FloorGrid floorGrid)
+    {
+        _floorGrid = floorGrid;
     }
 }

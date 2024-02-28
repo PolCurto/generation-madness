@@ -167,6 +167,7 @@ public class CaveGenerator : MonoBehaviour
             {
                 grid[x, y] = true;
                 GridPos gridPos = new GridPos(new Vector2Int(x, y));
+                gridPos.WorldPosition = new Vector2Int(gridPos.CellPosition.x - _floorGrid.Width / 2, gridPos.CellPosition.y - _floorGrid.Height / 2);
                 _floorGrid.GridPositions.Add(gridPos);
 
                 FloodTiles(x + 1, y, grid);

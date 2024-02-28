@@ -168,6 +168,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1238273585599667472, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
   m_PrefabInstance: {fileID: 1072086805}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &175615827 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+  m_PrefabInstance: {fileID: 5098639564842293892}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab20115be4376144a91e611d55c20f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &373301086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,6 +1240,10 @@ PrefabInstance:
       propertyPath: _grid
       value: 
       objectReference: {fileID: 433787271}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _caveLogic
+      value: 
+      objectReference: {fileID: 175615827}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTile
       value: 

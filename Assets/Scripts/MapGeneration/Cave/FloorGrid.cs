@@ -17,15 +17,37 @@ public class FloorGrid
         new Vector2Int (1, 1),      // Right Up
     };
 
-    public List<GridPos> GridPositions { get; private set; }
+    public List<GridPos> GridPositions { get; set; }
     public int Width { get; private set; }
     public int Height { get; private set; }
+    public int MaxDepth { get; set; }
+    public Vector2Int StartPosition { get; set; }
 
     public FloorGrid (int width, int height)
     {
         GridPositions = new List<GridPos>();
         Width = width;
         Height = height;
+    }
+
+    public GridPos GetPosWithDepth(int depth)
+    {
+        foreach(GridPos pos in GridPositions)
+        {
+            if (pos.Depth == depth) return pos;
+        }
+
+        return null;
+    }
+
+    public bool TileExistsInCelldPos(Vector2Int position)
+    {
+        foreach (GridPos pos in GridPositions)
+        {
+            if (pos.CellPosition == position)
+                return true;
+        }
+        return false;
     }
 
     public bool TileExistsInWorldPos(Vector2Int position)
