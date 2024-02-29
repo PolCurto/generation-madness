@@ -55,7 +55,7 @@ public class CaveGenerator : MonoBehaviour
         
         _caveGrid = noiseGrid;
         DefineFinalShape();
-        PaintTiles();
+        //PaintTiles();
         _caveLogic.SetFloorGrid(_floorGrid);
         _caveDecoration.SetFloorGrid(_floorGrid);
         CenterCave();
@@ -149,7 +149,11 @@ public class CaveGenerator : MonoBehaviour
         while (_caveGrid[x, y])
         {
             x++;
-            y++;
+            if (x >= _width)
+            {
+                x = 0;
+                y++;
+            }
         }
 
         bool[,] grid = _caveGrid;

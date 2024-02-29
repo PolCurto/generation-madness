@@ -35,7 +35,7 @@ public class CaveDecoration : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha2))
         {
             _nodes = _reader.GetNodesFromSample();
-
+            /*
             int i = 1;
             int j = 1;
             int k = 1;
@@ -78,6 +78,7 @@ public class CaveDecoration : MonoBehaviour
                 l = 1;
                 m = 1;
             }
+            */
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -108,6 +109,7 @@ public class CaveDecoration : MonoBehaviour
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
 
         int numOptions = tempGrid[0].PossibleNodes.Count;
+        Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;
 
         // Gets the positions with the same entropy if there are
@@ -161,7 +163,8 @@ public class CaveDecoration : MonoBehaviour
             }
             else
             {
-                List<Node> options = _nodes;
+                List<Node> options = new List<Node>(_nodes);
+                Debug.Log("Index: " + index + ". Options num: " + options.Count);
 
                 foreach(Vector2Int offset in Surroundings)
                 {
@@ -171,6 +174,7 @@ public class CaveDecoration : MonoBehaviour
                     }
                 }
                 newIterationGrid[index].PossibleNodes = options;
+                Debug.Log("New options num: " + options.Count);
             }
             index++;
         }
