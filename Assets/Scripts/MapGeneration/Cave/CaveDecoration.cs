@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class CaveDecoration : MonoBehaviour
 {
@@ -11,6 +13,16 @@ public class CaveDecoration : MonoBehaviour
     private FloorGrid _floorGrid;
     private SampleReader _reader;
     private List<Node> _nodes;
+    //private Node[] _nodesArray;
+    private int iterations = 0;
+
+    private readonly Vector2Int[] Surroundings = new Vector2Int[]
+        {
+            new Vector2Int (1, 0),      // Right
+            new Vector2Int (0, -1),     // Down
+            new Vector2Int (-1, 0),     // Left
+            new Vector2Int (0, 1),      // Up
+        };
 
     private void Start()
     {
@@ -20,7 +32,7 @@ public class CaveDecoration : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
+        if (Input.GetKey(KeyCode.Alpha2))
         {
             _nodes = _reader.GetNodesFromSample();
 
@@ -68,7 +80,7 @@ public class CaveDecoration : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SetPossibleNodes();
         }
@@ -81,10 +93,12 @@ public class CaveDecoration : MonoBehaviour
             gridPos.PossibleNodes = _nodes;
         }
 
-        CheckEntropy();
+        //_nodesArray = _nodes.ToArray();
+
+        StartCoroutine(CheckEntropy());
     }
 
-    private void CheckEntropy()
+    private IEnumerator CheckEntropy()
     {
         List<GridPos> tempGrid = new List<GridPos>(_floorGrid.GridPositions);
 
@@ -112,17 +126,19 @@ public class CaveDecoration : MonoBehaviour
             tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
         }
 
+        yield return new WaitForSeconds(0.01f);
+
         CollapseCell(tempGrid);
     }
 
     private void CollapseCell(List<GridPos> tempGrid)
     {
         // Gets a random tile from the possible ones
-        int randomIndex = Random.Range(0, tempGrid.Count);
+        int randomIndex = UnityEngine.Random.Range(0, tempGrid.Count);
         GridPos posToCollapse = tempGrid[randomIndex];
 
         posToCollapse.Collapsed = true;
-        Node selectedNode = posToCollapse.PossibleNodes[Random.Range(0, posToCollapse.PossibleNodes.Count)];
+        Node selectedNode = posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)];
         posToCollapse.PossibleNodes = new List<Node> { selectedNode };
 
         _floorTilemap.SetTile((Vector3Int)posToCollapse.CellPosition, selectedNode.Tile);
@@ -132,7 +148,52 @@ public class CaveDecoration : MonoBehaviour
 
     private void UpdateGeneration()
     {
+        List<GridPos> newIterationGrid = new List<GridPos>(_floorGrid.GridPositions);
 
+        int index = 0;
+
+        foreach(GridPos gridPos in newIterationGrid)
+        {
+            if (_floorGrid.GridPositions[index].Collapsed)
+            {
+                //newIterationGrid[index] = _floorGrid.GridPositions[index];
+                
+            }
+            else
+            {
+                List<Node> options = _nodes;
+
+                foreach(Vector2Int offset in Surroundings)
+                {
+                    if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + offset, out GridPos upPos))
+                    {
+                        ApplyNeighbourOptions(options, upPos.PossibleNodes);
+                    }
+                }
+                newIterationGrid[index].PossibleNodes = options;
+            }
+            index++;
+        }
+
+        _floorGrid.GridPositions = newIterationGrid;
+        iterations++;
+
+        if (iterations < _floorGrid.GridPositions.Count)
+        {
+            StartCoroutine(CheckEntropy());
+        }
+    }
+
+    private void ApplyNeighbourOptions(List<Node> optionsList, List<Node> neighbourOptions)
+    {
+        for (int x = optionsList.Count - 1; x >= 0; x--)
+        {
+            var element = optionsList[x];
+            if (!neighbourOptions.Contains(element))
+            {
+                optionsList.RemoveAt(x);
+            }
+        }
     }
 
     public void SetFloorGrid(FloorGrid floorGrid)
@@ -140,3 +201,46 @@ public class CaveDecoration : MonoBehaviour
         _floorGrid = floorGrid;
     }
 }
+
+/*
+// Check up node
+
+
+// Check right node
+if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[0], out GridPos upPos2))
+{
+    List<Node> validOptions = new List<Node>();
+
+    foreach (Node possibleOptions in upPos2.PossibleNodes)
+    {
+        var valOption = Array.FindIndex(_nodesArray, obj => obj == possibleOptions);
+        var valid = _nodesArray[valOption].UpNodes;
+
+        validOptions = validOptions.Concat(valid).ToList();
+    }
+
+    ApplyNeighbourOptions(options, validOptions);
+}
+
+// Check down node
+if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[3], out GridPos upPos3))
+{
+    List<Node> validOptions = new List<Node>();
+
+    foreach (Node possibleOptions in upPos3.PossibleNodes)
+    {
+        var valOption = Array.FindIndex(_nodesArray, obj => obj == possibleOptions);
+        var valid = _nodesArray[valOption].UpNodes;
+
+        validOptions = validOptions.Concat(valid).ToList();
+    }
+
+    ApplyNeighbourOptions(options, validOptions);
+}
+
+// Check left node
+if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[3], out GridPos upPos4))
+{
+    ApplyNeighbourOptions(options, upPos4.PossibleNodes);
+}
+*/

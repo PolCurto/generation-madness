@@ -173,7 +173,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
   m_PrefabInstance: {fileID: 5098639564842293892}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5098639564842293893}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ab20115be4376144a91e611d55c20f4, type: 3}
@@ -1241,6 +1241,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 433787271}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _width
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _height
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveLogic
       value: 
       objectReference: {fileID: 175615827}
@@ -1254,7 +1262,7 @@ PrefabInstance:
       objectReference: {fileID: 373301089}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _noiseDensity
-      value: 50
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _wallsTilemap
@@ -1262,8 +1270,12 @@ PrefabInstance:
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minFloorTiles
-      value: 3500
+      value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _caveDecoration
+      value: 
+      objectReference: {fileID: 5098639564842293894}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
@@ -1355,8 +1367,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 459985904123481674, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5098639564842293894}
   m_SourcePrefab: {fileID: 100100000, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+--- !u!1 &5098639564842293893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 459985904123481674, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+  m_PrefabInstance: {fileID: 5098639564842293892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5098639564842293894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098639564842293893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2c666bfa17b3a47a37fcc7a34971e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sample: {fileID: 2214414923305018196, guid: 2306f75bf07bd794b8b02e810d379665, type: 3}
+  _floorTilemap: {fileID: 373301089}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

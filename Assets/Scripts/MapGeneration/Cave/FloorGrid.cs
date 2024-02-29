@@ -82,6 +82,20 @@ public class FloorGrid
         return null;
     }
 
+    public bool TryGetGridPosFromCell(Vector2Int cellPosition, out GridPos gridPos)
+    {
+        foreach (GridPos pos in GridPositions)
+        {
+            if (pos.CellPosition == cellPosition)
+            {
+                gridPos = pos;
+                return true;
+            }
+        }
+        gridPos = null;
+        return false;
+    }
+
     private List<GridPos> GetNeighbors(GridPos gridPos)
     {
         List<GridPos> neighbors = new List<GridPos>();

@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class CaveGenerator : MonoBehaviour
 {
     [SerializeField] private CaveLogic _caveLogic;
+    [SerializeField] private CaveDecoration _caveDecoration;
     [SerializeField] private TilesController _tilesController;
     [SerializeField] private GameObject _grid;
 
@@ -56,6 +57,7 @@ public class CaveGenerator : MonoBehaviour
         DefineFinalShape();
         PaintTiles();
         _caveLogic.SetFloorGrid(_floorGrid);
+        _caveDecoration.SetFloorGrid(_floorGrid);
         CenterCave();
     }
 

@@ -54,24 +54,15 @@ public class CaveLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SetStartingPoint();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SetFloorGrid();
-        }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            SetStartingPoint();
+            SetFloorGrid();
             SetSpecialZones();
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             SetEnemyZones();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
             Spawn();
         }
         if (Input.GetKeyDown(KeyCode.Alpha9))
