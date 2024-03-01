@@ -42,7 +42,7 @@ public class SampleReader
                 }
             }   
         }
-        Debug.Log("Nodes count: " + _nodes.Count);
+        //Debug.Log("Nodes count: " + _nodes.Count);
 
         // Search the neighbours each node has
         foreach (Vector3Int position in _sample.cellBounds.allPositionsWithin)
