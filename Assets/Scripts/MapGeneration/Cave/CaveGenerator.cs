@@ -18,6 +18,7 @@ public class CaveGenerator : MonoBehaviour
     [SerializeField] private int _height;
     [SerializeField] private int _iterations;
     [SerializeField] private int _minFloorTiles;
+    [SerializeField] private int _maxFloorTiles;
 
     [Header("Tiles")]
     [SerializeField] private Tilemap _floorTilemap;
@@ -160,7 +161,7 @@ public class CaveGenerator : MonoBehaviour
         bool[,] grid = _caveGrid;
         FloodTiles(x, y, grid);
 
-        if (_floorGrid.GridPositions.Count < _minFloorTiles)
+        if (_floorGrid.GridPositions.Count < _minFloorTiles || _floorGrid.GridPositions.Count > _maxFloorTiles)
         {
             GenerateCave();
         }

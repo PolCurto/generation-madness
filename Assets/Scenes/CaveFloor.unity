@@ -1266,15 +1266,19 @@ PrefabInstance:
       objectReference: {fileID: 373301089}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _noiseDensity
-      value: 50
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _wallsTilemap
       value: 
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _maxFloorTiles
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minFloorTiles
-      value: 3500
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveDecoration
@@ -1396,8 +1400,8 @@ MonoBehaviour:
   _sample: {fileID: 2214414923305018196, guid: 2306f75bf07bd794b8b02e810d379665, type: 3}
   _floorTilemap: {fileID: 373301089}
   _chunkSize: 20
-  _generateByChunks: 0
-  _setBorders: 0
+  _generateByChunks: 1
+  _setBorders: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
