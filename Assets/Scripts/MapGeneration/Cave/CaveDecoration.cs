@@ -94,7 +94,10 @@ public class CaveDecoration : MonoBehaviour
             }
             */
 
-            DivideGrid();
+            if (_generateByChunks)
+            {
+                DivideGrid();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -105,11 +108,7 @@ public class CaveDecoration : MonoBehaviour
         {
             if (_generateByChunks)
             {
-                if (!running)
-                {
-                    running = true;
-                    StartCoroutine(CheckEntropyChunk(_gridPartIndex));
-                }
+                finished = true;
             }
             else
             {
@@ -185,7 +184,6 @@ public class CaveDecoration : MonoBehaviour
                     gridPos.PossibleNodes = _nodes;
                 }
             }
-            finished = true;
         }
         else
         {
@@ -195,7 +193,7 @@ public class CaveDecoration : MonoBehaviour
             }
         }
 
-        int limit = _gridParts.Count();
+        //int limit = _gridParts.Count();
 
         /*
         for (_gridPartIndex = 0; _gridPartIndex < limit; _gridPartIndex++)
@@ -216,9 +214,9 @@ public class CaveDecoration : MonoBehaviour
         // Orders the uncollapsed positions by their entropy (lowest possible tiles)
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
 
-        //Debug.Log("Temp grid length: " + tempGrid.Count);
-        //Debug.Log("Iterations: " + iterations);
-        //Debug.Log("Index: " + index);
+        Debug.Log("Temp grid length: " + tempGrid.Count);
+        Debug.Log("Iterations: " + iterations);
+        Debug.Log("Index: " + index);
         int numOptions = tempGrid[0].PossibleNodes.Count;
         //Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;
@@ -345,6 +343,7 @@ public class CaveDecoration : MonoBehaviour
             index++;
         }
         _iterations++;
+        Debug.Log("Iterations last: " + iterations);
 
         if (iterations > 1)
         {
