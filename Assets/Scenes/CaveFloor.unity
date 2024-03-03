@@ -1242,11 +1242,11 @@ PrefabInstance:
       objectReference: {fileID: 433787271}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _width
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _height
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveLogic
@@ -1256,6 +1256,10 @@ PrefabInstance:
       propertyPath: _floorTile
       value: 
       objectReference: {fileID: 11400000, guid: ee5cd9005a36bf7419dbe14bcda8eb83, type: 2}
+    - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _iterations
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 
@@ -1270,7 +1274,7 @@ PrefabInstance:
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minFloorTiles
-      value: 150
+      value: 4000
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveDecoration
@@ -1389,7 +1393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2c666bfa17b3a47a37fcc7a34971e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sample: {fileID: 8443325540224361806, guid: eb250d8112071e64799e3a7e4c323787, type: 3}
+  _sample: {fileID: 2214414923305018196, guid: 2306f75bf07bd794b8b02e810d379665, type: 3}
   _floorTilemap: {fileID: 373301089}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

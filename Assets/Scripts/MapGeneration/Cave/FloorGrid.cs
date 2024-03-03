@@ -40,7 +40,7 @@ public class FloorGrid
         return null;
     }
 
-    public bool TileExistsInCelldPos(Vector2Int position)
+    public bool TileExistsInCellPos(Vector2Int position)
     {
         foreach (GridPos pos in GridPositions)
         {

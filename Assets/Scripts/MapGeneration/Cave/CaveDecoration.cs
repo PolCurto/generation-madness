@@ -13,8 +13,9 @@ public class CaveDecoration : MonoBehaviour
     private FloorGrid _floorGrid;
     private SampleReader _reader;
     private List<Node> _nodes;
-    private Node[] _nodesArray;
-    private int iterations = 0;
+    private List<GridPos>[] _gridParts;
+    private int _iterations = 0;
+    private int _gridPartIndex = 0;
 
     private readonly Vector2Int[] Surroundings = new Vector2Int[]
         {
@@ -35,16 +36,19 @@ public class CaveDecoration : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha2))
         {
             _nodes = _reader.GetNodesFromSample();
-            
+
+            /*
             int i = 1;
             int j = 1;
             int k = 1;
             int l = 1;
             int m = 1;
+            
             foreach (Node node in _nodes) 
             {
                 Debug.Log("Node " + i + " with tile: " + node.Tile);
 
+                
                 Debug.Log("Right neighbours: ");
                 foreach (Node rightNode in node.RightNodes)
                 {
@@ -72,13 +76,17 @@ public class CaveDecoration : MonoBehaviour
                     Debug.Log("Up neigbour " + m + " with tile: " + rightNode.Tile);
                     m++;
                 }
-                i++;
+                
                 j = 1;
                 k = 1;
                 l = 1;
                 m = 1;
+                
+            i++;
             }
-            
+            */
+            DivideGrid();
+
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -87,6 +95,29 @@ public class CaveDecoration : MonoBehaviour
         }
     }
 
+    private void DivideGrid()
+    {
+        int arrayLength = Mathf.CeilToInt(_floorGrid.GridPositions.Count / 100f);
+        _gridParts = new List<GridPos>[arrayLength];
+
+        int i = 0;
+        int part = 0;
+        _gridParts[0] = new List<GridPos>();
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
+        {
+            _gridParts[part].Add(gridPos);
+            i++;
+
+            if (i > 99)
+            {
+                part++;
+                i = 0;
+                _gridParts[part] = new List<GridPos>();
+            }
+        }
+    }
+
+    /*
     private void SetPossibleNodes()
     {
         foreach(GridPos gridPos in _floorGrid.GridPositions)
@@ -94,22 +125,26 @@ public class CaveDecoration : MonoBehaviour
             gridPos.PossibleNodes = _nodes;
         }
 
-        _nodesArray = _nodes.ToArray();
+        int limit = _gridParts.Count();
 
-        StartCoroutine(CheckEntropy());
+        for (_gridPartIndex = 0; _gridPartIndex < limit; _gridPartIndex++)
+        {
+            CheckEntropy(_gridPartIndex, 0);
+        } 
     }
 
-    private IEnumerator CheckEntropy()
+    private void CheckEntropy(int index, int iterations)
     {
-        List<GridPos> tempGrid = new List<GridPos>(_floorGrid.GridPositions);
+        List<GridPos> tempGrid = new List<GridPos>(_gridParts[index]);
 
         tempGrid.RemoveAll(c => c.Collapsed);
 
         // Orders the uncollapsed positions by their entropy (lowest possible tiles)
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
 
+        Debug.Log("Temps grid length: " + tempGrid.Count);
         int numOptions = tempGrid[0].PossibleNodes.Count;
-        Debug.Log("Num options: " +  numOptions);
+        //Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;
 
         // Gets the positions with the same entropy if there are
@@ -128,7 +163,154 @@ public class CaveDecoration : MonoBehaviour
             tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
         }
 
-        yield return new WaitForSeconds(0.01f);
+        //yield return null;
+
+        CollapseCell(tempGrid, index, iterations);
+    }
+
+    private void CollapseCell(List<GridPos> tempGrid, int index, int iterations)
+    {
+        // Gets a random tile from the possible ones
+        int randomIndex = UnityEngine.Random.Range(0, tempGrid.Count);
+        GridPos posToCollapse = tempGrid[randomIndex];
+
+        posToCollapse.Collapsed = true;
+
+        Debug.Log("Grid part: " + _gridPartIndex);
+        Debug.Log("Possible nodes: " + posToCollapse.PossibleNodes.Count);
+        Debug.Log("Position: " + posToCollapse.WorldPosition);
+
+        Node selectedNode = posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)];
+        //Node selectedNode = posToCollapse.PossibleNodes.Count > 0 ? posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)] : _nodes[0];
+        posToCollapse.PossibleNodes = new List<Node> { selectedNode };
+
+        _floorTilemap.SetTile((Vector3Int)posToCollapse.CellPosition, selectedNode.Tile);
+
+        UpdateGeneration(index, iterations);
+    }
+
+    private void UpdateGeneration(int gridIndex, int iterations)
+    {
+        List<GridPos> newIterationGrid = new List<GridPos>(_gridParts[gridIndex]);
+
+        int index = 0;
+
+        foreach (GridPos gridPos in newIterationGrid)
+        {
+            if (!gridPos.Collapsed)
+            {
+                List<Node> options = new List<Node>(_nodes);
+
+                // Check up node
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[3], out GridPos upPos))
+                {
+                    List<Node> validOptions = new List<Node>();
+                    Debug.Log("Up node position: " + upPos.WorldPosition);
+                    Debug.Log("Up node possibilities: " + upPos.PossibleNodes.Count);
+
+                    foreach (Node possibleOption in upPos.PossibleNodes)
+                    {
+                        validOptions.AddRange(possibleOption.DownNodes);
+                    }
+                    ApplyNeighbourOptions(options, validOptions);
+                }
+
+                // Check right node
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[0], out GridPos upPos2))
+                {
+                    List<Node> validOptions = new List<Node>();
+                    Debug.Log("Right node position: " + upPos2.WorldPosition);
+                    Debug.Log("Right node possibilities: " + upPos2.PossibleNodes.Count);
+
+                    foreach (Node possibleOption in upPos2.PossibleNodes)
+                    {
+                        validOptions.AddRange(possibleOption.LeftNodes);
+                    }
+                    ApplyNeighbourOptions(options, validOptions);
+                }
+
+                // Check down node
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[1], out GridPos upPos3))
+                {
+                    List<Node> validOptions = new List<Node>();
+                    Debug.Log("Down node position: " + upPos3.WorldPosition);
+                    Debug.Log("Down node possibilities: " + upPos3.PossibleNodes.Count);
+
+                    foreach (Node possibleOption in upPos3.PossibleNodes)
+                    {
+                        validOptions.AddRange(possibleOption.UpNodes);
+                    }
+                    ApplyNeighbourOptions(options, validOptions); 
+                }
+
+                // Check left node
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[2], out GridPos upPos4))
+                {
+                    List<Node> validOptions = new List<Node>();
+                    Debug.Log("Left node position: " + upPos4.WorldPosition);
+                    Debug.Log("Left node possibilities: " + upPos4.PossibleNodes.Count);
+                    foreach (Node possibleOption in upPos4.PossibleNodes)
+                    {
+                        validOptions.AddRange(possibleOption.RightNodes);
+                    }
+                    ApplyNeighbourOptions(options, validOptions); 
+                }
+
+                newIterationGrid[index].PossibleNodes = options;
+            }
+            index++;
+        }
+        _gridParts[gridIndex] = newIterationGrid;
+        _iterations++;
+        iterations++;
+
+        if (iterations < _gridParts[gridIndex].Count)
+        {
+            CheckEntropy(gridIndex, iterations);
+        }
+    }
+    */
+
+    private void SetPossibleNodes()
+    {
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
+        {
+            gridPos.PossibleNodes = _nodes;
+        }
+
+        StartCoroutine(CheckEntropy());
+    }
+
+    private IEnumerator CheckEntropy()
+    {
+        List<GridPos> tempGrid = new List<GridPos>(_floorGrid.GridPositions);
+
+        tempGrid.RemoveAll(c => c.Collapsed);
+
+        // Orders the uncollapsed positions by their entropy (lowest possible tiles)
+        tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
+
+        int numOptions = tempGrid[0].PossibleNodes.Count;
+        //Debug.Log("Num options: " +  numOptions);
+        int stopIndex = default;
+
+        // Gets the positions with the same entropy if there are
+        for (int i = 1; i < tempGrid.Count; i++)
+        {
+            if (tempGrid[i].PossibleNodes.Count > numOptions)
+            {
+                stopIndex = i;
+                break;
+            }
+        }
+
+        // Removes the rest of positions
+        if (stopIndex > 0)
+        {
+            tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
+        }
+
+        yield return null;
 
         CollapseCell(tempGrid);
     }
@@ -140,7 +322,13 @@ public class CaveDecoration : MonoBehaviour
         GridPos posToCollapse = tempGrid[randomIndex];
 
         posToCollapse.Collapsed = true;
+
+        //Debug.Log("Grid part: " + _gridPartIndex);
+        //Debug.Log("Possible nodes: " + posToCollapse.PossibleNodes.Count);
+        //Debug.Log("Position: " + posToCollapse.WorldPosition);
+
         Node selectedNode = posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)];
+        //Node selectedNode = posToCollapse.PossibleNodes.Count > 0 ? posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)] : _nodes[0];
         posToCollapse.PossibleNodes = new List<Node> { selectedNode };
 
         _floorTilemap.SetTile((Vector3Int)posToCollapse.CellPosition, selectedNode.Tile);
@@ -150,100 +338,77 @@ public class CaveDecoration : MonoBehaviour
 
     private void UpdateGeneration()
     {
-        List<GridPos> newIterationGrid = new List<GridPos>(_floorGrid.GridPositions);
-
         int index = 0;
 
-        for (int i = 0; i < _floorGrid.GridPositions.Count; i++)
+        foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            if (_floorGrid.GridPositions[i].Collapsed)
-            {
-                newIterationGrid[i] = _floorGrid.GridPositions[i];   
-            }
-            else
+            //Debug.Log(HasCollapsedNeighbour(gridPos));
+            if (!gridPos.Collapsed && HasCollapsedNeighbour(gridPos))
             {
                 List<Node> options = new List<Node>(_nodes);
-                //Debug.Log("Index: " + index + ". Options num: " + options.Count);
 
                 // Check up node
-                if (_floorGrid.TryGetGridPosFromCell(_floorGrid.GridPositions[i].CellPosition + Surroundings[3], out GridPos upPos))
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[3], out GridPos upPos))
                 {
                     List<Node> validOptions = new List<Node>();
-                    Debug.Log("possible nodes: " + upPos.PossibleNodes.Count);
+                    //Debug.Log("Up node position: " + upPos.WorldPosition);
+                    //Debug.Log("Up node possibilities: " + upPos.PossibleNodes.Count);
 
-                    /*
-                    foreach (Node possibleOptions in upPos.PossibleNodes)
+                    foreach (Node possibleOption in upPos.PossibleNodes)
                     {
-                        var valOption = Array.FindIndex(_nodesArray, obj => obj == possibleOptions);
-                        var valid = _nodesArray[valOption].DownNodes;
-
-                        validOptions = validOptions.Concat(valid).ToList();
+                        validOptions.AddRange(possibleOption.DownNodes);
                     }
-                    */
-
                     ApplyNeighbourOptions(options, validOptions);
                 }
 
                 // Check right node
-                if (_floorGrid.TryGetGridPosFromCell(_floorGrid.GridPositions[i].CellPosition + Surroundings[0], out GridPos upPos2))
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[0], out GridPos upPos2))
                 {
                     List<Node> validOptions = new List<Node>();
-                    Debug.Log("possible nodes: " + upPos2.PossibleNodes.Count);
+                    //Debug.Log("Right node position: " + upPos2.WorldPosition);
+                    //Debug.Log("Right node possibilities: " + upPos2.PossibleNodes.Count);
 
-                    foreach (Node possibleOptions in upPos2.PossibleNodes)
+                    foreach (Node possibleOption in upPos2.PossibleNodes)
                     {
-                        var valOption = Array.FindIndex(_nodesArray, obj => obj == possibleOptions);
-                        var valid = _nodesArray[valOption].LeftNodes;
-
-                        validOptions = validOptions.Concat(valid).ToList();
+                        validOptions.AddRange(possibleOption.LeftNodes);
                     }
-
                     ApplyNeighbourOptions(options, validOptions);
                 }
 
                 // Check down node
-                if (_floorGrid.TryGetGridPosFromCell(_floorGrid.GridPositions[i].CellPosition + Surroundings[1], out GridPos upPos3))
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[1], out GridPos upPos3))
                 {
                     List<Node> validOptions = new List<Node>();
-                    Debug.Log("possible nodes: " + upPos3.PossibleNodes.Count);
+                    //Debug.Log("Down node position: " + upPos3.WorldPosition);
+                    //Debug.Log("Down node possibilities: " + upPos3.PossibleNodes.Count);
 
-                    foreach (Node possibleOptions in upPos3.PossibleNodes)
+                    foreach (Node possibleOption in upPos3.PossibleNodes)
                     {
-                        var valOption = Array.FindIndex(_nodesArray, obj => obj == possibleOptions);
-                        var valid = _nodesArray[valOption].UpNodes;
-
-                        validOptions = validOptions.Concat(valid).ToList();
+                        validOptions.AddRange(possibleOption.UpNodes);
                     }
-
                     ApplyNeighbourOptions(options, validOptions);
                 }
 
                 // Check left node
-                if (_floorGrid.TryGetGridPosFromCell(_floorGrid.GridPositions[i].CellPosition + Surroundings[2], out GridPos upPos4))
+                if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[2], out GridPos upPos4))
                 {
                     List<Node> validOptions = new List<Node>();
-                    Debug.Log("possible nodes: " + upPos4.PossibleNodes.Count);
-
-                    foreach (Node possibleOptions in upPos4.PossibleNodes)
+                    //Debug.Log("Left node position: " + upPos4.WorldPosition);
+                    //Debug.Log("Left node possibilities: " + upPos4.PossibleNodes.Count);
+                    foreach (Node possibleOption in upPos4.PossibleNodes)
                     {
-                        var valOption = Array.FindIndex(_nodesArray, obj => obj == possibleOptions);
-                        var valid = _nodesArray[valOption].RightNodes;
-
-                        validOptions = validOptions.Concat(valid).ToList();
+                        validOptions.AddRange(possibleOption.RightNodes);
                     }
-                    ApplyNeighbourOptions(options, upPos4.PossibleNodes);
+                    ApplyNeighbourOptions(options, validOptions);
                 }
 
-                newIterationGrid[index].PossibleNodes = options;
-                Debug.Log("New options num: " + options.Count);
+                gridPos.PossibleNodes = options;
             }
             index++;
         }
+        _iterations++;
 
-        _floorGrid.GridPositions = newIterationGrid;
-        iterations++;
-
-        if (iterations < _floorGrid.GridPositions.Count)
+        if (_iterations < _floorGrid.GridPositions.Count)
         {
             StartCoroutine(CheckEntropy());
         }
@@ -259,6 +424,20 @@ public class CaveDecoration : MonoBehaviour
                 optionsList.RemoveAt(x);
             }
         }
+    }
+
+    private bool HasCollapsedNeighbour(GridPos gridPos)
+    {
+        
+        foreach (GridPos neighbour in gridPos.Neighbours)
+        {
+            if (neighbour.Collapsed) return true;
+        }
+
+       
+
+        return false;
+        
     }
 
     public void SetFloorGrid(FloorGrid floorGrid)

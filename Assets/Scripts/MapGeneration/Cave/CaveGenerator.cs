@@ -59,6 +59,7 @@ public class CaveGenerator : MonoBehaviour
         _caveLogic.SetFloorGrid(_floorGrid);
         _caveDecoration.SetFloorGrid(_floorGrid);
         CenterCave();
+        Debug.Log("Num tiles: " + _floorGrid.GridPositions.Count);
     }
 
     /// <summary>

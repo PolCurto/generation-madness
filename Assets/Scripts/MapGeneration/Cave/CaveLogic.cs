@@ -54,10 +54,13 @@ public class CaveLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SetStartingPoint();
             SetFloorGrid();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
             SetSpecialZones();
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
@@ -121,9 +124,6 @@ public class CaveLogic : MonoBehaviour
             }
         }
 
-        var startArea = Instantiate(_startArea, (Vector3Int)_worldStartPoint, Quaternion.identity);
-        _tilesController.PrefabToMainGrid(startArea);
-
         Debug.Log("Start Point: " + _worldStartPoint);
     }
 
@@ -172,10 +172,7 @@ public class CaveLogic : MonoBehaviour
         // Set the GridPostions neighbours
         foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            foreach (Vector2Int neighbor in GetNeighbors(gridPos.CellPosition))
-            {
-                gridPos.Neighbours.Add(_floorGrid.GetGridPosFromCell(neighbor));
-            }
+            gridPos.Neighbours = GetNeighbors(gridPos.CellPosition);
         }
 
         Pathfinding.Instance.SetFloorGrid(_floorGrid);
@@ -187,6 +184,8 @@ public class CaveLogic : MonoBehaviour
     #region Special Zones
     private void SetSpecialZones()
     {
+        var startArea = Instantiate(_startArea, (Vector3Int)_worldStartPoint, Quaternion.identity);
+        _tilesController.PrefabToMainGrid(startArea);
         SetBoss();
         Vector3Int treasurePosition = SetTreasurePoint();
         SetWeaponPoint(treasurePosition);
@@ -453,9 +452,9 @@ public class CaveLogic : MonoBehaviour
         return neighbors;
     }
 
-    private List<Vector2Int> GetNeighbors(Vector2Int position)
+    private List<GridPos> GetNeighbors(Vector2Int position)
     {
-        List<Vector2Int> neighbors = new List<Vector2Int>();
+        List<GridPos> neighbors = new List<GridPos>();
 
         Vector2Int[] surroundings = new Vector2Int[]
         {
@@ -471,9 +470,9 @@ public class CaveLogic : MonoBehaviour
 
         foreach (Vector2Int offset in surroundings)
         {
-            if (_floorTilemap.HasTile((Vector3Int)position + (Vector3Int)offset))
+            if (_floorGrid.TryGetGridPosFromCell(position + offset, out GridPos gridPos))
             {
-                neighbors.Add(position + offset);
+                neighbors.Add(gridPos);
             }
         }
         return neighbors;
@@ -485,7 +484,7 @@ public class CaveLogic : MonoBehaviour
         {
             for (int x = position.x - offset; x <= position.x + offset; x++)
             {
-                if (!_floorGrid.TileExistsInCelldPos(new Vector2Int(x, y))) return false;
+                if (!_floorGrid.TileExistsInCellPos(new Vector2Int(x, y))) return false;
             }
         }
         return true;
