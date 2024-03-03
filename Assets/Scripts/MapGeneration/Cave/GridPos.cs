@@ -27,6 +27,12 @@ public class GridPos
         FCost = GCost + HCost;
     }
 
+    public bool IsNearWall()
+    {
+        if (Neighbours.Count < 8) return true;
+        else return false;
+    }
+
     public bool IsCorner()
     {
         int counter = 0;

@@ -71,6 +71,20 @@ public class FloorGrid
         return null;
     }
 
+    public bool TryGetGridPosFromWorld(Vector2Int worldPosition, out GridPos gridPos)
+    {
+        foreach (GridPos pos in GridPositions)
+        {
+            if (pos.WorldPosition == worldPosition)
+            {
+                gridPos = pos;
+                return true;
+            }
+        }
+        gridPos = null;
+        return false;
+    }
+
     public GridPos GetGridPosFromCell(Vector2Int cellPosition)
     {
         foreach (GridPos pos in GridPositions)

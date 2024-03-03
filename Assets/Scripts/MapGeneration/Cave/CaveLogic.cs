@@ -61,7 +61,7 @@ public class CaveLogic : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SetSpecialZones();
+            //SetSpecialZones();
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
