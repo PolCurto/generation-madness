@@ -214,9 +214,9 @@ public class CaveDecoration : MonoBehaviour
         // Orders the uncollapsed positions by their entropy (lowest possible tiles)
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
 
-        Debug.Log("Temp grid length: " + tempGrid.Count);
-        Debug.Log("Iterations: " + iterations);
-        Debug.Log("Index: " + index);
+        //Debug.Log("Temp grid length: " + tempGrid.Count);
+        //Debug.Log("Iterations: " + iterations);
+        //Debug.Log("Index: " + index);
         int numOptions = tempGrid[0].PossibleNodes.Count;
         //Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;
@@ -262,7 +262,7 @@ public class CaveDecoration : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning("no nodes amigo");
+            Debug.LogWarning("No node");
             selectedNode = _nodes[0];
         }
 
@@ -343,7 +343,7 @@ public class CaveDecoration : MonoBehaviour
             index++;
         }
         _iterations++;
-        Debug.Log("Iterations last: " + iterations);
+        //Debug.Log("Iterations last: " + iterations);
 
         if (iterations > 1)
         {
@@ -475,8 +475,16 @@ public class CaveDecoration : MonoBehaviour
         //Debug.Log("Possible nodes: " + posToCollapse.PossibleNodes.Count);
         //Debug.Log("Position: " + posToCollapse.WorldPosition);
 
-        Node selectedNode = posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)];
-        //Node selectedNode = posToCollapse.PossibleNodes.Count > 0 ? posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)] : _nodes[0];
+        Node selectedNode;
+        if (posToCollapse.PossibleNodes.Count > 0)
+        {
+            selectedNode = posToCollapse.PossibleNodes[UnityEngine.Random.Range(0, posToCollapse.PossibleNodes.Count)];
+        }
+        else
+        {
+            Debug.LogWarning("No node");
+            selectedNode = _nodes[0];
+        }
         posToCollapse.PossibleNodes = new List<Node> { selectedNode };
 
         _floorTilemap.SetTile((Vector3Int)posToCollapse.CellPosition, selectedNode.Tile);
@@ -580,10 +588,12 @@ public class CaveDecoration : MonoBehaviour
         foreach (GridPos neighbour in gridPos.Neighbours)
         {
             if (neighbour.Collapsed) return true;
+
+            foreach (GridPos neighbour2 in neighbour.Neighbours)
+            {
+                if (neighbour2.Collapsed) return true;
+            }
         }
-
-
-
         return false;
 
     }

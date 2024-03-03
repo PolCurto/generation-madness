@@ -1397,11 +1397,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2c666bfa17b3a47a37fcc7a34971e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sample: {fileID: 2214414923305018196, guid: 2306f75bf07bd794b8b02e810d379665, type: 3}
+  _sample: {fileID: 7698627910471514406, guid: 0418eb3186f90f341898e0999374c3a5, type: 3}
   _floorTilemap: {fileID: 373301089}
   _chunkSize: 20
   _generateByChunks: 1
-  _setBorders: 0
+  _setBorders: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
