@@ -1395,7 +1395,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sample: {fileID: 2214414923305018196, guid: 2306f75bf07bd794b8b02e810d379665, type: 3}
   _floorTilemap: {fileID: 373301089}
-  _chunkSize: 10
+  _chunkSize: 20
+  _generateByChunks: 0
+  _setBorders: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
