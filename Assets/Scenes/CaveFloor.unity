@@ -1278,7 +1278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minFloorTiles
-      value: 3000
+      value: 3500
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveDecoration
@@ -1401,7 +1401,7 @@ MonoBehaviour:
   _floorTilemap: {fileID: 373301089}
   _chunkSize: 20
   _generateByChunks: 1
-  _setBorders: 1
+  _setBorders: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
