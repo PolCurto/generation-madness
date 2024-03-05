@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class CaveGenerator : MonoBehaviour
 {
     [SerializeField] private CaveLogic _caveLogic;
-    [SerializeField] private CaveDecoration _caveDecoration;
+    [SerializeField] private WFC _caveDecoration;
     [SerializeField] private TilesController _tilesController;
     [SerializeField] private GameObject _grid;
 

@@ -53,4 +53,18 @@ public class GridPos
         }
         return true;
     }
+
+    public bool HasNeighbourInPosition(Vector2Int offset)
+    {
+        foreach (GridPos neighbour in Neighbours)
+        {
+            Vector2Int distance = neighbour.CellPosition - CellPosition;
+            if (distance == offset)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
