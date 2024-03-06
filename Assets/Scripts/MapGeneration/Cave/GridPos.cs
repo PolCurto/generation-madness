@@ -54,17 +54,21 @@ public class GridPos
         return true;
     }
 
-    public bool HasNeighbourInPosition(Vector2Int offset)
+    public bool HasNeighbourInPositions(Vector2Int[] positions)
     {
-        foreach (GridPos neighbour in Neighbours)
+        int counter = 0;
+
+        foreach (Vector2Int offset in positions)
         {
-            Vector2Int distance = neighbour.CellPosition - CellPosition;
-            if (distance == offset)
+            foreach (GridPos neighbour in Neighbours)
             {
-                return true;
+                Vector2Int distance = neighbour.CellPosition - CellPosition;
+                if (distance == offset)
+                {
+                    counter++;
+                }
             }
         }
-
-        return false;
+        return counter == positions.Length;
     }
 }

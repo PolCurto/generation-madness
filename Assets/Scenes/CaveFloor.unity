@@ -1314,11 +1314,11 @@ PrefabInstance:
       objectReference: {fileID: 433787271}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _width
-      value: 100
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _height
-      value: 100
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveLogic
@@ -1350,12 +1350,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minFloorTiles
-      value: 3500
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveDecoration
       value: 
-      objectReference: {fileID: 5098639564842293894}
+      objectReference: {fileID: 5098639564842293897}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
@@ -1451,6 +1451,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 459985904123481674, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5098639564842293894}
+    - targetCorrespondingSourceObject: {fileID: 459985904123481674, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5098639564842293897}
   m_SourcePrefab: {fileID: 100100000, guid: abfcc470d62752e499680ccf748d243b, type: 3}
 --- !u!1 &5098639564842293893 stripped
 GameObject:
@@ -1474,6 +1477,30 @@ MonoBehaviour:
   _generateByChunks: 1
   _setBorders: 1
   _chunkSize: 20
+--- !u!114 &5098639564842293897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098639564842293893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81680d3436aabaf4380ffdb533f9ec65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wfc: {fileID: 5098639564842293894}
+  _debugTile: {fileID: 11400000, guid: b5658fe847733784ca70072e65f32cd7, type: 2}
+  _detailsTilemap: {fileID: 1559701967}
+  _tilesController: {fileID: 1457728017}
+  _wallProps:
+  - {fileID: 6646450885269565204, guid: 60b3753e5b831254c8744a2f15b10c28, type: 3}
+  - {fileID: 8028375548904349683, guid: 7828ee37a2fcccf428790fa6cbeb318f, type: 3}
+  - {fileID: 2832489869681851163, guid: 6088a36b1c5cd6941b608a5b83e696ad, type: 3}
+  _wallPropRate: 0.5
+  _groundProps:
+  - {fileID: 6643015924504016733, guid: 6facf2cea25ad5e4196ce8d266e622c8, type: 3}
+  _groundPropRate: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -8,53 +8,115 @@ public class CaveDecoration : MonoBehaviour
     [SerializeField] private WFC _wfc;
     [SerializeField] private TileBase _debugTile;
     [SerializeField] private Tilemap _detailsTilemap;
+    [SerializeField] private TilesController _tilesController;
 
-    [Header("Props")]
+    [Header("Wall Props")]
     [SerializeField] private GameObject[] _wallProps;
+    [Range(0f, 1f)]
+    [SerializeField] private float _wallPropRate;
+
+    [Header("Ground Props")]
+    [SerializeField] private GameObject[] _groundProps;
+    [Range(0f, 1f)]
+    [SerializeField] private float _groundPropRate;
 
     private FloorGrid _floorGrid;
+    private bool generate;
 
-    // Start is called before the first frame update
     void Start()
     {
         _wfc = GetComponent<WFC>();
     }
 
-    private void GeneratoGroundTIles()
+    private void Update()
     {
-        _wfc.GetNodesFromSample();
-        // etc.
-    }
-
-    #region Wall Props
-    private void PlaceWallProps()
-    {
-        List<GridPos> availablePositions = GetSuitableGridPositions();
-
-        foreach (GridPos pos in availablePositions)
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _detailsTilemap.SetTile((Vector3Int)pos.CellPosition, _debugTile);
+            //GenerateGroundTiles();
+            //_wfc.SetFloorGrid(_floorGrid);
+            //_wfc.GetNodesFromSample();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            GenerateGroundTiles();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            PlaceWallProps();
+            PlaceGroundProps();
         }
     }
 
-    private List<GridPos> GetSuitableGridPositions()
+    private void GenerateGroundTiles()
+    {
+        if (generate) return;
+        generate = true;
+
+        _wfc.SetFloorGrid(_floorGrid);
+        _wfc.GetNodesFromSample();
+        _wfc.GenerateFloorTiles();
+    }
+
+    #region Props
+    private void PlaceWallProps()
+    {
+        Vector2Int[] up = new Vector2Int[] { Vector2Int.up };
+        List<GridPos> availablePositions = GetSuitablePropPositions(up, true);
+
+        foreach (GridPos pos in availablePositions)
+        {
+            if (Random.Range(0f, 1f) < _wallPropRate)
+            {
+                GameObject wallProp = Instantiate(_wallProps[Random.Range(0, _wallProps.Length)], (Vector3Int)pos.WorldPosition, Quaternion.identity);
+                _tilesController.SimplePrefabToMainGrid(wallProp, _detailsTilemap);
+            }
+        }
+    }
+
+    private void PlaceGroundProps()
+    {
+        Vector2Int[] positions = new Vector2Int[] { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
+        List<GridPos> availablePositions = GetSuitablePropPositions(positions, false);
+
+        foreach (GridPos pos in availablePositions)
+        {
+            if (Random.Range(0f, 1f) < _groundPropRate)
+            {
+                Instantiate(_groundProps[Random.Range(0, _groundProps.Length)], (Vector3Int)pos.WorldPosition, Quaternion.identity);
+            }
+        }
+    }
+
+    private List<GridPos> GetSuitablePropPositions(Vector2Int[] neighbourPositions, bool wallProp)
     {
         List<GridPos> availablePositions = new List<GridPos>();
-        Vector2Int up = Vector2Int.up;
 
-        foreach (GridPos pos in _floorGrid.GridPositions) 
+        foreach (GridPos pos in _floorGrid.GridPositions)
         {
-            if (!pos.HasNeighbourInPosition(up))
+            if (wallProp)
             {
-                availablePositions.Add(pos);
+                if (!pos.HasNeighbourInPositions(neighbourPositions))
+                {
+                    availablePositions.Add(pos);
+                }
             }
+            else
+            {
+                if (pos.HasNeighbourInPositions(neighbourPositions))
+                {
+                    availablePositions.Add(pos);
+                }
+            }
+            
         }
 
         return availablePositions;
     }
     #endregion
 
-    private void SetFloorGrid(FloorGrid floorGrid)
+    public void SetFloorGrid(FloorGrid floorGrid)
     {
         _floorGrid = floorGrid;
     }
