@@ -61,7 +61,7 @@ public class CaveLogic : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            //SetSpecialZones();
+            SetSpecialZones();
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
@@ -88,7 +88,7 @@ public class CaveLogic : MonoBehaviour
         {
             _startPointIsSet = true;
             _worldStartPoint = Vector2Int.zero;
-            _floorGrid.StartPosition = startPosition;
+            _floorGrid.StartPosition = _floorGrid.GetGridPosFromCell(startPosition);
         }
 
         int counter = 0;
@@ -112,7 +112,7 @@ public class CaveLogic : MonoBehaviour
             {
                 _startPointIsSet = true;
                 _worldStartPoint = Vector2Int.zero + offset;
-                _floorGrid.StartPosition = startPosition + offset;
+                _floorGrid.StartPosition = _floorGrid.GetGridPosFromCell(startPosition + offset);
             }
 
             counter++;
@@ -135,21 +135,21 @@ public class CaveLogic : MonoBehaviour
         Queue<Vector2Int> tilesToVisit = new Queue<Vector2Int>();
         Dictionary<Vector2Int, int> visitedTilesDepth = new Dictionary<Vector2Int, int>();
 
-        tilesToVisit.Enqueue(_floorGrid.StartPosition);
-        visitedTilesDepth.Add(_floorGrid.StartPosition, 0);
+        tilesToVisit.Enqueue(_floorGrid.StartPosition.CellPosition);
+        visitedTilesDepth.Add(_floorGrid.StartPosition.CellPosition, 0);
 
         while (tilesToVisit.Count > 0)
         {
             Vector2Int currentPos = tilesToVisit.Dequeue();
 
-            foreach (Vector2Int neighbor in GetCloseNeighbors(currentPos))
+            foreach (GridPos neighbor in GetCloseNeighbors(currentPos))
             {
                 int depth = visitedTilesDepth[currentPos] + 1;
 
-                if (!visitedTilesDepth.ContainsKey(neighbor) && !tilesToVisit.Contains(neighbor))
+                if (!visitedTilesDepth.ContainsKey(neighbor.CellPosition) && !tilesToVisit.Contains(neighbor.CellPosition))
                 {
-                    visitedTilesDepth[neighbor] = depth;
-                    tilesToVisit.Enqueue(neighbor);
+                    visitedTilesDepth[neighbor.CellPosition] = depth;
+                    tilesToVisit.Enqueue(neighbor.CellPosition);
                 }
             }
         }
@@ -207,6 +207,7 @@ public class CaveLogic : MonoBehaviour
     private void SetBoss()
     {
         Vector2 bossPosition = _floorGrid.GetPosWithDepth(_floorGrid.MaxDepth).WorldPosition;
+        _floorGrid.BossPosition = _floorGrid.GetGridPosFromWorld(Vector2Int.RoundToInt(bossPosition));
         var bossRoom = Instantiate(_bossRoom, bossPosition, Quaternion.identity);
         _tilesController.PrefabToMainGrid(bossRoom);
     }
@@ -314,8 +315,8 @@ public class CaveLogic : MonoBehaviour
 
         foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.CellPosition) || Vector2Int.Distance(gridPos.CellPosition, _floorGrid.GridPositions[^1].CellPosition) < 20) continue;
-
+            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.CellPosition) || Vector2Int.Distance(gridPos.CellPosition, _floorGrid.BossPosition.CellPosition) < 20) continue;
+            Debug.Log(gridPos.Depth);
             bool isValid = true;
 
             foreach (EnemyZone zone in _enemyZones)
@@ -370,13 +371,13 @@ public class CaveLogic : MonoBehaviour
             switch (zone.Type)
             {
                 case EnemyZone.ZoneType.Easy:
-                    SpawnEnemies(zone, SetEnemyPool(1, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
                     break;
                 case EnemyZone.ZoneType.Medium:
-                    SpawnEnemies(zone, SetEnemyPool(1, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
                     break;
                 case EnemyZone.ZoneType.Hard:
-                    SpawnEnemies(zone, SetEnemyPool(1, availableEnemies));
+                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
                     break;
             }
         }
@@ -430,9 +431,9 @@ public class CaveLogic : MonoBehaviour
     }
     #endregion
 
-    private List<Vector2Int> GetCloseNeighbors(Vector2Int position)
+    private List<GridPos> GetCloseNeighbors(Vector2Int position)
     {
-        List<Vector2Int> neighbors = new List<Vector2Int>();
+        List<GridPos> neighbors = new List<GridPos>();
 
         Vector2Int[] surroundings = new Vector2Int[]
         {
@@ -444,9 +445,9 @@ public class CaveLogic : MonoBehaviour
 
         foreach (Vector2Int offset in surroundings)
         {
-            if (_floorTilemap.HasTile((Vector3Int)position + (Vector3Int)offset))
+            if (_floorGrid.TryGetGridPosFromCell(position + offset, out GridPos gridPos))
             {
-                neighbors.Add(position + offset);
+                neighbors.Add(gridPos);
             }
         }
         return neighbors;

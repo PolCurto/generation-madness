@@ -1314,11 +1314,11 @@ PrefabInstance:
       objectReference: {fileID: 433787271}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _width
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _height
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveLogic
@@ -1346,11 +1346,11 @@ PrefabInstance:
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _maxFloorTiles
-      value: 4000
+      value: 3500
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _minFloorTiles
-      value: 200
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 3402948779704380817, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _caveDecoration
@@ -1475,7 +1475,7 @@ MonoBehaviour:
   _groundTilesSample: {fileID: 7698627910471514406, guid: 0418eb3186f90f341898e0999374c3a5, type: 3}
   _floorTilemap: {fileID: 373301089}
   _generateByChunks: 1
-  _setBorders: 1
+  _setBorders: 0
   _chunkSize: 20
 --- !u!114 &5098639564842293897
 MonoBehaviour:
@@ -1497,10 +1497,10 @@ MonoBehaviour:
   - {fileID: 6646450885269565204, guid: 60b3753e5b831254c8744a2f15b10c28, type: 3}
   - {fileID: 8028375548904349683, guid: 7828ee37a2fcccf428790fa6cbeb318f, type: 3}
   - {fileID: 2832489869681851163, guid: 6088a36b1c5cd6941b608a5b83e696ad, type: 3}
-  _wallPropRate: 0.5
+  _wallPropRate: 0.4
   _groundProps:
   - {fileID: 6643015924504016733, guid: 6facf2cea25ad5e4196ce8d266e622c8, type: 3}
-  _groundPropRate: 0
+  _groundPropRate: 0.05
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

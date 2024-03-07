@@ -37,7 +37,7 @@ public class CaveDecoration : MonoBehaviour
             //_wfc.GetNodesFromSample();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GenerateGroundTiles();
         }
@@ -84,7 +84,7 @@ public class CaveDecoration : MonoBehaviour
         {
             if (Random.Range(0f, 1f) < _groundPropRate)
             {
-                Instantiate(_groundProps[Random.Range(0, _groundProps.Length)], (Vector3Int)pos.WorldPosition, Quaternion.identity);
+                Instantiate(_groundProps[Random.Range(0, _groundProps.Length)], (Vector3Int)pos.WorldPosition + new Vector3(0.5f, 0.5f), Quaternion.identity);
             }
         }
     }

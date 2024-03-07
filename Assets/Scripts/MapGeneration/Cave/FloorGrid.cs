@@ -21,7 +21,8 @@ public class FloorGrid
     public int Width { get; private set; }
     public int Height { get; private set; }
     public int MaxDepth { get; set; }
-    public Vector2Int StartPosition { get; set; }
+    public GridPos StartPosition { get; set; }
+    public GridPos BossPosition { get; set; }
 
     public FloorGrid (int width, int height)
     {
