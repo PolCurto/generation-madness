@@ -81,17 +81,17 @@ public class FloorGenerator : MonoBehaviour
             StartCoroutine(PullRoomsTogether());
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             GenerateCorridors();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             RenderFloorPrototype();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             foreach (Room room in _rooms)
             {
@@ -100,7 +100,7 @@ public class FloorGenerator : MonoBehaviour
             _tilesController.GetRoomsToMainGrid(_rooms);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             _tilesController.DrawWalls(_wallTile);
         }

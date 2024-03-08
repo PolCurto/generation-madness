@@ -186,7 +186,7 @@ public class Enemy : MonoBehaviour
 
         _pathTimer += Time.deltaTime;
         
-        if (_pathTimer > _pathfindingRate)
+        if (_pathTimer > _pathfindingRate || _pathToTake.Count <= 1)
         {
             FindPath();
         }
@@ -243,17 +243,21 @@ public class Enemy : MonoBehaviour
 
     private Vector2 GetValidDirection()
     {
-        Vector2 direction = Vector2.one;
+        Vector2 direction;
 
         // Avoids walking into a wall
+        int iterations = 0;
         while (true)
         {
             direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
             Debug.DrawRay(transform.position, direction, Color.yellow);
-            if (!Physics2D.Raycast(transform.position, direction, 1, LayerMask.GetMask("Walls")))
+            if (!Physics2D.Raycast(transform.position, direction, 1, LayerMask.GetMask("Walls")) ||iterations > 100)
             {
                 break;
             }
+
+            // Avoid a possible infinite loop
+            iterations++;
         }
 
         return direction;

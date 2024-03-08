@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8533789846296695189}
   - component: {fileID: 3402948779704380817}
   - component: {fileID: 3867849358750557798}
+  - component: {fileID: 7066200646264466313}
+  - component: {fileID: 7027458648396526717}
   m_Layer: 0
   m_Name: CaveGenerator
   m_TagString: Untagged
@@ -45,16 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5534eb7a5ded944afd335d8ee7ff00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilesController: {fileID: 0}
+  _caveLogic: {fileID: 3867849358750557798}
+  _caveDecoration: {fileID: 7027458648396526717}
   _grid: {fileID: 0}
-  _noiseDensity: 51
+  _noiseDensity: 50
   _width: 100
   _height: 100
   _iterations: 50
-  _minFloorTiles: 3000
+  _minFloorTiles: 2000
+  _maxFloorTiles: 3500
   _floorTilemap: {fileID: 0}
   _wallsTilemap: {fileID: 0}
-  _floorTile: {fileID: 11400000, guid: 4810874faec62de468274fb805c7fe0c, type: 2}
+  _floorTile: {fileID: 11400000, guid: ee5cd9005a36bf7419dbe14bcda8eb83, type: 2}
   _exampleFillTile: {fileID: 11400000, guid: edfbc7743d508fd42b7a68a5d966b902, type: 2}
 --- !u!114 &3867849358750557798
 MonoBehaviour:
@@ -68,18 +72,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab20115be4376144a91e611d55c20f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilesController: {fileID: 0}
-  _floorTilemap: {fileID: 0}
-  _exampleTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
-  _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
   _startArea: {fileID: 9145481707697847977, guid: 1afa08c3b44da244b801b8c3ca6a413f, type: 3}
   _bossRoom: {fileID: 8322169871981495501, guid: 4b7c0e0ac67f8484385c0b661f8840c6, type: 3}
   _weaponArea: {fileID: 7873665298485291223, guid: 5f4df713390005f4c8ec52188ce87b27, type: 3}
   _treasureArea: {fileID: 4202691301378999364, guid: fdcd26e7094d80a438fd0611a06c7a9c, type: 3}
   _ammoChest: {fileID: 7393901375183727749, guid: c42b576eb6fa1714e9ba0dfd8ef99dda, type: 3}
   _healingChest: {fileID: 989211842980675411, guid: aae2719427ce8bf4fa4679dbf4d29a5f, type: 3}
+  _enemyZone: {fileID: 5480985395189605892, guid: 46008d6288dcaf34d9c7dd40afc55d11, type: 3}
+  _enemies:
+  - {fileID: 4810090923118679187, guid: 298f244d32cb1d843bfcda3e7d7e1be8, type: 3}
+  - {fileID: 4892958769259977148, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
   _startPositionArea: 2
-  _chestsMinOffset: -500
-  _chestsMaxOffset: 500
+  _chestsMinOffset: -30
+  _chestsMaxOffset: 30
   _numAmmoChests: 2
   _numHealingChests: 2
+  _minEnemiesDistance: 20
+  _enemyMinDepth: 30
+  _tilesController: {fileID: 0}
+  _floorTilemap: {fileID: 0}
+  _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
+--- !u!114 &7066200646264466313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459985904123481674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2c666bfa17b3a47a37fcc7a34971e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundTilesSample: {fileID: 7698627910471514406, guid: 0418eb3186f90f341898e0999374c3a5, type: 3}
+  _floorTilemap: {fileID: 0}
+  _generateByChunks: 1
+  _setBorders: 0
+  _chunkSize: 20
+--- !u!114 &7027458648396526717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459985904123481674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81680d3436aabaf4380ffdb533f9ec65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wfc: {fileID: 7066200646264466313}
+  _debugTile: {fileID: 11400000, guid: b5658fe847733784ca70072e65f32cd7, type: 2}
+  _detailsTilemap: {fileID: 0}
+  _tilesController: {fileID: 0}
+  _wallProps:
+  - {fileID: 6646450885269565204, guid: 60b3753e5b831254c8744a2f15b10c28, type: 3}
+  - {fileID: 8028375548904349683, guid: 7828ee37a2fcccf428790fa6cbeb318f, type: 3}
+  - {fileID: 2832489869681851163, guid: 6088a36b1c5cd6941b608a5b83e696ad, type: 3}
+  _wallPropRate: 0.4
+  _groundProps:
+  - {fileID: 6643015924504016733, guid: 6facf2cea25ad5e4196ce8d266e622c8, type: 3}
+  _groundPropRate: 0.05
