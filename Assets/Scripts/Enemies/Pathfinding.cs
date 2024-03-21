@@ -13,7 +13,7 @@ public class Pathfinding : MonoBehaviour
     private List<GridPos> _openList;
     private List<GridPos> _closedList;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;    
     }

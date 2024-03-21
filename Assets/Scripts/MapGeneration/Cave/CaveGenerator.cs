@@ -28,12 +28,26 @@ public class CaveGenerator : MonoBehaviour
     private bool[,] _caveGrid;
     private FloorGrid _floorGrid;
 
+    private void Start()
+    {
+        GenerateCave();
+        _caveLogic.SetBaseLogic();
+        _caveDecoration.DecorateCave();
+        _caveLogic.SetSpecialZones();
+        _caveLogic.SetWalls();
+        _caveLogic.SetEnemies();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             GenerateCave();
-            //_caveLogic
+            _caveLogic.SetBaseLogic();
+            _caveDecoration.DecorateCave();
+            _caveLogic.SetSpecialZones();
+            _caveLogic.SetWalls();
+            _caveLogic.SetEnemies();
         }
     }
 

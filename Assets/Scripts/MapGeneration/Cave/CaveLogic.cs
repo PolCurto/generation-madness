@@ -56,8 +56,7 @@ public class CaveLogic : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SetStartingPoint();
-            SetFloorGrid();
+            SetBaseLogic();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -70,12 +69,23 @@ public class CaveLogic : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            _tilesController.DrawWalls(_wallTile);
-            _tilesController.CleanWalls();
+            SetWalls();   
         }
     }
 
     #region Basic Logic
+    public void SetWalls()
+    {
+        _tilesController.DrawWalls(_wallTile);
+        _tilesController.CleanWalls();
+    }
+
+    public void SetBaseLogic()
+    {
+        SetStartingPoint();
+        SetFloorGrid();
+    }
+
     /// <summary>
     /// Sets an starting point in the generated map as close as it can to the (0, 0)  position
     /// </summary>
@@ -182,7 +192,7 @@ public class CaveLogic : MonoBehaviour
     #endregion
 
     #region Special Zones
-    private void SetSpecialZones()
+    public void SetSpecialZones()
     {
         var startArea = Instantiate(_startArea, (Vector3Int)_worldStartPoint, Quaternion.identity);
         _tilesController.PrefabToMainGrid(startArea);
@@ -307,6 +317,11 @@ public class CaveLogic : MonoBehaviour
     #endregion
 
     #region Enemy Spawn
+    public void SetEnemies()
+    {
+        SetEnemyZones();
+        Spawn();
+    }
     private void SetEnemyZones()
     {
         List<Vector2Int> enemyPositions = new List<Vector2Int>();

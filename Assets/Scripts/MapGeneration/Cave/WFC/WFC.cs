@@ -33,7 +33,7 @@ public class WFC : MonoBehaviour
             new Vector2Int (0, 1),      // Up
         };
 
-    private void Start()
+    private void Awake()
     {
         _reader = new SampleReader(_groundTilesSample.GetComponentInChildren<Tilemap>());
     }
@@ -184,9 +184,9 @@ public class WFC : MonoBehaviour
         // Orders the uncollapsed positions by their entropy (lowest possible tiles)
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
 
-        Debug.Log("Grid part index: " + _gridPartIndex);
-        Debug.Log("Iterations: " + _iterations);
-        Debug.Log("Original length: " + _gridParts[_gridPartIndex].Count);
+        //Debug.Log("Grid part index: " + _gridPartIndex);
+        //Debug.Log("Iterations: " + _iterations);
+        //Debug.Log("Original length: " + _gridParts[_gridPartIndex].Count);
         int numOptions = tempGrid[0].PossibleNodes.Count;
         //Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;

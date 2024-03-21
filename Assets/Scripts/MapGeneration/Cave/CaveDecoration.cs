@@ -49,6 +49,13 @@ public class CaveDecoration : MonoBehaviour
         }
     }
 
+    public void DecorateCave()
+    {
+        GenerateGroundTiles();
+        PlaceWallProps();
+        PlaceGroundProps();
+    }
+
     private void GenerateGroundTiles()
     {
         if (generate) return;

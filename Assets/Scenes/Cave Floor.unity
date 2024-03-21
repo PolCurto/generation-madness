@@ -1243,6 +1243,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1457728017}
     - target: {fileID: 7066200646264466313, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _setBorders
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7066200646264466313, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 
       objectReference: {fileID: 373301089}
