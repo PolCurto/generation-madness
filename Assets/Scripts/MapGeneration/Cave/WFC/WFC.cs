@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 
 public class WFC : MonoBehaviour
 {
@@ -108,7 +109,7 @@ public class WFC : MonoBehaviour
             while (_gridParts[_gridPartIndex].Count == 0)
             {
                 _gridPartIndex++;
-                if (_gridPartIndex > _gridParts.Length) return;
+                if (_gridPartIndex >= _gridParts.Length) return;
             }
 
             if (_setBorders)
@@ -170,6 +171,8 @@ public class WFC : MonoBehaviour
         tempGrid.RemoveAll(c => c.Collapsed);
         _iterations = tempGrid.Count;
 
+        if (_iterations == 0) return;
+
         if (_setBorders)
         {
             foreach (GridPos gridPos in tempGrid)
@@ -181,9 +184,9 @@ public class WFC : MonoBehaviour
         // Orders the uncollapsed positions by their entropy (lowest possible tiles)
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
 
-        //Debug.Log("Grid part index: " + _gridPartIndex);
-        //Debug.Log("Iterations: " + _iterations);
-        //Debug.Log("Original length: " + _gridParts[_gridPartIndex].Count);
+        Debug.Log("Grid part index: " + _gridPartIndex);
+        Debug.Log("Iterations: " + _iterations);
+        Debug.Log("Original length: " + _gridParts[_gridPartIndex].Count);
         int numOptions = tempGrid[0].PossibleNodes.Count;
         //Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;

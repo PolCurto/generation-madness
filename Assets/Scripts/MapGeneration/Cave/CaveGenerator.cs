@@ -33,6 +33,7 @@ public class CaveGenerator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             GenerateCave();
+            //_caveLogic
         }
     }
 

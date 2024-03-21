@@ -124,7 +124,7 @@ public class CaveLogic : MonoBehaviour
             }
         }
 
-        Debug.Log("Start Point: " + _worldStartPoint);
+        //Debug.Log("Start Point: " + _worldStartPoint);
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public class CaveLogic : MonoBehaviour
 
         Pathfinding.Instance.SetFloorGrid(_floorGrid);
 
-        Debug.Log("Depth set");
+        //Debug.Log("Depth set");
     }
     #endregion
 
@@ -217,10 +217,8 @@ public class CaveLogic : MonoBehaviour
     /// </summary>
     private Vector3Int SetTreasurePoint()
     {
-        _maxDepth = _floorGrid.GridPositions[^1].Depth;
         float oldDistance = 0;
         Vector2Int position = new Vector2Int();
-        Debug.Log(_maxDepth);
 
         foreach(GridPos gridPos in _floorGrid.GridPositions)
         {
@@ -234,7 +232,7 @@ public class CaveLogic : MonoBehaviour
             }
         }
 
-        Debug.Log("Treasure position: " + position);
+        //Debug.Log("Treasure position: " + position);
 
         var treasureArea = Instantiate(_treasureArea, (Vector3Int)position, Quaternion.identity);
         _tilesController.PrefabToMainGrid(treasureArea);
@@ -262,7 +260,7 @@ public class CaveLogic : MonoBehaviour
             }
         }
 
-        Debug.Log("Weapon position: " + position);
+        //Debug.Log("Weapon position: " + position);
 
         var weaponArea = Instantiate(_weaponArea, (Vector3Int)position, Quaternion.identity);
         _tilesController.PrefabToMainGrid(weaponArea);
@@ -316,7 +314,7 @@ public class CaveLogic : MonoBehaviour
         foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
             if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.CellPosition) || Vector2Int.Distance(gridPos.CellPosition, _floorGrid.BossPosition.CellPosition) < 20) continue;
-            Debug.Log(gridPos.Depth);
+            //Debug.Log(gridPos.Depth);
             bool isValid = true;
 
             foreach (EnemyZone zone in _enemyZones)
