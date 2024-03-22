@@ -36,6 +36,7 @@ public class CaveGenerator : MonoBehaviour
         _caveLogic.SetSpecialZones();
         _caveLogic.SetWalls();
         _caveLogic.SetEnemies();
+        _caveLogic.SpawnPlayer();
     }
 
     void Update()

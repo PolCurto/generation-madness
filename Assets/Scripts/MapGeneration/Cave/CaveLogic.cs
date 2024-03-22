@@ -7,6 +7,8 @@ using UnityEngine.Tilemaps;
 
 public class CaveLogic : MonoBehaviour
 {
+    [SerializeField] private GameObject _player;
+
     [Header("Areas")]
     [SerializeField] private GameObject _startArea;
     [SerializeField] private GameObject _bossRoom;
@@ -443,6 +445,11 @@ public class CaveLogic : MonoBehaviour
         } 
     }
     #endregion
+
+    public void SpawnPlayer()
+    {
+        _player.transform.position = (Vector3Int)_floorGrid.StartPosition.WorldPosition;
+    }
 
     private List<GridPos> GetCloseNeighbors(Vector2Int position)
     {
