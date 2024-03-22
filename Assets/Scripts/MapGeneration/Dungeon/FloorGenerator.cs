@@ -12,6 +12,7 @@ public class FloorGenerator : MonoBehaviour
 {
     #region Global Variables
     [SerializeField] private TilesController _tilesController;
+    [SerializeField] private GameObject _player;
 
     [Header("Rooms")]
     [SerializeField] private GameObject _testingRoom;
@@ -23,7 +24,8 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private GameObject _bossRoom;
     [SerializeField] private GameObject[] _normalRooms;
 
-    [Header ("Floor Params")]
+    [Header("Floor Params")]
+    [SerializeField] private int _maxGenerationIterations;
     [SerializeField] private int _maxRooms;
     [SerializeField] private int _gridWidth;
     [SerializeField] private int _gridHeight;
@@ -50,18 +52,15 @@ public class FloorGenerator : MonoBehaviour
     private List<Room> _rooms;
     private List<Room> _deadEnds;
     private List<Corridor> _corridors;
+
+    private int _iterations;
     #endregion
 
     #region Unity Methods
     void Start()
     {
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
-        /*
-        GenerateFloor();
-        RenderFloor();
-        GenerateCorridors();
-        //StartCoroutine(PullRoomsTogether());
-        */
+        StartCoroutine(GenerateLevel());
     }
 
     private void Update()
@@ -130,6 +129,18 @@ public class FloorGenerator : MonoBehaviour
 
 
     #region Floor Logic
+    private IEnumerator GenerateLevel()
+    {
+        GenerateFloor();
+        RenderFloor();
+        yield return StartCoroutine(PullRoomsTogether());
+        GetRoomsToGrid();
+        GenerateCorridors();
+        _tilesController.DrawWalls(_wallTile);
+        _tilesController.CleanWalls();
+        SpawnPlayer();
+    }
+
     /// <summary>
     /// Generates the rooms distribution within the floor
     /// </summary>
@@ -206,8 +217,9 @@ public class FloorGenerator : MonoBehaviour
         _deadEnds.Sort((r1, r2) => r1.Depth.CompareTo(r2.Depth));
 
         // If there is no room deep enough generates the floor again
-        if (_deadEnds[^1].Depth < _minDepth)
+        if (_deadEnds[^1].Depth < _minDepth && _iterations < _maxGenerationIterations)
         {
+            _iterations++;
             GenerateFloor();
             return;
         }
@@ -569,6 +581,15 @@ public class FloorGenerator : MonoBehaviour
             room.SceneRoom.transform.position = Vector3Int.RoundToInt(room.SceneRoom.transform.position);
         }
     }
+
+    private void GetRoomsToGrid()
+    {
+        foreach (Room room in _rooms)
+        {
+            room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
+        }
+        _tilesController.GetRoomsToMainGrid(_rooms);
+    }
     #endregion
 
     #region Corridors
@@ -778,4 +799,19 @@ public class FloorGenerator : MonoBehaviour
         else return false;
     }
     #endregion
+
+    private void SpawnPlayer()
+    {
+        Vector3 startPosition = Vector3.zero;
+
+        foreach(Room room in _rooms)
+        {
+            if (room.Type == Room.RoomType.Start)
+            {
+                startPosition = room.SceneRoom.transform.position;
+            }
+        }
+
+        _player.transform.position = startPosition;
+    }
 }

@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilesController: {fileID: 306146751}
+  _player: {fileID: 678075224}
   _testingRoom: {fileID: 5050088980480476351, guid: 24da019120670494a97ed51d647b113a, type: 3}
   _startRoom: {fileID: 3830335875092767822, guid: 47c7253189c78c34f93d0faf7541b2b9, type: 3}
   _treasureRoom: {fileID: 6203144229532863318, guid: 686a7d7feb590ef48b5dddf817ee9dd7, type: 3}
@@ -163,6 +164,7 @@ MonoBehaviour:
   _normalRooms:
   - {fileID: 9100351639050162836, guid: 91d249a72e6dca040a6824e811507797, type: 3}
   - {fileID: 1662842724038029655, guid: 138c936554de7ab478aea78ccfff3d0e, type: 3}
+  _maxGenerationIterations: 15
   _maxRooms: 15
   _gridWidth: 50
   _gridHeight: 50
@@ -662,6 +664,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+--- !u!1 &678075224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+  m_PrefabInstance: {fileID: 642428264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &695506611
 GameObject:
   m_ObjectHideFlags: 0
