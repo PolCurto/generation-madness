@@ -17,7 +17,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _enablingDistance;
     [SerializeField] protected float _attackDistance;
 
-
     protected Transform _player;
     private bool _playerInSight;
     private bool _isColiding;
@@ -44,34 +43,17 @@ public class Enemy : MonoBehaviour
         } 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            _playerWithinRange = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            _playerWithinRange = false;
-        }
-    }
-
     protected virtual void Update()
     {
-        PlayerPosition();
+        CheckPlayerPosition();
+        CheckPlayerWithinRange();
 
         if (!_isEnabled) return;
 
         for (int i = 0; i < _pathToTake.Count - 1; i++)
         {
             Debug.DrawLine(_pathToTake[i], _pathToTake[i + 1]);
-        }
-
-        
+        }  
     }
 
     protected virtual void FixedUpdate()
@@ -93,16 +75,29 @@ public class Enemy : MonoBehaviour
     private float _loseTimer;
     private bool _isEnabled;
 
-    private void PlayerPosition()
+    private void CheckPlayerPosition()
     {
         if (_isEnabled && DistanceToPlayer() > _enablingDistance)
         {
             _isEnabled = false;
-            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.simulated = false;
         }
         else if (!_isEnabled && DistanceToPlayer() <= _enablingDistance)
         {
             _isEnabled = true;
+            _rigidbody.simulated = true;
+        }
+    }
+
+    private void CheckPlayerWithinRange()
+    {
+        if (DistanceToPlayer() < _detectionDistance)
+        {
+            _playerWithinRange = true;
+        } 
+        else
+        {
+            _playerWithinRange = false;
         }
     }
 
@@ -211,7 +206,7 @@ public class Enemy : MonoBehaviour
     {
         if (_playerDetected) return;
 
-        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction * _maxVelocity, _acceleration * Time.deltaTime);
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
 
         _moveTimer += Time.deltaTime;

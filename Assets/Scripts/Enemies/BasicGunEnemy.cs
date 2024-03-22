@@ -27,11 +27,9 @@ public class BasicGunEnemy : Enemy
         // Remove isAttacking
         if (!_playerDetected || _isAttacking) return;
         
-        
         _direction = _pathToTake[0] - _rigidbody.position;           
-        Vector2 moveForce = _maxVelocity * _direction.normalized;
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
-        
         
         /*
         Vector2 direction = (Vector2)_player.position - _rigidbody.position;
@@ -39,7 +37,6 @@ public class BasicGunEnemy : Enemy
         _rigidbody.velocity = moveForce;
         */
 
-        
         if (IsInGoalPosition())
         {
             _direction = _pathToTake[1];
