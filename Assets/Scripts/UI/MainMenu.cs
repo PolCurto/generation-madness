@@ -7,13 +7,14 @@ public class MainMenu : MonoBehaviour
 {
    
 
-    private void GenerateCaveLevel()
+    public void GenerateCaveLevel()
     {
-        //SceneManager.LoadScene
+        SceneManager.LoadScene("Cave Floor");
     }
 
-    private void GenerateDungeonLevel()
+    public void GenerateDungeonLevel()
     {
-
+        Debug.Log(SceneManager.sceneCountInBuildSettings);
+        SceneManager.LoadScene("Dungeon Floor");
     }
 }
