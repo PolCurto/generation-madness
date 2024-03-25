@@ -40,9 +40,9 @@ public class TilesController : MonoBehaviour
     /// Copies the rooms tilemaps to the general level grid
     /// </summary>
     /// <param name="rooms"></param>
-    public void GetRoomsToMainGrid(List<Room> rooms)
+    public void GetRoomsToMainGrid(List<DungeonRoom> rooms)
     {
-        foreach (Room room in rooms)
+        foreach (DungeonRoom room in rooms)
         {
             Tilemap[] roomTilemaps = room.SceneRoom.GetComponentsInChildren<Tilemap>();
 

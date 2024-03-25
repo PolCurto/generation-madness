@@ -37,6 +37,8 @@ public class CaveGenerator : MonoBehaviour
         _caveLogic.SetWalls();
         _caveLogic.SetEnemies();
         _caveLogic.SpawnPlayer();
+
+        LoadingScreen.Instance.gameObject.SetActive(false);
     }
 
     void Update()
@@ -71,12 +73,13 @@ public class CaveGenerator : MonoBehaviour
         
         _caveGrid = noiseGrid;
 
-        DefineFinalShape();
-
-        _caveLogic.SetFloorGrid(_floorGrid);
-        _caveDecoration.SetFloorGrid(_floorGrid);
-        CenterCave();
-        Debug.Log("Num tiles: " + _floorGrid.GridPositions.Count);
+        if (DefineFinalShape())
+        {
+            _caveLogic.SetFloorGrid(_floorGrid);
+            _caveDecoration.SetFloorGrid(_floorGrid);
+            CenterCave();
+            Debug.Log("Num tiles: " + _floorGrid.GridPositions.Count);
+        }
     }
 
     /// <summary>
@@ -160,7 +163,7 @@ public class CaveGenerator : MonoBehaviour
     #endregion
 
     #region Cave Refinement
-    private void DefineFinalShape()
+    private bool DefineFinalShape()
     {
         int x = 0, y = 0;
 
@@ -180,6 +183,11 @@ public class CaveGenerator : MonoBehaviour
         if (_floorGrid.GridPositions.Count < _minFloorTiles || _floorGrid.GridPositions.Count > _maxFloorTiles)
         {
             GenerateCave();
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 

@@ -47,10 +47,10 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private TileBase _wallTile;
 
     private Vector2Int _startPosition;
-    private Walker walker;
-    private Room[,] _floorGrid;
-    private List<Room> _rooms;
-    private List<Room> _deadEnds;
+    private Walker _walker;
+    private DungeonRoom[,] _floorGrid;
+    private List<DungeonRoom> _rooms;
+    private List<DungeonRoom> _deadEnds;
     private List<Corridor> _corridors;
 
     private int _iterations;
@@ -92,7 +92,7 @@ public class FloorGenerator : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            foreach (Room room in _rooms)
+            foreach (DungeonRoom room in _rooms)
             {
                 room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
             }
@@ -139,6 +139,8 @@ public class FloorGenerator : MonoBehaviour
         _tilesController.DrawWalls(_wallTile);
         _tilesController.CleanWalls();
         SpawnPlayer();
+
+        LoadingScreen.Instance.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -146,14 +148,14 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void GenerateFloor()
     {
-        _floorGrid = new Room[_gridHeight, _gridWidth];
-        _rooms = new List<Room>();
-        _deadEnds = new List<Room>();
+        _floorGrid = new DungeonRoom[_gridHeight, _gridWidth];
+        _rooms = new List<DungeonRoom>();
+        _deadEnds = new List<DungeonRoom>();
 
-        walker = new Walker(_startPosition, _walkersTimeToLive);
+        _walker = new Walker(_startPosition, _walkersTimeToLive);
 
-        Room startRoom = new Room(Room.RoomType.Start, walker.Position);
-        _floorGrid[walker.Position.x, walker.Position.y] = startRoom;
+        DungeonRoom startRoom = new DungeonRoom(DungeonRoom.DungeonRoomType.Start, _walker.Position);
+        _floorGrid[_walker.Position.x, _walker.Position.y] = startRoom;
         _rooms.Add(startRoom);
 
         int roomsLeft = _maxRooms;
@@ -162,11 +164,11 @@ public class FloorGenerator : MonoBehaviour
         {
             //Debug.Log("Walker position: " + walker.Position + " and rooms left: " + roomsLeft);
 
-            if (walker.TimeToLive <= 0)
+            if (_walker.TimeToLive <= 0)
             {
                 // Resets the walker to the start (no need to create a new one)
-                walker.Position = _startPosition;
-                walker.TimeToLive = _walkersTimeToLive;
+                _walker.Position = _startPosition;
+                _walker.TimeToLive = _walkersTimeToLive;
             }
 
             MoveWalker();
@@ -188,16 +190,16 @@ public class FloorGenerator : MonoBehaviour
     {
         _rooms[0].Depth = 0;
 
-        foreach (Room room in _rooms)
+        foreach (DungeonRoom room in _rooms)
         {
             // Adds all the rooms that are in a extreme of the map
-            if (room.ConnectedRooms.Count < 2 && room.Type != Room.RoomType.Start)
+            if (room.ConnectedRooms.Count < 2 && room.Type != DungeonRoom.DungeonRoomType.Start)
             {
                 _deadEnds.Add(room);
             }
 
             // Sets the depth of each generated room
-            foreach (Room connectedRoom in room.ConnectedRooms)
+            foreach (DungeonRoom connectedRoom in room.ConnectedRooms)
             {
                 if (connectedRoom.Depth > room.Depth + 1)
                 {
@@ -234,36 +236,36 @@ public class FloorGenerator : MonoBehaviour
     private void SetSpecialRooms()
     {
         // Checks for loops
-        foreach (Room room in _rooms)
+        foreach (DungeonRoom room in _rooms)
         {
             if (room.ConnectedRooms.Count > 1)
             {
                 int shallowerRooms = 0;
 
-                foreach (Room connectedRoom in room.ConnectedRooms)
+                foreach (DungeonRoom connectedRoom in room.ConnectedRooms)
                 {
                     if (connectedRoom.Depth < room.Depth) shallowerRooms++;
                 }
 
                 if (shallowerRooms >= 2)
                 {
-                    room.Type = Room.RoomType.Loop;
+                    room.Type = DungeonRoom.DungeonRoomType.Loop;
                 }
             }
         }
         
         // Creates the boss room as far from the start as possible
         CreateBossRoom();
-        Room bossRoom = _deadEnds[^1];
-        bossRoom.Type = Room.RoomType.Boss;
+        DungeonRoom bossRoom = _deadEnds[^1];
+        bossRoom.Type = DungeonRoom.DungeonRoomType.Boss;
 
         // Sets the key room as far from the boss room as possible
-        Room keyRoom = bossRoom;
+        DungeonRoom keyRoom = bossRoom;
         float prevDistance = 0;
 
-        foreach (Room deadEnd in _deadEnds)
+        foreach (DungeonRoom deadEnd in _deadEnds)
         {
-            if (deadEnd.Type == Room.RoomType.Normal)
+            if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
             {
                 float currentDistance = Vector2.Distance(deadEnd.Position, bossRoom.Position);
                 if (currentDistance > prevDistance)
@@ -273,24 +275,24 @@ public class FloorGenerator : MonoBehaviour
                 }
             }
         }
-        keyRoom.Type = Room.RoomType.KeyRoom;
+        keyRoom.Type = DungeonRoom.DungeonRoomType.KeyRoom;
 
         // Creates the charatcer room
-        foreach (Room deadEnd in _deadEnds)
+        foreach (DungeonRoom deadEnd in _deadEnds)
         {
-            if (deadEnd.Type == Room.RoomType.Normal)
+            if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
             {
-                deadEnd.Type = Room.RoomType.Character;
+                deadEnd.Type = DungeonRoom.DungeonRoomType.Character;
                 break;
             }
         }
 
         // Creates the treasure room
-        foreach (Room deadEnd in _deadEnds)
+        foreach (DungeonRoom deadEnd in _deadEnds)
         {
-            if (deadEnd.Type == Room.RoomType.Normal)
+            if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
             {
-                deadEnd.Type = Room.RoomType.Treasure;
+                deadEnd.Type = DungeonRoom.DungeonRoomType.Treasure;
                 break;
             }
         }
@@ -301,13 +303,13 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void CreateRoom()
     {
-        Room newRoom = new Room(Room.RoomType.Normal, walker.Position);
-        Room previousRoom = _floorGrid[walker.PreviousPosition.x, walker.PreviousPosition.y];
+        DungeonRoom newRoom = new DungeonRoom(DungeonRoom.DungeonRoomType.Normal, _walker.Position);
+        DungeonRoom previousRoom = _floorGrid[_walker.PreviousPosition.x, _walker.PreviousPosition.y];
 
         newRoom.AddConnectedRoom(previousRoom);
         previousRoom.AddConnectedRoom(newRoom);
 
-        _floorGrid[walker.Position.x, walker.Position.y] = newRoom;
+        _floorGrid[_walker.Position.x, _walker.Position.y] = newRoom;
         _rooms.Add(newRoom);
     }
 
@@ -316,11 +318,11 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void CreateBossRoom()
     {
-        Room checkpointRoom = _deadEnds[^1];
-        checkpointRoom.Type = Room.RoomType.Checkpoint;
+        DungeonRoom checkpointRoom = _deadEnds[^1];
+        checkpointRoom.Type = DungeonRoom.DungeonRoomType.Checkpoint;
 
-        walker.PreviousPosition = Vector2Int.RoundToInt(checkpointRoom.Position);
-        walker.Position = Vector2Int.RoundToInt(checkpointRoom.Position + (checkpointRoom.Position - checkpointRoom.ConnectedRooms[0].Position));
+        _walker.PreviousPosition = Vector2Int.RoundToInt(checkpointRoom.Position);
+        _walker.Position = Vector2Int.RoundToInt(checkpointRoom.Position + (checkpointRoom.Position - checkpointRoom.ConnectedRooms[0].Position));
 
         CreateRoom();
         _deadEnds.RemoveAt(_deadEnds.Count - 1);
@@ -333,8 +335,8 @@ public class FloorGenerator : MonoBehaviour
     /// <returns>The new walker's position</returns>
     private void MoveWalker()
     {
-        walker.PreviousPosition = walker.Position;
-        walker.TimeToLive -= 1;
+        _walker.PreviousPosition = _walker.Position;
+        _walker.TimeToLive -= 1;
 
         Vector2Int movement = Vector2Int.zero; 
 
@@ -351,7 +353,7 @@ public class FloorGenerator : MonoBehaviour
             else movement.y = -1;
         }
 
-        walker.Position += movement;
+        _walker.Position += movement;
     }
 
     /// <summary>
@@ -359,14 +361,14 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private bool CheckCurrentRoom()
     {
-        if (_floorGrid[walker.Position.x, walker.Position.y] == null)
+        if (_floorGrid[_walker.Position.x, _walker.Position.y] == null)
         {
             int emptyRooms = 0;
 
-            if (_floorGrid[walker.Position.x + 1, walker.Position.y] == null) emptyRooms++;
-            if (_floorGrid[walker.Position.x - 1, walker.Position.y] == null) emptyRooms++;
-            if (_floorGrid[walker.Position.x, walker.Position.y + 1] == null) emptyRooms++;
-            if (_floorGrid[walker.Position.x, walker.Position.y - 1] == null) emptyRooms++;
+            if (_floorGrid[_walker.Position.x + 1, _walker.Position.y] == null) emptyRooms++;
+            if (_floorGrid[_walker.Position.x - 1, _walker.Position.y] == null) emptyRooms++;
+            if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
+            if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
 
             if (emptyRooms > _adjacentRooms)
             {
@@ -374,15 +376,15 @@ public class FloorGenerator : MonoBehaviour
             }
             else
             {
-                walker.Position = walker.PreviousPosition;
+                _walker.Position = _walker.PreviousPosition;
             }
         }
         else
         {
             if (Random.Range(0f, 1f) < _connectionChance)
             {
-                Room currentRoom = _floorGrid[walker.Position.x, walker.Position.y];
-                Room previousRoom = _floorGrid[walker.PreviousPosition.x, walker.PreviousPosition.y];
+                DungeonRoom currentRoom = _floorGrid[_walker.Position.x, _walker.Position.y];
+                DungeonRoom previousRoom = _floorGrid[_walker.PreviousPosition.x, _walker.PreviousPosition.y];
 
                 currentRoom.AddConnectedRoom(previousRoom);
                 previousRoom.AddConnectedRoom(currentRoom);
@@ -399,7 +401,7 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void RenderFloorPrototype()
     {
-        foreach (Room room in _rooms)
+        foreach (DungeonRoom room in _rooms)
         {
             room.Position *= _movementScalar;
 
@@ -409,13 +411,13 @@ public class FloorGenerator : MonoBehaviour
 
             switch (room.Type)
             {
-                case Room.RoomType.Start:
+                case DungeonRoom.DungeonRoomType.Start:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Normal:
+                case DungeonRoom.DungeonRoomType.Normal:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
 
                     if (Random.Range(0f, 1f) < 0.75f)
@@ -431,37 +433,37 @@ public class FloorGenerator : MonoBehaviour
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Treasure:
+                case DungeonRoom.DungeonRoomType.Treasure:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 200f/255, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Character:
+                case DungeonRoom.DungeonRoomType.Character:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Loop:
+                case DungeonRoom.DungeonRoomType.Loop:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.KeyRoom:
+                case DungeonRoom.DungeonRoomType.KeyRoom:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Checkpoint:
+                case DungeonRoom.DungeonRoomType.Checkpoint:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Boss:
+                case DungeonRoom.DungeonRoomType.Boss:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
                     room.AddSceneRoom(newRoom);
@@ -475,7 +477,7 @@ public class FloorGenerator : MonoBehaviour
     /// </summary>
     private void RenderFloor()
     {
-        foreach(Room room in _rooms)
+        foreach(DungeonRoom room in _rooms)
         {
             room.Position *= _movementScalar;
 
@@ -485,42 +487,42 @@ public class FloorGenerator : MonoBehaviour
 
             switch (room.Type)
             {
-                case Room.RoomType.Start:
+                case DungeonRoom.DungeonRoomType.Start:
                     newRoom = Instantiate(_startRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Normal:
+                case DungeonRoom.DungeonRoomType.Normal:
                     newRoom = Instantiate(_normalRooms[Random.Range(0,2)], room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Treasure:
+                case DungeonRoom.DungeonRoomType.Treasure:
                     newRoom = Instantiate(_treasureRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Character:
+                case DungeonRoom.DungeonRoomType.Character:
                     newRoom = Instantiate(_characterRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Loop:
+                case DungeonRoom.DungeonRoomType.Loop:
                     newRoom = Instantiate(_normalRooms[Random.Range(0, 2)], room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.KeyRoom:
+                case DungeonRoom.DungeonRoomType.KeyRoom:
                     newRoom = Instantiate(_keyRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Checkpoint:
+                case DungeonRoom.DungeonRoomType.Checkpoint:
                     newRoom = Instantiate(_managementRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case Room.RoomType.Boss:
+                case DungeonRoom.DungeonRoomType.Boss:
                     newRoom = Instantiate(_bossRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
@@ -572,7 +574,7 @@ public class FloorGenerator : MonoBehaviour
         // Waits and stops the rooms from moving again
         yield return new WaitForSeconds(0.1f);
 
-        foreach (Room room in _rooms)
+        foreach (DungeonRoom room in _rooms)
         {
             if (room.SceneRoom.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
@@ -584,7 +586,7 @@ public class FloorGenerator : MonoBehaviour
 
     private void GetRoomsToGrid()
     {
-        foreach (Room room in _rooms)
+        foreach (DungeonRoom room in _rooms)
         {
             room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
         }
@@ -600,9 +602,9 @@ public class FloorGenerator : MonoBehaviour
     {
         _corridors = new List<Corridor>();
 
-        foreach (Room room in _rooms)
+        foreach (DungeonRoom room in _rooms)
         {
-            foreach (Room connectedRoom in room.ConnectedRooms)
+            foreach (DungeonRoom connectedRoom in room.ConnectedRooms)
             {
                 if (!CheckDuplicatedCorridors(room, connectedRoom))
                 {
@@ -724,7 +726,7 @@ public class FloorGenerator : MonoBehaviour
 
     }
 
-    private bool IsWithinRoomBounds(Vector2Int position, Room room)
+    private bool IsWithinRoomBounds(Vector2Int position, DungeonRoom room)
     {
         if (position.x < room.Position.x + (room.Width / 2) && position.x > room.Position.x - (room.Width / 2) &&
             position.y < room.Position.y + (room.Height / 2) && position.y > room.Position.y - (room.Height / 2))
@@ -745,9 +747,9 @@ public class FloorGenerator : MonoBehaviour
     /// <param name="destinationRoom">Destination room</param>
     /// <param name="originRoom">Origin room</param>
     /// <returns></returns>
-    private bool CorridorCollides(Vector2Int position, Room destinationRoom, Room originRoom)
+    private bool CorridorCollides(Vector2Int position, DungeonRoom destinationRoom, DungeonRoom originRoom)
     {
-        foreach(Room room in _rooms)
+        foreach(DungeonRoom room in _rooms)
         {
             if (room == destinationRoom || room == originRoom) continue;
             
@@ -768,10 +770,10 @@ public class FloorGenerator : MonoBehaviour
     /// Checks for the corridors to avoid creating duplicated ones
     /// </summary>
     /// <returns>If the corridor already exists</returns>
-    private bool CheckDuplicatedCorridors(Room room, Room connectedRoom)
+    private bool CheckDuplicatedCorridors(DungeonRoom room, DungeonRoom connectedRoom)
     {
         // Avoids repeated corridors
-        foreach (Room otherRoom in _rooms)
+        foreach (DungeonRoom otherRoom in _rooms)
         {
             foreach (Corridor corridor in otherRoom.Corridors)
             {
@@ -804,9 +806,9 @@ public class FloorGenerator : MonoBehaviour
     {
         Vector3 startPosition = Vector3.zero;
 
-        foreach(Room room in _rooms)
+        foreach(DungeonRoom room in _rooms)
         {
-            if (room.Type == Room.RoomType.Start)
+            if (room.Type == DungeonRoom.DungeonRoomType.Start)
             {
                 startPosition = room.SceneRoom.transform.position;
             }

@@ -5,16 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-   
+    [SerializeField] private GameObject _loadingScreen;
 
     public void GenerateCaveLevel()
     {
-        SceneManager.LoadScene("Cave Floor");
+        LoadingScreen.Instance.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+        LevelsLoader.Instance.LoadScene(1);
     }
 
     public void GenerateDungeonLevel()
     {
-        Debug.Log(SceneManager.sceneCountInBuildSettings);
-        SceneManager.LoadScene("Dungeon Floor");
+        LoadingScreen.Instance.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+        LevelsLoader.Instance.LoadScene(2);
     }
 }

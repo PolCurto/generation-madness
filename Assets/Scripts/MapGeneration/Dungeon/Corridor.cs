@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Corridor
 {
-    private Room _originRoom;
-    private Room _destinationRoom;
+    private DungeonRoom _originRoom;
+    private DungeonRoom _destinationRoom;
 
     private List<Vector2Int> _positions;
     private List<bool> _orientation;
 
-    public Corridor(Room originRoom, Room destinationRoom)
+    public Corridor(DungeonRoom originRoom, DungeonRoom destinationRoom)
     {
         _originRoom = originRoom;
         _destinationRoom = destinationRoom;
@@ -43,8 +43,8 @@ public class Corridor
         };
     }
 
-    public Room OriginRoom => _originRoom;
-    public Room DestinationRoom => _destinationRoom;
+    public DungeonRoom OriginRoom => _originRoom;
+    public DungeonRoom DestinationRoom => _destinationRoom;
 
     public List<Vector2Int> Positions { get { return _positions; } set { _positions = value; } }
     public List<bool> Orientation { get { return _orientation; } set { _orientation = value; } }

@@ -225,13 +225,11 @@ public class Enemy : MonoBehaviour
 
         if (_isWalking)
         {
-            Debug.Log("Walk");
             _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
             _direction = GetValidDirection();
         }
         else
         {
-            Debug.Log("Wait");
             _moveTime = Random.Range(_minWaitingTime, _maxWaitingTime);
             _direction = Vector2.zero;
         }

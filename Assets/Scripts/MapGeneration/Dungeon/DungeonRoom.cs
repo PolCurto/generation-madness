@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room
+public class DungeonRoom
 {
     private int _depth;
-    private RoomType _type;
+    private DungeonRoomType _type;
     private Vector2 _position;
-    private List<Room> _connectedRooms;
+    private List<DungeonRoom> _connectedRooms;
     private GameObject _sceneRoom;
     private int _width;
     private int _height;
 
     private List<Corridor> _corridors;
 
-    public enum RoomType
+    public enum DungeonRoomType
     {
         Start = 0,
         Normal = 1,
@@ -26,16 +26,16 @@ public class Room
         KeyRoom = 7
     }
 
-    public Room (RoomType type, Vector2 position)
+    public DungeonRoom(DungeonRoomType type, Vector2 position)
     {
         _depth = 100;
         _type = type;
         _position = position;
-        _connectedRooms = new List<Room>();
+        _connectedRooms = new List<DungeonRoom>();
         _corridors = new List<Corridor>();
     }
 
-    public void AddConnectedRoom(Room newRoom)
+    public void AddConnectedRoom(DungeonRoom newRoom)
     {
         if (_connectedRooms.Contains(newRoom)) return;
 
@@ -56,8 +56,8 @@ public class Room
     public int Width { get { return _width; } set { _width = value; } }
     public int Height { get { return _height; } set { _height = value; } }
     public Vector2 Position { get { return _position; } set { _position = value; } }
-    public RoomType Type { get { return _type; } set { _type = value; } }
+    public DungeonRoomType Type { get { return _type; } set { _type = value; } }
     public GameObject SceneRoom => _sceneRoom; 
-    public List<Room> ConnectedRooms => _connectedRooms;
+    public List<DungeonRoom> ConnectedRooms => _connectedRooms;
     public List<Corridor> Corridors => _corridors;
 }
