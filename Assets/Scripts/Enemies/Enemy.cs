@@ -191,12 +191,13 @@ public class Enemy : MonoBehaviour
     {
         _pathTimer = 0;
         _pathToTake = Pathfinding.Instance.FindVectorPath(_rigidbody.position, _player.position);
-        _pathToTake.RemoveAt(0);
+
         if (_pathToTake == null)
         {
             Debug.Log("Path null");
             return;
         }
+        _pathToTake.RemoveAt(0);
     }
 
     /// <summary>

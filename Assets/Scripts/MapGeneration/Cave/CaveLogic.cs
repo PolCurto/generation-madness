@@ -47,11 +47,16 @@ public class CaveLogic : MonoBehaviour
     private List<EnemyZone> _enemyZones;
     private Vector2 _gridOffset;
 
-    private void Start()
+    private void Awake()
     {
         _chests = new List<GameObject>();
         _enemyZones = new List<EnemyZone>();
         _gridOffset = new Vector2(0.5f, 0.5f);
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
@@ -291,27 +296,31 @@ public class CaveLogic : MonoBehaviour
 
         foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
+            Debug.Log("Step 1");
             if (gridPos.Depth >= tileDepth - 20 && gridPos.Depth <= tileDepth + 20)
             {
+                Debug.Log("Step 2");
                 if (_chests.Count == 0)
                 {
                     gridPosition = gridPos.WorldPosition;
                     break;
                 }
+                Debug.Log("Step 3");
                 currDistance = 0;
                 foreach (GameObject c in _chests)
                 {
                     currDistance += Vector2Int.Distance(gridPos.WorldPosition, Vector2Int.RoundToInt(c.transform.position));
                 }
+                Debug.Log("Step 4");
 
                 if (currDistance > oldDistance)
                 {
                     oldDistance = currDistance;
                     gridPosition = gridPos.WorldPosition;
                 }
+                Debug.Log("Step 5");
             }
         }
-        
         Vector2 worldPosition = gridPosition;
         worldPosition += _gridOffset;
         _chests.Add(Instantiate(chest, worldPosition, Quaternion.identity));
