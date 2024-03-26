@@ -22,8 +22,9 @@ public class CatacombsRoom
         Treasure = 3,
         Character = 4,
         KeyRoom = 5,
-        LongRoom = 6,
-        BigRoom = 7
+        LongHorizontal = 6,
+        LongVertical = 7,
+        Big = 8
     }
 
     public CatacombsRoom(CatacombsRoomType type, Vector2Int position)
@@ -32,6 +33,7 @@ public class CatacombsRoom
         _type = type;
         _position = position;
         _connectedRooms = new List<CatacombsRoom>();
+        OccupiedGridPositions = new List<Vector2Int>();
     }
 
     public void AddConnectedRoom(CatacombsRoom newRoom)

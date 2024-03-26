@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
@@ -12,6 +14,8 @@ public class CatacombsGenerator : MonoBehaviour
 
     [Header("Rooms")]
     [SerializeField] private GameObject _testingRoom;
+    [SerializeField] private GameObject _testingRoomLongH;
+    [SerializeField] private GameObject _testingRoomLongV;
     [SerializeField] private GameObject _startRoom;
     [SerializeField] private GameObject _treasureRoom;
     [SerializeField] private GameObject _characterRoom;
@@ -25,7 +29,11 @@ public class CatacombsGenerator : MonoBehaviour
     [SerializeField] private int _gridWidth;
     [SerializeField] private int _gridHeight;
     [Range(0, 2)]
-    [SerializeField] private int _adjacentRooms;
+    [SerializeField] private int _minEmptyAdjacentRooms;
+    [Range(0, 4)]
+    [SerializeField] private int _minEmptyAdjacentRoomsLongH;
+    [Range(0, 4)]
+    [SerializeField] private int _minEmptyAdjacentRoomsLongV;
     [SerializeField] private int _minDeadEnds;
     [SerializeField] private int _maxDeadEnds;
     [SerializeField] private int _minDepth;
@@ -33,6 +41,8 @@ public class CatacombsGenerator : MonoBehaviour
     [SerializeField] private float _longRoomChance;
     [Range(0, 1)]
     [SerializeField] private float _bigRoomChance;
+    [SerializeField] private int _maxLongRooms;
+    [SerializeField] private int _maxBigRooms;
 
     [Header("Walkers Params")]
     [SerializeField] private int _walkersTimeToLive;
@@ -47,8 +57,11 @@ public class CatacombsGenerator : MonoBehaviour
     private List<CatacombsRoom> _deadEnds;
 
     private int _iterations;
+    private int _longRoomsCount;
+    private int _bigRoomsCount;
     #endregion
 
+    #region Unity Methods
     void Awake()
     {
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
@@ -63,15 +76,20 @@ public class CatacombsGenerator : MonoBehaviour
             RenderFloorPrototype();
         }
     }
+    #endregion
 
+    #region Floor Generation
     /// <summary>
     /// Generates the rooms distribution within the floor   
     /// </summary>
     private void GenerateFloor()
     {
+        Debug.Log("START");
         _floorGrid = new CatacombsRoom[_gridHeight, _gridWidth];
         _rooms = new List<CatacombsRoom>();
         _deadEnds = new List<CatacombsRoom>();
+        _longRoomsCount = 0;
+        _bigRoomsCount = 0;
 
         _walker = new Walker(_startPosition, _walkersTimeToLive);
 
@@ -83,7 +101,7 @@ public class CatacombsGenerator : MonoBehaviour
 
         while (roomsLeft > 0)
         {
-            Debug.Log("Walker position: " + _walker.Position + " and rooms left: " + roomsLeft);
+            //Debug.Log("Walker position: " + _walker.Position + " and rooms left: " + roomsLeft);
 
             if (_walker.TimeToLive <= 0)
             {
@@ -96,7 +114,7 @@ public class CatacombsGenerator : MonoBehaviour
 
             if (WalkerLocationIsValid(out var type))
             {
-                CreateRoom();
+                CreateRoom(type);
                 roomsLeft--;
             }
         }
@@ -198,22 +216,188 @@ public class CatacombsGenerator : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Room Creation
     /// <summary>
     /// Creates a new Room and its connections
     /// </summary>
-    private void CreateRoom()
+    private void CreateRoom(CatacombsRoom.CatacombsRoomType type)
     {
-        CatacombsRoom newRoom = new CatacombsRoom(CatacombsRoom.CatacombsRoomType.Normal, _walker.Position);
+        CatacombsRoom newRoom = new CatacombsRoom(type, _walker.Position);
         CatacombsRoom previousRoom = _floorGrid[_walker.PreviousPosition.x, _walker.PreviousPosition.y];
 
         newRoom.AddConnectedRoom(previousRoom);
         previousRoom.AddConnectedRoom(newRoom);
 
-        _floorGrid[_walker.Position.x, _walker.Position.y] = newRoom; // Si és una sala gran, afegir la mateixa sala a totes los posicions que ocupa
+        _floorGrid[_walker.Position.x, _walker.Position.y] = newRoom;
+        newRoom.OccupiedGridPositions.Add(_walker.Position);
+
+        Vector2Int offset = Vector2Int.zero;
+
+        switch (type)
+        {
+            case CatacombsRoom.CatacombsRoomType.LongHorizontal:
+
+                if (_walker.Direction.x != 0)
+                {
+                    offset = _walker.Direction;
+                }
+                else
+                {
+                    // If the walker comes from up or down, the long room offset will be to the right
+                    offset = Vector2Int.right;
+                }
+
+                _floorGrid[_walker.Position.x + offset.x, _walker.Position.y] = newRoom;
+
+                newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
+                Vector2Int[] orderedPositions = newRoom.OccupiedGridPositions.OrderByDescending(position => position.x).ToArray<Vector2Int>();
+                newRoom.Position = orderedPositions[^1];
+
+                _longRoomsCount++;
+                break;
+
+            case CatacombsRoom.CatacombsRoomType.LongVertical:
+
+                if (_walker.Direction.y != 0)
+                {
+                    offset = _walker.Direction;
+                }
+                else
+                {
+                    // If the walker comes from up or down, the long room offset will be to the right
+                    offset = Vector2Int.up;
+                }
+
+                _floorGrid[_walker.Position.x, _walker.Position.y + offset.y] = newRoom;
+
+                newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
+                orderedPositions = newRoom.OccupiedGridPositions.OrderByDescending(position => position.y).ToArray<Vector2Int>();
+                newRoom.Position = orderedPositions[^1];
+
+                _longRoomsCount++;
+                break;
+
+            case CatacombsRoom.CatacombsRoomType.Big:
+
+                _floorGrid[_walker.Position.x + offset.x, _walker.Position.y] = newRoom;
+                _floorGrid[_walker.Position.x, _walker.Position.y + offset.y] = newRoom;
+                _floorGrid[_walker.Position.x + offset.x, _walker.Position.y + offset.y] = newRoom;
+
+                newRoom.OccupiedGridPositions.Add(new Vector2Int(_walker.Position.x + offset.x, _walker.Position.y));
+                newRoom.OccupiedGridPositions.Add(new Vector2Int(_walker.Position.x, _walker.Position.y + offset.y));
+                newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
+
+                _bigRoomsCount++;
+                break;
+        }
+
+        Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
+        foreach(Vector2Int pos in newRoom.OccupiedGridPositions)
+        {
+            Debug.Log(pos);
+        }
         _rooms.Add(newRoom);
     }
 
+    private bool NormalRoomFits()
+    {
+        int emptyRooms = 0;
+
+        if (_floorGrid[_walker.Position.x + 1, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - 1, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
+
+        if (emptyRooms > _minEmptyAdjacentRooms)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Checks if a Lon room in horizontal fits. Es podria fer creant primer la sala i iterant per les seves posicions, així es podrien fer sales de moltes formes diferents i s'adaptaria bé
+    /// </summary>
+    /// <returns></returns>
+    private bool LongRoomHorizontalFits()
+    {
+        int offset;
+
+        if (_walker.Direction.x != 0)
+        {
+            offset = _walker.Direction.x;
+        }
+        else
+        {
+
+            offset = 1;
+        }
+
+        int emptyRooms = 0;
+
+        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y] != null) return false;
+
+        // Check for the neighbours
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y + 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y - 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + (offset * 2), _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - offset, _walker.Position.y] == null) emptyRooms++;
+
+        if (emptyRooms > _minEmptyAdjacentRoomsLongH)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool LongRoomVerticalFits()
+    {
+        int offset;
+
+        if (_walker.Direction.y != 0)
+        {
+            offset = _walker.Direction.y;
+        }
+        else
+        {
+
+            offset = 1;
+        }
+
+        int emptyRooms = 0;
+
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + offset] != null) return false;
+
+        // Check for the neighbours
+        if (_floorGrid[_walker.Position.x + 1, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - 1, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + 1, _walker.Position.y + offset] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - 1, _walker.Position.y + offset] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + (offset * 2)] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y - offset] == null) emptyRooms++;
+
+        if (emptyRooms > _minEmptyAdjacentRoomsLongV)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
+
+    #region Walker
     /// <summary>
     /// Moves the walker in the floor grid
     /// </summary>
@@ -271,11 +455,20 @@ public class CatacombsGenerator : MonoBehaviour
                 return true;
             }
 
-            if (Random.Range(0, 1f) < _longRoomChance)
+            if (_longRoomsCount < _maxLongRooms && Random.Range(0, 1f) < _longRoomChance)
             {
-                if (LongRoomFits())
+                if (LongRoomHorizontalFits())
                 {
-                    roomType = CatacombsRoom.CatacombsRoomType.LongRoom;
+                    roomType = CatacombsRoom.CatacombsRoomType.LongHorizontal;
+                    return true;
+                }
+            }
+
+            if (_longRoomsCount < _maxLongRooms && Random.Range(0, 1f) < _longRoomChance)
+            {
+                if (LongRoomVerticalFits())
+                {
+                    roomType = CatacombsRoom.CatacombsRoomType.LongVertical;
                     return true;
                 }
             }
@@ -292,52 +485,7 @@ public class CatacombsGenerator : MonoBehaviour
 
         return false;
     }
-
-    private bool NormalRoomFits()
-    {
-        int emptyRooms = 0;
-
-        if (_floorGrid[_walker.Position.x + 1, _walker.Position.y] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x - 1, _walker.Position.y] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
-
-        if (emptyRooms > _adjacentRooms)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private bool LongRoomFits()
-    {
-        int offset = _walker.Direction.x == 1 ? 1 : -1;
-
-        int emptyRooms = 0;
-
-        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y] != null) return false;
-
-        
-        // Check for the neighbours
-        if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y + 1] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y - 1] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x + (offset * 2), _walker.Position.y] == null) emptyRooms++;
-        if (_floorGrid[_walker.Position.x - offset, _walker.Position.y] == null) emptyRooms++;
-
-        if (emptyRooms > _adjacentRooms)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    #endregion 
 
     /// <summary>
     /// Renders the floor with the selected rooms once the loop has ended
@@ -351,6 +499,7 @@ public class CatacombsGenerator : MonoBehaviour
             GameObject newRoom;
 
             Vector3 position = new Vector3(room.Position.x, room.Position.y);
+            float value = room.Depth * 40;
 
             switch (room.Type)
             {
@@ -362,8 +511,19 @@ public class CatacombsGenerator : MonoBehaviour
 
                 case CatacombsRoom.CatacombsRoomType.Normal:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    float value = room.Depth * 40;
                     newRoom.GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case CatacombsRoom.CatacombsRoomType.LongHorizontal:
+                    newRoom = Instantiate(_testingRoomLongH, position, Quaternion.identity);
+                    newRoom.GetComponentInChildren<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case CatacombsRoom.CatacombsRoomType.LongVertical:
+                    newRoom = Instantiate(_testingRoomLongV, position, Quaternion.identity);
+                    newRoom.GetComponentInChildren<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
                     room.AddSceneRoom(newRoom);
                     break;
 
