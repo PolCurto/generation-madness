@@ -9,6 +9,8 @@ public class Walker
 
     public int TimeToLive { get; set; }
 
+    public Vector2Int Direction { get; set; }
+
 
     public Walker(Vector2Int position, int timeToLive)
     {

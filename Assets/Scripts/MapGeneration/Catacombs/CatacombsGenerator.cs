@@ -29,6 +29,10 @@ public class CatacombsGenerator : MonoBehaviour
     [SerializeField] private int _minDeadEnds;
     [SerializeField] private int _maxDeadEnds;
     [SerializeField] private int _minDepth;
+    [Range(0, 1)]
+    [SerializeField] private float _longRoomChance;
+    [Range(0, 1)]
+    [SerializeField] private float _bigRoomChance;
 
     [Header("Walkers Params")]
     [SerializeField] private int _walkersTimeToLive;
@@ -90,7 +94,7 @@ public class CatacombsGenerator : MonoBehaviour
 
             MoveWalker();
 
-            if (CheckCurrentRoom())
+            if (WalkerLocationIsValid(out var type))
             {
                 CreateRoom();
                 roomsLeft--;
@@ -206,7 +210,7 @@ public class CatacombsGenerator : MonoBehaviour
         newRoom.AddConnectedRoom(previousRoom);
         previousRoom.AddConnectedRoom(newRoom);
 
-        _floorGrid[_walker.Position.x, _walker.Position.y] = newRoom;
+        _floorGrid[_walker.Position.x, _walker.Position.y] = newRoom; // Si és una sala gran, afegir la mateixa sala a totes los posicions que ocupa
         _rooms.Add(newRoom);
     }
 
@@ -224,14 +228,30 @@ public class CatacombsGenerator : MonoBehaviour
         if (Random.Range(0f, 1f) > 0.5f)
         {
             //Move horizontal
-            if (Random.Range(0f, 1f) > 0.5f) movement.x = 1;
-            else movement.x = -1;
+            if (Random.Range(0f, 1f) > 0.5f)
+            {
+                movement.x = 1;
+                _walker.Direction = Vector2Int.right;
+            }
+            else
+            {
+                movement.x = -1;
+                _walker.Direction = Vector2Int.left;
+            }
         }
         else
         {
             // Move vertical
-            if (Random.Range(0f, 1f) > 0.5f) movement.y = 1;
-            else movement.y = -1;
+            if (Random.Range(0f, 1f) > 0.5f)
+            {
+                movement.y = 1;
+                _walker.Direction = Vector2Int.up;
+            }
+            else
+            {
+                movement.y = -1;
+                _walker.Direction = Vector2Int.down;
+            }
         }
 
         _walker.Position += movement;
@@ -240,18 +260,27 @@ public class CatacombsGenerator : MonoBehaviour
     /// <summary>
     /// Checks if the current position is valid to create a new Room
     /// </summary>
-    private bool CheckCurrentRoom()
+    private bool WalkerLocationIsValid(out CatacombsRoom.CatacombsRoomType roomType)
     {
+        roomType = CatacombsRoom.CatacombsRoomType.Normal;
+
         if (_floorGrid[_walker.Position.x, _walker.Position.y] == null)
         {
-            int emptyRooms = 0;
+            if (Random.Range(0, 1f) < _bigRoomChance)
+            {
+                return true;
+            }
 
-            if (_floorGrid[_walker.Position.x + 1, _walker.Position.y] == null) emptyRooms++;
-            if (_floorGrid[_walker.Position.x - 1, _walker.Position.y] == null) emptyRooms++;
-            if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
-            if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
+            if (Random.Range(0, 1f) < _longRoomChance)
+            {
+                if (LongRoomFits())
+                {
+                    roomType = CatacombsRoom.CatacombsRoomType.LongRoom;
+                    return true;
+                }
+            }
 
-            if (emptyRooms > _adjacentRooms)
+            if (NormalRoomFits())
             {
                 return true;
             }
@@ -262,6 +291,52 @@ public class CatacombsGenerator : MonoBehaviour
         }
 
         return false;
+    }
+
+    private bool NormalRoomFits()
+    {
+        int emptyRooms = 0;
+
+        if (_floorGrid[_walker.Position.x + 1, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - 1, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
+
+        if (emptyRooms > _adjacentRooms)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool LongRoomFits()
+    {
+        int offset = _walker.Direction.x == 1 ? 1 : -1;
+
+        int emptyRooms = 0;
+
+        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y] != null) return false;
+
+        
+        // Check for the neighbours
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y + 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + offset, _walker.Position.y - 1] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + (offset * 2), _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - offset, _walker.Position.y] == null) emptyRooms++;
+
+        if (emptyRooms > _adjacentRooms)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>

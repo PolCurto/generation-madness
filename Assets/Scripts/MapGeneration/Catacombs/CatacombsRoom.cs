@@ -12,6 +12,8 @@ public class CatacombsRoom
     private List<CatacombsRoom> _connectedRooms;
     private GameObject _sceneRoom;
 
+    public List<Vector2Int> OccupiedGridPositions { get; set; }
+
     public enum CatacombsRoomType
     {
         Start = 0,
@@ -19,7 +21,9 @@ public class CatacombsRoom
         Boss = 2,
         Treasure = 3,
         Character = 4,
-        KeyRoom = 5
+        KeyRoom = 5,
+        LongRoom = 6,
+        BigRoom = 7
     }
 
     public CatacombsRoom(CatacombsRoomType type, Vector2Int position)
