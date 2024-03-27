@@ -27,4 +27,9 @@ public class MainMenu : MonoBehaviour
         gameObject.SetActive(false);
         LevelsLoader.Instance.LoadScene(3);
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

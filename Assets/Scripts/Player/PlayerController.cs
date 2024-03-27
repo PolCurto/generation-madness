@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviour
         _playerInput.x = Input.GetAxisRaw("Horizontal");
         _playerInput.y = Input.GetAxisRaw("Vertical");
         _playerInput.Normalize();
+
+        if (Input.GetKeyDown(KeyCode.Escape) && UIController.Instance != null)
+        {
+            UIController.Instance.TogglePauseMenu();
+        }
     }
 
     /// <summary>
