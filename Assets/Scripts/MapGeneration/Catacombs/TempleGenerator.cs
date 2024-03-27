@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
-public class CatacombsGenerator : MonoBehaviour
+public class TempleGenerator : MonoBehaviour
 {
     #region Global Variables
     [SerializeField] private TilesController _tilesController;
@@ -16,6 +16,7 @@ public class CatacombsGenerator : MonoBehaviour
     [SerializeField] private GameObject _testingRoom;
     [SerializeField] private GameObject _testingRoomLongH;
     [SerializeField] private GameObject _testingRoomLongV;
+    [SerializeField] private GameObject _testingRoomBig;
     [SerializeField] private GameObject _startRoom;
     [SerializeField] private GameObject _treasureRoom;
     [SerializeField] private GameObject _characterRoom;
@@ -34,6 +35,8 @@ public class CatacombsGenerator : MonoBehaviour
     [SerializeField] private int _minEmptyAdjacentRoomsLongH;
     [Range(0, 4)]
     [SerializeField] private int _minEmptyAdjacentRoomsLongV;
+    [Range(0, 8)]
+    [SerializeField] private int _minEmptyAdjacentRoomsBig;
     [SerializeField] private int _minDeadEnds;
     [SerializeField] private int _maxDeadEnds;
     [SerializeField] private int _minDepth;
@@ -52,9 +55,9 @@ public class CatacombsGenerator : MonoBehaviour
 
     private Vector2Int _startPosition;
     private Walker _walker;
-    private CatacombsRoom[,] _floorGrid;
-    private List<CatacombsRoom> _rooms;
-    private List<CatacombsRoom> _deadEnds;
+    private TempleRoom[,] _floorGrid;
+    private List<TempleRoom> _rooms;
+    private List<TempleRoom> _deadEnds;
 
     private int _iterations;
     private int _longRoomsCount;
@@ -65,6 +68,13 @@ public class CatacombsGenerator : MonoBehaviour
     void Awake()
     {
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
+    }
+
+    private void Start()
+    {
+        GenerateFloor();
+        RenderFloorPrototype();
+        LoadingScreen.Instance.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -85,15 +95,15 @@ public class CatacombsGenerator : MonoBehaviour
     private void GenerateFloor()
     {
         Debug.Log("START");
-        _floorGrid = new CatacombsRoom[_gridHeight, _gridWidth];
-        _rooms = new List<CatacombsRoom>();
-        _deadEnds = new List<CatacombsRoom>();
+        _floorGrid = new TempleRoom[_gridHeight, _gridWidth];
+        _rooms = new List<TempleRoom>();
+        _deadEnds = new List<TempleRoom>();
         _longRoomsCount = 0;
         _bigRoomsCount = 0;
 
         _walker = new Walker(_startPosition, _walkersTimeToLive);
 
-        CatacombsRoom startRoom = new CatacombsRoom(CatacombsRoom.CatacombsRoomType.Start, _walker.Position);
+        TempleRoom startRoom = new TempleRoom(TempleRoom.TempleRoomType.Start, _walker.Position);
         _floorGrid[_walker.Position.x, _walker.Position.y] = startRoom;
         _rooms.Add(startRoom);
 
@@ -129,16 +139,16 @@ public class CatacombsGenerator : MonoBehaviour
     {
         _rooms[0].Depth = 0;
 
-        foreach (CatacombsRoom room in _rooms)
+        foreach (TempleRoom room in _rooms)
         {
             // Adds all the rooms that are in a extreme of the map
-            if (room.ConnectedRooms.Count < 2 && room.Type != CatacombsRoom.CatacombsRoomType.Start)
+            if (room.ConnectedRooms.Count < 2 && room.Type == TempleRoom.TempleRoomType.Normal)
             {
                 _deadEnds.Add(room);
             }
 
             // Sets the depth of each generated room
-            foreach (CatacombsRoom connectedRoom in room.ConnectedRooms)
+            foreach (TempleRoom connectedRoom in room.ConnectedRooms)
             {
                 if (connectedRoom.Depth > room.Depth + 1)
                 {
@@ -175,16 +185,16 @@ public class CatacombsGenerator : MonoBehaviour
     private void SetSpecialRooms()
     {
         // Creates the boss room as far from the start as possible
-        CatacombsRoom bossRoom = _deadEnds[^1];
-        bossRoom.Type = CatacombsRoom.CatacombsRoomType.Boss;
+        TempleRoom bossRoom = _deadEnds[^1];
+        bossRoom.Type = TempleRoom.TempleRoomType.Boss;
 
         // Sets the key room as far from the boss room as possible
-        CatacombsRoom keyRoom = bossRoom;
+        TempleRoom keyRoom = bossRoom;
         float prevDistance = 0;
 
-        foreach (CatacombsRoom deadEnd in _deadEnds)
+        foreach (TempleRoom deadEnd in _deadEnds)
         {
-            if (deadEnd.Type == CatacombsRoom.CatacombsRoomType.Normal)
+            if (deadEnd.Type == TempleRoom.TempleRoomType.Normal)
             {
                 float currentDistance = Vector2Int.Distance(deadEnd.Position, bossRoom.Position);
                 if (currentDistance > prevDistance)
@@ -194,24 +204,24 @@ public class CatacombsGenerator : MonoBehaviour
                 }
             }
         }
-        keyRoom.Type = CatacombsRoom.CatacombsRoomType.KeyRoom;
+        keyRoom.Type = TempleRoom.TempleRoomType.KeyRoom;
 
         // Creates the character room
-        foreach (CatacombsRoom deadEnd in _deadEnds)
+        foreach (TempleRoom deadEnd in _deadEnds)
         {
-            if (deadEnd.Type == CatacombsRoom.CatacombsRoomType.Normal)
+            if (deadEnd.Type == TempleRoom.TempleRoomType.Normal)
             {
-                deadEnd.Type = CatacombsRoom.CatacombsRoomType.Character;
+                deadEnd.Type = TempleRoom.TempleRoomType.Character;
                 break;
             }
         }
 
         // Creates the treasure room
-        foreach (CatacombsRoom deadEnd in _deadEnds)
+        foreach (TempleRoom deadEnd in _deadEnds)
         {
-            if (deadEnd.Type == CatacombsRoom.CatacombsRoomType.Normal)
+            if (deadEnd.Type == TempleRoom.TempleRoomType.Normal)
             {
-                deadEnd.Type = CatacombsRoom.CatacombsRoomType.Treasure;
+                deadEnd.Type = TempleRoom.TempleRoomType.Treasure;
                 break;
             }
         }
@@ -222,10 +232,10 @@ public class CatacombsGenerator : MonoBehaviour
     /// <summary>
     /// Creates a new Room and its connections
     /// </summary>
-    private void CreateRoom(CatacombsRoom.CatacombsRoomType type)
+    private void CreateRoom(TempleRoom.TempleRoomType type)
     {
-        CatacombsRoom newRoom = new CatacombsRoom(type, _walker.Position);
-        CatacombsRoom previousRoom = _floorGrid[_walker.PreviousPosition.x, _walker.PreviousPosition.y];
+        TempleRoom newRoom = new TempleRoom(type, _walker.Position);
+        TempleRoom previousRoom = _floorGrid[_walker.PreviousPosition.x, _walker.PreviousPosition.y];
 
         newRoom.AddConnectedRoom(previousRoom);
         previousRoom.AddConnectedRoom(newRoom);
@@ -237,7 +247,7 @@ public class CatacombsGenerator : MonoBehaviour
 
         switch (type)
         {
-            case CatacombsRoom.CatacombsRoomType.LongHorizontal:
+            case TempleRoom.TempleRoomType.LongHorizontal:
 
                 if (_walker.Direction.x != 0)
                 {
@@ -258,7 +268,7 @@ public class CatacombsGenerator : MonoBehaviour
                 _longRoomsCount++;
                 break;
 
-            case CatacombsRoom.CatacombsRoomType.LongVertical:
+            case TempleRoom.TempleRoomType.LongVertical:
 
                 if (_walker.Direction.y != 0)
                 {
@@ -279,7 +289,11 @@ public class CatacombsGenerator : MonoBehaviour
                 _longRoomsCount++;
                 break;
 
-            case CatacombsRoom.CatacombsRoomType.Big:
+            case TempleRoom.TempleRoomType.Big:
+
+                offset = _walker.Direction;
+                if (_walker.Direction.x == 0) offset.x = 1;
+                if (_walker.Direction.y == 0) offset.y = 1;
 
                 _floorGrid[_walker.Position.x + offset.x, _walker.Position.y] = newRoom;
                 _floorGrid[_walker.Position.x, _walker.Position.y + offset.y] = newRoom;
@@ -289,11 +303,14 @@ public class CatacombsGenerator : MonoBehaviour
                 newRoom.OccupiedGridPositions.Add(new Vector2Int(_walker.Position.x, _walker.Position.y + offset.y));
                 newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
 
+                orderedPositions = newRoom.OccupiedGridPositions.OrderByDescending(position => position.magnitude).ToArray<Vector2Int>();
+                newRoom.Position = orderedPositions[^1];
+
                 _bigRoomsCount++;
                 break;
         }
 
-        Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
+        //Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
         foreach(Vector2Int pos in newRoom.OccupiedGridPositions)
         {
             Debug.Log(pos);
@@ -395,6 +412,39 @@ public class CatacombsGenerator : MonoBehaviour
             return false;
         }
     }
+
+    private bool BigRoomFits()
+    {
+        Vector2Int offset = _walker.Direction;
+
+        if (_walker.Direction.x == 0) offset.x = 1;
+        if (_walker.Direction.y == 0) offset.y = 1;
+
+        int emptyRooms = 0;
+
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + offset.y] != null ||
+            _floorGrid[_walker.Position.x + offset.x, _walker.Position.y] != null ||
+            _floorGrid[_walker.Position.x + offset.x, _walker.Position.y + offset.y] != null) return false;
+
+        // Check for the neighbours
+        if (_floorGrid[_walker.Position.x - offset.x, _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x - offset.x, _walker.Position.y + offset.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y + (offset.y * 2)] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + offset.x, _walker.Position.y + (offset.y * 2)] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + (offset.x * 2), _walker.Position.y + offset.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + (offset.x * 2), _walker.Position.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x + offset.x, _walker.Position.y - offset.y] == null) emptyRooms++;
+        if (_floorGrid[_walker.Position.x, _walker.Position.y - offset.y] == null) emptyRooms++;
+
+        if (emptyRooms > _minEmptyAdjacentRoomsBig)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     #endregion
 
     #region Walker
@@ -444,22 +494,26 @@ public class CatacombsGenerator : MonoBehaviour
     /// <summary>
     /// Checks if the current position is valid to create a new Room
     /// </summary>
-    private bool WalkerLocationIsValid(out CatacombsRoom.CatacombsRoomType roomType)
+    private bool WalkerLocationIsValid(out TempleRoom.TempleRoomType roomType)
     {
-        roomType = CatacombsRoom.CatacombsRoomType.Normal;
+        roomType = TempleRoom.TempleRoomType.Normal;
 
         if (_floorGrid[_walker.Position.x, _walker.Position.y] == null)
         {
-            if (Random.Range(0, 1f) < _bigRoomChance)
+            if (_bigRoomsCount < _maxBigRooms && Random.Range(0, 1f) < _bigRoomChance)
             {
-                return true;
+                if (BigRoomFits())
+                {
+                    roomType = TempleRoom.TempleRoomType.Big;
+                    return true;
+                }
             }
 
             if (_longRoomsCount < _maxLongRooms && Random.Range(0, 1f) < _longRoomChance)
             {
                 if (LongRoomHorizontalFits())
                 {
-                    roomType = CatacombsRoom.CatacombsRoomType.LongHorizontal;
+                    roomType = TempleRoom.TempleRoomType.LongHorizontal;
                     return true;
                 }
             }
@@ -468,7 +522,7 @@ public class CatacombsGenerator : MonoBehaviour
             {
                 if (LongRoomVerticalFits())
                 {
-                    roomType = CatacombsRoom.CatacombsRoomType.LongVertical;
+                    roomType = TempleRoom.TempleRoomType.LongVertical;
                     return true;
                 }
             }
@@ -492,62 +546,70 @@ public class CatacombsGenerator : MonoBehaviour
     /// </summary>
     private void RenderFloorPrototype()
     {
-        foreach (CatacombsRoom room in _rooms)
+        foreach (TempleRoom room in _rooms)
         {
             // Center to 0
             room.Position -= _startPosition;
             GameObject newRoom;
 
+            //room.Position *= 10;
+
             Vector3 position = new Vector3(room.Position.x, room.Position.y);
-            float value = room.Depth * 40;
+            float value = room.Depth * 30;
 
             switch (room.Type)
             {
-                case CatacombsRoom.CatacombsRoomType.Start:
+                case TempleRoom.TempleRoomType.Start:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.Normal:
+                case TempleRoom.TempleRoomType.Normal:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.LongHorizontal:
+                case TempleRoom.TempleRoomType.LongHorizontal:
                     newRoom = Instantiate(_testingRoomLongH, position, Quaternion.identity);
-                    newRoom.GetComponentInChildren<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.LongVertical:
+                case TempleRoom.TempleRoomType.LongVertical:
                     newRoom = Instantiate(_testingRoomLongV, position, Quaternion.identity);
-                    newRoom.GetComponentInChildren<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.Treasure:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 200f / 255, 0);
+                case TempleRoom.TempleRoomType.Big:
+                    newRoom = Instantiate(_testingRoomBig, position, Quaternion.identity);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.Character:
+                case TempleRoom.TempleRoomType.Treasure:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 200f / 255, 0);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.KeyRoom:
+                case TempleRoom.TempleRoomType.Character:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case CatacombsRoom.CatacombsRoomType.Boss:
+                case TempleRoom.TempleRoomType.KeyRoom:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
+                    room.AddSceneRoom(newRoom);
+                    break;
+
+                case TempleRoom.TempleRoomType.Boss:
+                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
+                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
                     room.AddSceneRoom(newRoom);
                     break;
             }

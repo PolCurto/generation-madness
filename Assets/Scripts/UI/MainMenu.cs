@@ -20,4 +20,11 @@ public class MainMenu : MonoBehaviour
         gameObject.SetActive(false);
         LevelsLoader.Instance.LoadScene(2);
     }
+
+    public void GenerateTempleLevel()
+    {
+        LoadingScreen.Instance.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+        LevelsLoader.Instance.LoadScene(3);
+    }
 }

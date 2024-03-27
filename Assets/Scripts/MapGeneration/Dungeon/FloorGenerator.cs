@@ -127,7 +127,6 @@ public class FloorGenerator : MonoBehaviour
     }
     #endregion
 
-
     #region Floor Logic
     private IEnumerator GenerateLevel()
     {

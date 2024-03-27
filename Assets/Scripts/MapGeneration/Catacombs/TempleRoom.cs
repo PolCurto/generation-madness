@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static DungeonRoom;
 
-public class CatacombsRoom
+public class TempleRoom
 {
     private int _depth;
-    private CatacombsRoomType _type;
+    private TempleRoomType _type;
     private Vector2Int _position;
-    private List<CatacombsRoom> _connectedRooms;
+    private List<TempleRoom> _connectedRooms;
     private GameObject _sceneRoom;
 
     public List<Vector2Int> OccupiedGridPositions { get; set; }
 
-    public enum CatacombsRoomType
+    public enum TempleRoomType
     {
         Start = 0,
         Normal = 1,
@@ -27,16 +26,16 @@ public class CatacombsRoom
         Big = 8
     }
 
-    public CatacombsRoom(CatacombsRoomType type, Vector2Int position)
+    public TempleRoom(TempleRoomType type, Vector2Int position)
     {
         _depth = 100;
         _type = type;
         _position = position;
-        _connectedRooms = new List<CatacombsRoom>();
+        _connectedRooms = new List<TempleRoom>();
         OccupiedGridPositions = new List<Vector2Int>();
     }
 
-    public void AddConnectedRoom(CatacombsRoom newRoom)
+    public void AddConnectedRoom(TempleRoom newRoom)
     {
         if (_connectedRooms.Contains(newRoom)) return;
 
@@ -50,6 +49,6 @@ public class CatacombsRoom
 
     public int Depth { get { return _depth; } set { _depth = value; } }
     public Vector2Int Position { get { return _position; } set { _position = value; } }
-    public CatacombsRoomType Type { get { return _type; } set { _type = value; } }
-    public List<CatacombsRoom> ConnectedRooms => _connectedRooms;
+    public TempleRoomType Type { get { return _type; } set { _type = value; } }
+    public List<TempleRoom> ConnectedRooms => _connectedRooms;
 }
