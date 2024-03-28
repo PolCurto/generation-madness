@@ -23,6 +23,8 @@ public class CaveDecoration : MonoBehaviour
     private FloorGrid _floorGrid;
     private bool generate;
 
+    public bool HasFinished => _wfc.GroundTilesPlaced;
+
     void Start()
     {
         _wfc = GetComponent<WFC>();
@@ -39,7 +41,7 @@ public class CaveDecoration : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            GenerateGroundTiles();
+            DecorateCave();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha5))

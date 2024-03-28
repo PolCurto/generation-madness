@@ -30,9 +30,38 @@ public class CaveGenerator : MonoBehaviour
 
     private void Start()
     {
-        GenerateCave();
+        StartCoroutine(GenerateLevel());
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GenerateCaveBase();
+            /*
+            _caveLogic.SetBaseLogic();
+            _caveDecoration.DecorateCave();
+            _caveLogic.SetSpecialZones();
+            _caveLogic.SetWalls();
+            _caveLogic.SetEnemies();
+            */
+        }
+    }
+
+    private IEnumerator GenerateLevel()
+    {
+        GenerateCaveBase();
         _caveLogic.SetBaseLogic();
+
         _caveDecoration.DecorateCave();
+
+        while (!_caveDecoration.HasFinished)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Ended groudn tiles");
+
         _caveLogic.SetSpecialZones();
         _caveLogic.SetWalls();
         _caveLogic.SetEnemies();
@@ -41,21 +70,8 @@ public class CaveGenerator : MonoBehaviour
         LoadingScreen.Instance.gameObject.SetActive(false);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GenerateCave();
-            _caveLogic.SetBaseLogic();
-            _caveDecoration.DecorateCave();
-            _caveLogic.SetSpecialZones();
-            _caveLogic.SetWalls();
-            _caveLogic.SetEnemies();
-        }
-    }
-
     #region Cave Generation
-    private void GenerateCave()
+    private void GenerateCaveBase()
     {
         _floorGrid = new FloorGrid(_width, _height);
         _floorTilemap.ClearAllTiles();
@@ -182,7 +198,7 @@ public class CaveGenerator : MonoBehaviour
 
         if (_floorGrid.GridPositions.Count < _minFloorTiles || _floorGrid.GridPositions.Count > _maxFloorTiles)
         {
-            GenerateCave();
+            GenerateCaveBase();
             return false;
         }
         else

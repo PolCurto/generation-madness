@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -19,6 +20,10 @@ public class WFC : MonoBehaviour
     private int _iterations = 0;
     private int _gridPartIndex = 0;
     private bool _isGenerating = false;
+
+    private bool _chunkFinished = false;
+
+    public bool GroundTilesPlaced { get; private set; }
 
     private readonly Vector2Int[] Surroundings = new Vector2Int[]
         {
@@ -87,24 +92,29 @@ public class WFC : MonoBehaviour
 
         if (_generateByChunks)
         {
-            GenerateFloorByChunks();
+            StartCoroutine(GenerateFloorByChunks());
         }
         else
         {
-            CheckEntropy();
+            StartCoroutine(CheckEntropy());
         }
     }
 
-    private void GenerateFloorByChunks()
+    private IEnumerator GenerateFloorByChunks()
     {
         DivideGrid();
 
         for (_gridPartIndex = 0; _gridPartIndex < _gridParts.Length; _gridPartIndex++)
         {
+            _chunkFinished = false;
             while (_gridParts[_gridPartIndex].Count == 0)
             {
                 _gridPartIndex++;
-                if (_gridPartIndex >= _gridParts.Length) return;
+                if (_gridPartIndex >= _gridParts.Length)
+                {
+                    GroundTilesPlaced = true;
+                    yield break;
+                }
             }
 
             if (_setBorders)
@@ -118,8 +128,15 @@ public class WFC : MonoBehaviour
                 }
             }
 
-            CheckEntropy();
+            StartCoroutine(CheckEntropy());
+
+            while (!_chunkFinished)
+            {
+                yield return null;
+            }
         }
+
+        GroundTilesPlaced = true;
     }
 
     private void SetPossibleNodes()
@@ -159,14 +176,14 @@ public class WFC : MonoBehaviour
 
     }
 
-    private void CheckEntropy()
+    private IEnumerator CheckEntropy()
     {
         List<GridPos> tempGrid = _generateByChunks ? new List<GridPos>(_gridParts[_gridPartIndex]) : new List<GridPos>(_floorGrid.GridPositions);
 
         tempGrid.RemoveAll(c => c.Collapsed);
         _iterations = tempGrid.Count;
 
-        if (_iterations == 0) return;
+        if (_iterations == 0) yield break;
 
         if (_setBorders)
         {
@@ -202,7 +219,7 @@ public class WFC : MonoBehaviour
             tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
         }
 
-        //yield return null;
+        yield return null;
 
         CollapseCell(tempGrid);
     }
@@ -251,11 +268,12 @@ public class WFC : MonoBehaviour
 
         if (_iterations > 1)
         {
-            CheckEntropy();
+            StartCoroutine(CheckEntropy());
         }
         else if (_generateByChunks)
         {
             UpdateNeighbours(_gridPartIndex);
+            _chunkFinished = true;
         }
     }
 
