@@ -67,6 +67,8 @@ public class CaveGenerator : MonoBehaviour
         _caveLogic.SetEnemies();
         _caveLogic.SpawnPlayer();
 
+        yield return new WaitForSeconds(0.5f);
+
         LoadingScreen.Instance.gameObject.SetActive(false);
     }
 

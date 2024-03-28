@@ -94,7 +94,7 @@ public class TempleGenerator : MonoBehaviour
     /// </summary>
     private void GenerateFloor()
     {
-        Debug.Log("START");
+        //Debug.Log("START");
         _floorGrid = new TempleRoom[_gridHeight, _gridWidth];
         _rooms = new List<TempleRoom>();
         _deadEnds = new List<TempleRoom>();
@@ -313,7 +313,7 @@ public class TempleGenerator : MonoBehaviour
         //Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
         foreach(Vector2Int pos in newRoom.OccupiedGridPositions)
         {
-            Debug.Log(pos);
+            //Debug.Log(pos);
         }
         _rooms.Add(newRoom);
     }

@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilesController: {fileID: 306146751}
   _player: {fileID: 678075224}
+  _camera: {fileID: 1544489619}
   _testingRoom: {fileID: 5050088980480476351, guid: 24da019120670494a97ed51d647b113a, type: 3}
   _startRoom: {fileID: 3830335875092767822, guid: 47c7253189c78c34f93d0faf7541b2b9, type: 3}
   _treasureRoom: {fileID: 6203144229532863318, guid: 686a7d7feb590ef48b5dddf817ee9dd7, type: 3}

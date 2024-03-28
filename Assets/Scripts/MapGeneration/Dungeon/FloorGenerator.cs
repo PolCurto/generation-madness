@@ -139,6 +139,8 @@ public class FloorGenerator : MonoBehaviour
         _tilesController.CleanWalls();
         SpawnPlayer();
 
+        yield return new WaitForSeconds(0.5f);
+
         LoadingScreen.Instance.gameObject.SetActive(false);
     }
 

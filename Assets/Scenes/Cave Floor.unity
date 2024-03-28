@@ -1294,6 +1294,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 5212704833002173962}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _player
       value: 
       objectReference: {fileID: 226361002}
@@ -1431,6 +1435,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a95da2f5a63d21b4783bf53f27ac9fc8, type: 3}
+--- !u!1 &5212704833002173962 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 220425047902934767, guid: a95da2f5a63d21b4783bf53f27ac9fc8, type: 3}
+  m_PrefabInstance: {fileID: 5212704833002173961}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
