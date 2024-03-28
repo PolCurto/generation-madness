@@ -37,7 +37,7 @@ public class TempleRoom
 
     public void AddConnectedRoom(TempleRoom newRoom)
     {
-        if (_connectedRooms.Contains(newRoom)) return;
+        if (_connectedRooms.Contains(newRoom) || newRoom == this) return;
 
         _connectedRooms.Add(newRoom);
     }

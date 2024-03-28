@@ -29,13 +29,11 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private int _maxRooms;
     [SerializeField] private int _gridWidth;
     [SerializeField] private int _gridHeight;
-    [Range(0, 2)]
+    [Range(0, 3)]
     [SerializeField] private int _minEmptyAdjacentRooms;
-    [Range(0, 4)]
-    [SerializeField] private int _minEmptyAdjacentRoomsLongH;
-    [Range(0, 4)]
-    [SerializeField] private int _minEmptyAdjacentRoomsLongV;
-    [Range(0, 8)]
+    [Range(0, 5)]
+    [SerializeField] private int _minEmptyAdjacentRoomsLong;
+    [Range(0, 7)]
     [SerializeField] private int _minEmptyAdjacentRoomsBig;
     [SerializeField] private int _minDeadEnds;
     [SerializeField] private int _maxDeadEnds;
@@ -62,6 +60,14 @@ public class TempleGenerator : MonoBehaviour
     private int _iterations;
     private int _longRoomsCount;
     private int _bigRoomsCount;
+
+    private Vector2Int[] surroundings = new Vector2Int[]
+    {
+        new Vector2Int (1, 0),      // Right
+        new Vector2Int (0, -1),     // Down
+        new Vector2Int (-1, 0),     // Left
+        new Vector2Int (0, 1),      // Up
+    };
     #endregion
 
     #region Unity Methods
@@ -94,7 +100,7 @@ public class TempleGenerator : MonoBehaviour
     /// </summary>
     private void GenerateFloor()
     {
-        //Debug.Log("START");
+        Debug.Log("START");
         _floorGrid = new TempleRoom[_gridHeight, _gridWidth];
         _rooms = new List<TempleRoom>();
         _deadEnds = new List<TempleRoom>();
@@ -126,6 +132,15 @@ public class TempleGenerator : MonoBehaviour
             {
                 CreateRoom(type);
                 roomsLeft--;
+            }
+        }
+
+        foreach (var room in _rooms)
+        {
+            Debug.Log("Room " + room.Type.HumanName() + "in Position: " + room.Position + " connected with:");
+            foreach(var connRoom in room.ConnectedRooms)
+            {
+                Debug.Log(connRoom.Type.HumanName());
             }
         }
 
@@ -310,10 +325,19 @@ public class TempleGenerator : MonoBehaviour
                 break;
         }
 
-        //Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
+        Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
+
+        // Add possible new connections to the created room
         foreach(Vector2Int pos in newRoom.OccupiedGridPositions)
         {
-            //Debug.Log(pos);
+            foreach(Vector2Int nextPos in surroundings)
+            {
+                Vector2Int neighbourPos = pos + nextPos;
+                if (_floorGrid[neighbourPos.x, neighbourPos.y] != null)
+                {
+                    ConnectRooms(newRoom, _floorGrid[neighbourPos.x, neighbourPos.y]);
+                }
+            }
         }
         _rooms.Add(newRoom);
     }
@@ -327,7 +351,7 @@ public class TempleGenerator : MonoBehaviour
         if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
         if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
 
-        if (emptyRooms > _minEmptyAdjacentRooms)
+        if (emptyRooms >= _minEmptyAdjacentRooms)
         {
             return true;
         }
@@ -367,7 +391,7 @@ public class TempleGenerator : MonoBehaviour
         if (_floorGrid[_walker.Position.x + (offset * 2), _walker.Position.y] == null) emptyRooms++;
         if (_floorGrid[_walker.Position.x - offset, _walker.Position.y] == null) emptyRooms++;
 
-        if (emptyRooms > _minEmptyAdjacentRoomsLongH)
+        if (emptyRooms > _minEmptyAdjacentRoomsLong)
         {
             return true;
         }
@@ -403,7 +427,7 @@ public class TempleGenerator : MonoBehaviour
         if (_floorGrid[_walker.Position.x, _walker.Position.y + (offset * 2)] == null) emptyRooms++;
         if (_floorGrid[_walker.Position.x, _walker.Position.y - offset] == null) emptyRooms++;
 
-        if (emptyRooms > _minEmptyAdjacentRoomsLongV)
+        if (emptyRooms > _minEmptyAdjacentRoomsLong)
         {
             return true;
         }
@@ -445,6 +469,16 @@ public class TempleGenerator : MonoBehaviour
             return false;
         }
     }
+
+    private void ConnectRooms(TempleRoom roomA, TempleRoom roomB)
+    {
+        roomA.AddConnectedRoom(roomB);
+        roomB.AddConnectedRoom(roomA);
+    }
+    #endregion
+
+    #region Connections
+
     #endregion
 
     #region Walker
