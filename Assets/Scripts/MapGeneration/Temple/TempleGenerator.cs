@@ -27,7 +27,6 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject[] _longVerticalRooms;
     [SerializeField] private GameObject[] _bigRooms;
 
-
     [Header("Floor Params")]
     [SerializeField] private int _maxGenerationIterations;
     [SerializeField] private int _maxRooms;
@@ -55,6 +54,8 @@ public class TempleGenerator : MonoBehaviour
     [Header("Generation Params")]
     [SerializeField] private TileBase _wallTile;
     [SerializeField] Vector2Int _movementScalar;
+    [SerializeField] Vector2 _connectionOffset;
+    [SerializeField] GameObject _connection;
 
     private Vector2Int _startPosition;
     private Walker _walker;
@@ -91,7 +92,7 @@ public class TempleGenerator : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GetRoomsToGrid();
+            PlaceConnections();
         }
     }
     #endregion
@@ -99,6 +100,7 @@ public class TempleGenerator : MonoBehaviour
     private void GenerateLevel()
     {
         GenerateFloor();
+        CreateConnections();
         RenderFloor();
         GetRoomsToGrid();
         _tilesController.DrawWalls(_wallTile);
@@ -123,6 +125,8 @@ public class TempleGenerator : MonoBehaviour
         _walker = new Walker(_startPosition, _walkersTimeToLive);
 
         TempleRoom startRoom = new TempleRoom(TempleRoom.TempleRoomType.Start, _walker.Position);
+        startRoom.GridPositions.Add(_walker.Position);
+
         _floorGrid[_walker.Position.x, _walker.Position.y] = startRoom;
         _rooms.Add(startRoom);
 
@@ -513,7 +517,20 @@ public class TempleGenerator : MonoBehaviour
         }
     }
 
-    
+    private void PlaceConnections()
+    {
+        foreach (TempleRoom room in _rooms)
+        {
+            foreach (Connection connection in room.Connections)
+            {
+                foreach(KeyValuePair<Vector2Int, TempleRoom> bond in connection.Bonds)
+                {
+                    Vector2 connectionPosition = connection.Position + (bond.Key * _connectionOffset) + new Vector2(0.5f, -0.5f);
+                    Instantiate(_connection, connectionPosition, Quaternion.identity);
+                }
+            }
+        }
+    }
     #endregion
 
     #region Walker
@@ -695,6 +712,12 @@ public class TempleGenerator : MonoBehaviour
             // Center to 0
             room.Position -= _startPosition * _movementScalar;
             GameObject newRoom;
+
+            foreach (Connection connection in room.Connections)
+            {
+                connection.Position *= _movementScalar;
+                connection.Position -= _startPosition * _movementScalar;
+            }
 
             switch (room.Type)
             {

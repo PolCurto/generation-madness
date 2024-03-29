@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Connection
 {
-    private Vector2Int _gridPosition;
-    private Dictionary<Vector2Int, TempleRoom> _connections;
+    public Vector2Int Position { get; set; }
+    public Dictionary<Vector2Int, TempleRoom> Bonds { get; private set; }
     
-    public Connection(Vector2Int gridPosition) 
-    { 
-        _gridPosition = gridPosition;
+    public Connection(Vector2Int position) 
+    {
+        Position = position;
+        Bonds = new Dictionary<Vector2Int, TempleRoom>();
     }
 
     public void AddConnection(Vector2Int direction, TempleRoom room)
     {
-        _connections.Add(direction, room);
+        Bonds.Add(direction, room);
     }
 
 }

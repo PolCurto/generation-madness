@@ -34,6 +34,7 @@ public class TempleRoom
         _position = position;
         _connectedRooms = new List<TempleRoom>();
         GridPositions = new List<Vector2Int>();
+        Connections = new List<Connection>();
     }
 
     public void AddConnectedRoom(TempleRoom newRoom)
