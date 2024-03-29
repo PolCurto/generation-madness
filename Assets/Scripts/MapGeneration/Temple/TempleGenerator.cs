@@ -103,8 +103,6 @@ public class TempleGenerator : MonoBehaviour
         CreateConnections();
         RenderFloor();
         GetRoomsToGrid();
-        _tilesController.DrawWalls(_wallTile);
-        _tilesController.CleanWalls();
         //LoadingScreen.Instance.gameObject.SetActive(false);
     }
 

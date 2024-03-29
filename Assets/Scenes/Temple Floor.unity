@@ -1355,7 +1355,7 @@ MonoBehaviour:
   _maxBigRooms: 2
   _walkersTimeToLive: 10
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
-  _movementScalar: {x: 28, y: 17}
+  _movementScalar: {x: 30, y: 19}
   _connectionOffset: {x: 11, y: 6}
   _connection: {fileID: 545903398}
 --- !u!1001 &1408188062

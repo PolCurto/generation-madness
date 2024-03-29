@@ -64,6 +64,7 @@ public class TilesController : MonoBehaviour
             Tilemap[] roomTilemaps = room.SceneRoom.GetComponentsInChildren<Tilemap>();
 
             roomTilemaps[0].CompressBounds();
+            roomTilemaps[1].CompressBounds();
 
             PassOnTiles(roomTilemaps[0], _floorTilemap);
             PassOnTiles(roomTilemaps[1], _wallTilemap);
