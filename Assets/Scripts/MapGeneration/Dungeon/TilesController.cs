@@ -57,6 +57,21 @@ public class TilesController : MonoBehaviour
         }
     }
 
+    public void GetRoomsToMainGrid(List<TempleRoom> rooms)
+    {
+        foreach (TempleRoom room in rooms)
+        {
+            Tilemap[] roomTilemaps = room.SceneRoom.GetComponentsInChildren<Tilemap>();
+
+            roomTilemaps[0].CompressBounds();
+
+            PassOnTiles(roomTilemaps[0], _floorTilemap);
+            PassOnTiles(roomTilemaps[1], _wallTilemap);
+            PassOnTiles(roomTilemaps[2], _detailsTilemap);
+            Destroy(room.SceneRoom);
+        }
+    }
+
     public void PrefabToMainGrid(GameObject prefab)
     {
         Tilemap[] objectTilemaps = prefab.GetComponentsInChildren<Tilemap>();

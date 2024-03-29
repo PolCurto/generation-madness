@@ -9,9 +9,10 @@ public class TempleRoom
     private TempleRoomType _type;
     private Vector2Int _position;
     private List<TempleRoom> _connectedRooms;
-    private GameObject _sceneRoom;
 
-    public List<Vector2Int> OccupiedGridPositions { get; set; }
+    public GameObject SceneRoom { get; set; }
+    public  List<Connection> Connections { get; set; }
+    public List<Vector2Int> GridPositions { get; set; }
 
     public enum TempleRoomType
     {
@@ -32,7 +33,7 @@ public class TempleRoom
         _type = type;
         _position = position;
         _connectedRooms = new List<TempleRoom>();
-        OccupiedGridPositions = new List<Vector2Int>();
+        GridPositions = new List<Vector2Int>();
     }
 
     public void AddConnectedRoom(TempleRoom newRoom)
@@ -40,11 +41,6 @@ public class TempleRoom
         if (_connectedRooms.Contains(newRoom) || newRoom == this) return;
 
         _connectedRooms.Add(newRoom);
-    }
-
-    public void AddSceneRoom(GameObject sceneRoom)
-    {
-        _sceneRoom = sceneRoom;
     }
 
     public int Depth { get { return _depth; } set { _depth = value; } }

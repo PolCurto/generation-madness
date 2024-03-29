@@ -23,6 +23,10 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject _keyRoom;
     [SerializeField] private GameObject _bossRoom;
     [SerializeField] private GameObject[] _normalRooms;
+    [SerializeField] private GameObject[] _longHorizontalRooms;
+    [SerializeField] private GameObject[] _longVerticalRooms;
+    [SerializeField] private GameObject[] _bigRooms;
+
 
     [Header("Floor Params")]
     [SerializeField] private int _maxGenerationIterations;
@@ -50,6 +54,7 @@ public class TempleGenerator : MonoBehaviour
 
     [Header("Generation Params")]
     [SerializeField] private TileBase _wallTile;
+    [SerializeField] Vector2Int _movementScalar;
 
     private Vector2Int _startPosition;
     private Walker _walker;
@@ -61,7 +66,7 @@ public class TempleGenerator : MonoBehaviour
     private int _longRoomsCount;
     private int _bigRoomsCount;
 
-    private Vector2Int[] surroundings = new Vector2Int[]
+    private Vector2Int[] _surroundings = new Vector2Int[]
     {
         new Vector2Int (1, 0),      // Right
         new Vector2Int (0, -1),     // Down
@@ -78,9 +83,7 @@ public class TempleGenerator : MonoBehaviour
 
     private void Start()
     {
-        GenerateFloor();
-        RenderFloorPrototype();
-        LoadingScreen.Instance.gameObject.SetActive(false);
+        GenerateLevel();
     }
 
     // Update is called once per frame
@@ -88,11 +91,21 @@ public class TempleGenerator : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GenerateFloor();
-            RenderFloorPrototype();
+            GetRoomsToGrid();
         }
     }
     #endregion
+
+    private void GenerateLevel()
+    {
+        GenerateFloor();
+        RenderFloor();
+        GetRoomsToGrid();
+        _tilesController.DrawWalls(_wallTile);
+        _tilesController.CleanWalls();
+        //LoadingScreen.Instance.gameObject.SetActive(false);
+    }
+
 
     #region Floor Generation
     /// <summary>
@@ -256,7 +269,7 @@ public class TempleGenerator : MonoBehaviour
         previousRoom.AddConnectedRoom(newRoom);
 
         _floorGrid[_walker.Position.x, _walker.Position.y] = newRoom;
-        newRoom.OccupiedGridPositions.Add(_walker.Position);
+        newRoom.GridPositions.Add(_walker.Position);
 
         Vector2Int offset = Vector2Int.zero;
 
@@ -276,8 +289,8 @@ public class TempleGenerator : MonoBehaviour
 
                 _floorGrid[_walker.Position.x + offset.x, _walker.Position.y] = newRoom;
 
-                newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
-                Vector2Int[] orderedPositions = newRoom.OccupiedGridPositions.OrderByDescending(position => position.x).ToArray<Vector2Int>();
+                newRoom.GridPositions.Add(_walker.Position + offset);
+                Vector2Int[] orderedPositions = newRoom.GridPositions.OrderByDescending(position => position.x).ToArray<Vector2Int>();
                 newRoom.Position = orderedPositions[^1];
 
                 _longRoomsCount++;
@@ -297,8 +310,8 @@ public class TempleGenerator : MonoBehaviour
 
                 _floorGrid[_walker.Position.x, _walker.Position.y + offset.y] = newRoom;
 
-                newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
-                orderedPositions = newRoom.OccupiedGridPositions.OrderByDescending(position => position.y).ToArray<Vector2Int>();
+                newRoom.GridPositions.Add(_walker.Position + offset);
+                orderedPositions = newRoom.GridPositions.OrderByDescending(position => position.y).ToArray<Vector2Int>();
                 newRoom.Position = orderedPositions[^1];
 
                 _longRoomsCount++;
@@ -314,11 +327,11 @@ public class TempleGenerator : MonoBehaviour
                 _floorGrid[_walker.Position.x, _walker.Position.y + offset.y] = newRoom;
                 _floorGrid[_walker.Position.x + offset.x, _walker.Position.y + offset.y] = newRoom;
 
-                newRoom.OccupiedGridPositions.Add(new Vector2Int(_walker.Position.x + offset.x, _walker.Position.y));
-                newRoom.OccupiedGridPositions.Add(new Vector2Int(_walker.Position.x, _walker.Position.y + offset.y));
-                newRoom.OccupiedGridPositions.Add(_walker.Position + offset);
+                newRoom.GridPositions.Add(new Vector2Int(_walker.Position.x + offset.x, _walker.Position.y));
+                newRoom.GridPositions.Add(new Vector2Int(_walker.Position.x, _walker.Position.y + offset.y));
+                newRoom.GridPositions.Add(_walker.Position + offset);
 
-                orderedPositions = newRoom.OccupiedGridPositions.OrderByDescending(position => position.magnitude).ToArray<Vector2Int>();
+                orderedPositions = newRoom.GridPositions.OrderByDescending(position => position.magnitude).ToArray<Vector2Int>();
                 newRoom.Position = orderedPositions[^1];
 
                 _bigRoomsCount++;
@@ -328,9 +341,9 @@ public class TempleGenerator : MonoBehaviour
         Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
 
         // Add possible new connections to the created room
-        foreach(Vector2Int pos in newRoom.OccupiedGridPositions)
+        foreach(Vector2Int pos in newRoom.GridPositions)
         {
-            foreach(Vector2Int nextPos in surroundings)
+            foreach(Vector2Int nextPos in _surroundings)
             {
                 Vector2Int neighbourPos = pos + nextPos;
                 if (_floorGrid[neighbourPos.x, neighbourPos.y] != null)
@@ -478,7 +491,29 @@ public class TempleGenerator : MonoBehaviour
     #endregion
 
     #region Connections
+    private void CreateConnections()
+    {
+        foreach(TempleRoom room in _rooms)
+        {
+            foreach(Vector2Int gridPosition in room.GridPositions)
+            {
+                foreach(Vector2Int offset in _surroundings)
+                {
+                    Vector2Int currentPosition = gridPosition + offset;
+                    TempleRoom checkingRoom = _floorGrid[currentPosition.x, currentPosition.y];
 
+                    if (checkingRoom != null && checkingRoom != room)
+                    {
+                        Connection connection = new Connection(gridPosition);
+                        connection.AddConnection(offset, checkingRoom);
+                        room.Connections.Add(connection);
+                    }
+                }
+            }
+        }
+    }
+
+    
     #endregion
 
     #region Walker
@@ -573,8 +608,9 @@ public class TempleGenerator : MonoBehaviour
 
         return false;
     }
-    #endregion 
+    #endregion
 
+    #region Floor Rendering
     /// <summary>
     /// Renders the floor with the selected rooms once the loop has ended
     /// </summary>
@@ -596,57 +632,127 @@ public class TempleGenerator : MonoBehaviour
                 case TempleRoom.TempleRoomType.Start:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Normal:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.LongHorizontal:
                     newRoom = Instantiate(_testingRoomLongH, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.LongVertical:
                     newRoom = Instantiate(_testingRoomLongV, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Big:
                     newRoom = Instantiate(_testingRoomBig, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Treasure:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 200f / 255, 0);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Character:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.KeyRoom:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Boss:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
-                    room.AddSceneRoom(newRoom);
+                    room.SceneRoom = newRoom;
                     break;
             }
         }
     }
+
+    private void RenderFloor()
+    {
+        foreach (TempleRoom room in _rooms)
+        {
+            room.Position *= _movementScalar;
+
+            // Center to 0
+            room.Position -= _startPosition * _movementScalar;
+            GameObject newRoom;
+
+            switch (room.Type)
+            {
+                case TempleRoom.TempleRoomType.Start:
+                    newRoom = Instantiate(_startRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.Normal:
+                    newRoom = Instantiate(_normalRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.LongHorizontal:
+                    newRoom = Instantiate(_longHorizontalRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.LongVertical:
+                    newRoom = Instantiate(_longVerticalRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.Big:
+                    newRoom = Instantiate(_bigRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.Treasure:
+                    newRoom = Instantiate(_treasureRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.Character:
+                    newRoom = Instantiate(_characterRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.KeyRoom:
+                    newRoom = Instantiate(_keyRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+
+                case TempleRoom.TempleRoomType.Boss:
+                    newRoom = Instantiate(_bossRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    room.SceneRoom = newRoom;
+                    break;
+            }
+        }
+    }
+
+    private void GetRoomsToGrid()
+    {
+        foreach (TempleRoom room in _rooms)
+        {
+            room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
+        }
+        _tilesController.GetRoomsToMainGrid(_rooms);
+    }
+    #endregion
 }
