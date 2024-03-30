@@ -5,16 +5,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _rigidbody;
+    [SerializeField] private Camera _camera;
 
     [Header("Movement Parameters")]
     [SerializeField] private float _maxVelocity;
     [SerializeField] private float _acceleration;
 
-    private Vector2 _playerInput;
+    [SerializeField] private GameObject _weapon;
 
-    void Start()
+    private Rigidbody2D _referencePoint;
+    private Vector2 _playerInput;
+    private Vector2 _mousePosition;
+
+    void Awake()
     {
-        
+        _referencePoint = _weapon.GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -25,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        MoveWeapon();
     }
 
     /// <summary>
@@ -40,6 +46,8 @@ public class PlayerController : MonoBehaviour
         {
             UIController.Instance.TogglePauseMenu();
         }
+
+        _mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
     }
 
     /// <summary>
@@ -49,5 +57,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _playerInput * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
+
+        
+    }
+
+    private void MoveWeapon()
+    {
+        Vector2 direction = _mousePosition - _rigidbody.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        _referencePoint.rotation = angle;
     }
 }
