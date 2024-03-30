@@ -195,4 +195,13 @@ public class TilesController : MonoBehaviour
         }
         return true;
     }
+
+    public void RemoveWallTileAt(Vector3 position)
+    {
+        position.x -= 0.5f;
+        position.y -= 0.5f;
+        Vector3Int gridPos = _wallTilemap.WorldToCell(Vector3Int.RoundToInt(position));
+
+        _wallTilemap.SetTile(gridPos, null);
+    }
 }

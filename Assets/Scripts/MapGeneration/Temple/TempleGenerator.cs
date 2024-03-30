@@ -87,15 +87,6 @@ public class TempleGenerator : MonoBehaviour
     {
         GenerateLevel();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            PlaceConnections();
-        }
-    }
     #endregion
 
     private void GenerateLevel()
@@ -104,7 +95,8 @@ public class TempleGenerator : MonoBehaviour
         CreateConnections();
         RenderFloor();
         GetRoomsToGrid();
-        //LoadingScreen.Instance.gameObject.SetActive(false);
+        PlaceDoors();
+        LoadingScreen.Instance.gameObject.SetActive(false);
     }
 
 
@@ -510,8 +502,7 @@ public class TempleGenerator : MonoBehaviour
                     if (checkingRoom != null && checkingRoom != room)
                     {
                         Connection connection = new Connection(gridPosition);
-                        //connection.AddBond(offset, checkingRoom);
-                        room.Connections.Add(connection);
+                        room.AddConnection(connection);
                     }
                 }
             }
@@ -556,19 +547,28 @@ public class TempleGenerator : MonoBehaviour
 
     }
 
-    private void PlaceConnections()
+    private void PlaceDoors()
     {
         foreach (TempleRoom room in _rooms)
         {
+            Debug.Log("Connections count: " + room.Connections.Count);
             foreach (Connection connection in room.Connections)
             {
+                Debug.Log("Bond count: " + connection.Bonds.Count);
                 foreach(Bond bond in connection.Bonds)
                 {
                     Vector2 bondPosition = connection.Position + (bond.Direction * _connectionOffset) + new Vector2(0.5f, -0.5f);
-                    DoorController newDoor = Instantiate(_door, bondPosition, Quaternion.identity).GetComponent<DoorController>();
 
+                    Vector3 rotation = Vector3.zero;
+                    if (bond.Direction == Vector2Int.right) rotation = new Vector3(0, 0, -90);
+                    if (bond.Direction == Vector2Int.down) rotation = new Vector3(0, 0, -180);
+                    if (bond.Direction == Vector2Int.left) rotation = new Vector3(0, 0, -270);
+
+                    DoorController newDoor = Instantiate(_door, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
+
+                    newDoor.Bond = bond;
                     bond.DoorController = newDoor;
-                    
+                    _tilesController.RemoveWallTileAt(newDoor.transform.position);
                 }
             }
         }

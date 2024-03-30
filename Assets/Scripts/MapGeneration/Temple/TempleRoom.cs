@@ -11,7 +11,7 @@ public class TempleRoom
     private List<TempleRoom> _connectedRooms;
 
     public GameObject SceneRoom { get; set; }
-    public  List<Connection> Connections { get; set; }
+    public List<Connection> Connections { get; set; }
     public List<Vector2Int> GridPositions { get; set; }
 
     public enum TempleRoomType
@@ -42,6 +42,14 @@ public class TempleRoom
         if (_connectedRooms.Contains(newRoom) || newRoom == this) return;
 
         _connectedRooms.Add(newRoom);
+    }
+
+    public void AddConnection(Connection connection)
+    {
+        if (!TryGetConnectionInPosition(connection.Position, out _))
+        {
+            Connections.Add(connection);
+        }
     }
 
     public bool TryGetConnectionInPosition(Vector2Int position, out Connection connection)
