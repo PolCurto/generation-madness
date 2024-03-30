@@ -9,7 +9,7 @@ public class Pathfinding : MonoBehaviour
 
     public static Pathfinding Instance;
 
-    private FloorGrid _floorGrid;
+    [SerializeField] private FloorGrid _floorGrid;
     private List<GridPos> _openList;
     private List<GridPos> _closedList;
 
