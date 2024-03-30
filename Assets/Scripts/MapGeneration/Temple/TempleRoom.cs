@@ -44,6 +44,22 @@ public class TempleRoom
         _connectedRooms.Add(newRoom);
     }
 
+    public bool TryGetConnectionInPosition(Vector2Int position, out Connection connection)
+    {
+        connection = null;
+
+        foreach(Connection conn in Connections)
+        {
+            connection = conn;
+            if (conn.Position == position)
+            {
+                return true;
+            }
+        }
+
+        return false;        
+    }
+
     public int Depth { get { return _depth; } set { _depth = value; } }
     public Vector2Int Position { get { return _position; } set { _position = value; } }
     public TempleRoomType Type { get { return _type; } set { _type = value; } }

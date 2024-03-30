@@ -55,13 +55,14 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private TileBase _wallTile;
     [SerializeField] Vector2Int _movementScalar;
     [SerializeField] Vector2 _connectionOffset;
-    [SerializeField] GameObject _connection;
+    [SerializeField] GameObject _door;
 
     private Vector2Int _startPosition;
     private Walker _walker;
     private TempleRoom[,] _floorGrid;
     private List<TempleRoom> _rooms;
     private List<TempleRoom> _deadEnds;
+    private List<Bond> _bonds;
 
     private int _iterations;
     private int _longRoomsCount;
@@ -113,10 +114,11 @@ public class TempleGenerator : MonoBehaviour
     /// </summary>
     private void GenerateFloor()
     {
-        Debug.Log("START");
+        //Debug.Log("START");
         _floorGrid = new TempleRoom[_gridHeight, _gridWidth];
         _rooms = new List<TempleRoom>();
         _deadEnds = new List<TempleRoom>();
+        _bonds = new List<Bond>();
         _longRoomsCount = 0;
         _bigRoomsCount = 0;
 
@@ -152,10 +154,10 @@ public class TempleGenerator : MonoBehaviour
 
         foreach (var room in _rooms)
         {
-            Debug.Log("Room " + room.Type.HumanName() + "in Position: " + room.Position + " connected with:");
+            //Debug.Log("Room " + room.Type.HumanName() + "in Position: " + room.Position + " connected with:");
             foreach(var connRoom in room.ConnectedRooms)
             {
-                Debug.Log(connRoom.Type.HumanName());
+                //Debug.Log(connRoom.Type.HumanName());
             }
         }
 
@@ -340,7 +342,7 @@ public class TempleGenerator : MonoBehaviour
                 break;
         }
 
-        Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
+        //Debug.Log("Room of type: " + newRoom.Type.HumanName() + " created in Position: " + newRoom.Position + ". Occupied positions:");
 
         // Add possible new connections to the created room
         foreach(Vector2Int pos in newRoom.GridPositions)
@@ -495,6 +497,7 @@ public class TempleGenerator : MonoBehaviour
     #region Connections
     private void CreateConnections()
     {
+        // Creates the connections in the positions that need it
         foreach(TempleRoom room in _rooms)
         {
             foreach(Vector2Int gridPosition in room.GridPositions)
@@ -507,12 +510,50 @@ public class TempleGenerator : MonoBehaviour
                     if (checkingRoom != null && checkingRoom != room)
                     {
                         Connection connection = new Connection(gridPosition);
-                        connection.AddConnection(offset, checkingRoom);
+                        //connection.AddBond(offset, checkingRoom);
                         room.Connections.Add(connection);
                     }
                 }
             }
         }
+
+        // Creates the bonds to connect the rooms
+        foreach (TempleRoom room in _rooms)
+        {
+            foreach (Connection connection in room.Connections)
+            {
+                foreach (Vector2Int offset in _surroundings)
+                {
+                    Vector2Int currentPosition = connection.Position + offset;
+                    TempleRoom checkingRoom = _floorGrid[currentPosition.x, currentPosition.y];
+
+                    if (checkingRoom != null && checkingRoom != room)
+                    {
+                        if (checkingRoom.TryGetConnectionInPosition(currentPosition, out Connection newConnection))
+                        {
+                            Bond bond = new Bond(offset, newConnection);
+
+                            connection.AddBond(bond);
+                            _bonds.Add(bond);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Links the bonds between them
+        foreach (Bond bond in _bonds)
+        {
+            foreach (Bond neighbourBond in bond.Connection.Bonds)
+            {
+                if (bond.Direction + neighbourBond.Direction == Vector2Int.zero)
+                {
+                    bond.LinkedBond = neighbourBond;
+                }
+            }
+        }
+
+
     }
 
     private void PlaceConnections()
@@ -521,13 +562,25 @@ public class TempleGenerator : MonoBehaviour
         {
             foreach (Connection connection in room.Connections)
             {
-                foreach(KeyValuePair<Vector2Int, TempleRoom> bond in connection.Bonds)
+                foreach(Bond bond in connection.Bonds)
                 {
-                    Vector2 connectionPosition = connection.Position + (bond.Key * _connectionOffset) + new Vector2(0.5f, -0.5f);
-                    Instantiate(_connection, connectionPosition, Quaternion.identity);
+                    Vector2 bondPosition = connection.Position + (bond.Direction * _connectionOffset) + new Vector2(0.5f, -0.5f);
+                    DoorController newDoor = Instantiate(_door, bondPosition, Quaternion.identity).GetComponent<DoorController>();
+
+                    bond.DoorController = newDoor;
+                    
                 }
             }
         }
+
+        foreach (Bond bond in _bonds)
+        {
+            //Debug.Log("Door controller: " + bond.DoorController + " position: " + bond.DoorController.transform.position);
+
+            bond.DoorController.LinkDoor(bond.LinkedBond.DoorController);
+        }
+        
+        
     }
     #endregion
 

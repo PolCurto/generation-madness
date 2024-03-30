@@ -1357,7 +1357,7 @@ MonoBehaviour:
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
   _movementScalar: {x: 30, y: 19}
   _connectionOffset: {x: 11, y: 6}
-  _connection: {fileID: 545903398}
+  _door: {fileID: 3167307966368846065, guid: 734e0a06cba522843b13e0fb36185f6e, type: 3}
 --- !u!1001 &1408188062
 PrefabInstance:
   m_ObjectHideFlags: 0
