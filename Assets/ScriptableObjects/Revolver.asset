@@ -20,3 +20,4 @@ MonoBehaviour:
   bulletDamage: 2
   bulletDuration: 4
   bulletsPerShot: 2
+  cameraOffsetMultiplier: 1.5

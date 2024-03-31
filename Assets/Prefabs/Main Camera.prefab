@@ -127,5 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerRb: {fileID: 0}
+  _playerController: {fileID: 0}
+  _mouseOffset: 0.25
+  _maxOffset: 3.5
   _dampingX: 5
   _dampingY: 5

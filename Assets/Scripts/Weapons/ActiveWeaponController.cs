@@ -44,6 +44,11 @@ public class ActiveWeaponController : MonoBehaviour
     {
         _weapon = weapon;
         _spriteRenderer.sprite = _weapon.itemSprite;
+
+        CameraController.Instance.ResetOffset();
+
+        CameraController.Instance.MaxOffset *= _weapon.cameraOffsetMultiplier;
+        CameraController.Instance.MaxOffset *= _weapon.cameraOffsetMultiplier;
     }
 
     #region Shooting

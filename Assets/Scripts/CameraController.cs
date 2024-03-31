@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        ResetOffset();
     }
 
     private void Start()
@@ -56,18 +57,18 @@ public class CameraController : MonoBehaviour
         Vector2 AB = _playerController.MousePosition - _playerRb.position;
         Vector2 offset = Vector2.zero;
 
-        if (AB.magnitude > 7)
+        if (AB.magnitude > 5)
         {
-            offset = AB * _mouseOffset;
-            offset = new Vector2(Mathf.Clamp(offset.x, -_maxOffset, _maxOffset), Mathf.Clamp(offset.y, -_maxOffset, _maxOffset));
+            offset = AB * MouseOffset;
+            offset = new Vector2(Mathf.Clamp(offset.x, -MaxOffset, MaxOffset), Mathf.Clamp(offset.y, -MaxOffset, MaxOffset));
 
-            if (Mathf.Abs(AB.x * _mouseOffset) > _maxOffset)
+            if (Mathf.Abs(AB.x * MouseOffset) > MaxOffset)
             {
-                AB.x = _maxOffset;
+                AB.x = MaxOffset;
             }
-            if (Mathf.Abs(AB.y) > _maxOffset)
+            if (Mathf.Abs(AB.y) > MaxOffset)
             {
-                AB.y = _maxOffset;
+                AB.y = MaxOffset;
             }
         }
 
@@ -80,6 +81,12 @@ public class CameraController : MonoBehaviour
 
         Vector3 smoothedPosition = new(smoothedPositionX, smoothedPositionY, transform.position.z);
         transform.position = smoothedPosition;
+    }
+
+    public void ResetOffset()
+    {
+        MaxOffset = _maxOffset;
+        MouseOffset = _mouseOffset;
     }
 
     /*
@@ -113,7 +120,7 @@ public class CameraController : MonoBehaviour
     }
     */
 
-    public float MaxOffset { get { return _maxOffset; } set { _maxOffset = value; } }
-    public float MouseOffset { get { return _mouseOffset; } set { _mouseOffset = value; } }
+    public float MaxOffset { get; set; }
+    public float MouseOffset { get; set; }
 }
 
