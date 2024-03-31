@@ -28,6 +28,8 @@ public class BulletController : MonoBehaviour
         _damage = damage;
         _timeToLive = timeToLive;
         _spriteRenderer.sprite = sprite;
+
+        transform.up = _direction;
     }
 
     /// <summary>

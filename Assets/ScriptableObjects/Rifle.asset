@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03a52a0f200772149ad94da46da57f69, type: 3}
-  m_Name: Pistol
+  m_Name: Rifle
   m_EditorClassIdentifier: 
-  name: Pistol
-  itemSprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}
-  bulletSprite: {fileID: 21300000, guid: c578d8a1450aca14ab52dc644b43af00, type: 3}
-  fireRate: 0.5
-  bulletSpeed: 100
-  bulletDamage: 1
-  bulletDuration: 4
-  bulletsPerShot: 1
+  name: Rifle
+  itemSprite: {fileID: 21300000, guid: 92e7b8e4af20e144196ae5a835ba46bc, type: 3}
+  bulletSprite: {fileID: 21300000, guid: db929e4ce5a74e84f8435f96cc464f54, type: 3}
+  fireRate: 3
+  bulletSpeed: 500
+  bulletDamage: 0
+  bulletDuration: 0
+  bulletsPerShot: 0
