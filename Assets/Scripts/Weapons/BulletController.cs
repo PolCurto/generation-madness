@@ -12,11 +12,24 @@ public class BulletController : MonoBehaviour
     private float _speed;
     private float _damage;
     private float _timeToLive;
+    private float _timeAlive;
+
+    #region Unity Methods
+    private void Update()
+    {
+        CheckDuration();
+    }
 
     void FixedUpdate()
     {
         Move();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall")) Destroy(gameObject);
+    }
+    #endregion
 
     /// <summary>
     /// Set all the bullet parameters
@@ -37,6 +50,16 @@ public class BulletController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        _rb.velocity = _speed * Time.deltaTime * _direction;
+        _rb.velocity = _speed * Time.fixedDeltaTime * _direction;
+    }
+
+    private void CheckDuration()
+    {
+        _timeAlive += Time.deltaTime;
+
+        if (_timeAlive > _timeToLive)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -12,4 +12,6 @@ public class Weapon : InventoryItem {
     public float bulletDamage;
     public float bulletDuration;
     public float bulletsPerShot;
+
+    public float cameraOffsetMultiplier;
 }

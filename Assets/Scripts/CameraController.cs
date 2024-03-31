@@ -5,14 +5,25 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     #region Global Variables
+    public static CameraController Instance;
+
     [SerializeField] private Rigidbody2D _playerRb;
+    [SerializeField] private PlayerController _playerController;
 
     [Header("Camera Settings")]
+    [Range(0,1)]
+    [SerializeField] private float _mouseOffset;
+    [SerializeField] private float _maxOffset;
     [SerializeField] private float _dampingX;
     [SerializeField] private float _dampingY;
     #endregion
 
     #region Unity Methods
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         Vector3 newPositon = transform.position;
@@ -42,7 +53,25 @@ public class CameraController : MonoBehaviour
     private void FollowPlayer()
     {
         //Gets the desired position
-        Vector3 desiredPosition = _playerRb.position;
+        Vector2 AB = _playerController.MousePosition - _playerRb.position;
+        Vector2 offset = Vector2.zero;
+
+        if (AB.magnitude > 7)
+        {
+            offset = AB * _mouseOffset;
+            offset = new Vector2(Mathf.Clamp(offset.x, -_maxOffset, _maxOffset), Mathf.Clamp(offset.y, -_maxOffset, _maxOffset));
+
+            if (Mathf.Abs(AB.x * _mouseOffset) > _maxOffset)
+            {
+                AB.x = _maxOffset;
+            }
+            if (Mathf.Abs(AB.y) > _maxOffset)
+            {
+                AB.y = _maxOffset;
+            }
+        }
+
+        Vector3 desiredPosition = _playerRb.position + offset;
         desiredPosition.z = transform.position.z;
 
         //Lerps to the desired position and applies it to the camera transform
@@ -83,5 +112,8 @@ public class CameraController : MonoBehaviour
         }
     }
     */
+
+    public float MaxOffset { get { return _maxOffset; } set { _maxOffset = value; } }
+    public float MouseOffset { get { return _mouseOffset; } set { _mouseOffset = value; } }
 }
 

@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Revolver
   itemSprite: {fileID: 21300000, guid: c519912c34d487c49af7c0bee8b6411a, type: 3}
   bulletSprite: {fileID: 21300000, guid: 83b7f99f80aeb3c40bb77545280e8e7b, type: 3}
-  fireRate: 0
-  bulletSpeed: 300
-  bulletDamage: 0
-  bulletDuration: 0
-  bulletsPerShot: 0
+  fireRate: 1
+  bulletSpeed: 600
+  bulletDamage: 2
+  bulletDuration: 4
+  bulletsPerShot: 2

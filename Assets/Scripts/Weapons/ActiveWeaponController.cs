@@ -11,6 +11,8 @@ public class ActiveWeaponController : MonoBehaviour
     [SerializeField] private float _bulletSpawnOffset;
 
     private Weapon _weapon;
+    private float _timer;
+    private float _lastTimeShot;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +23,9 @@ public class ActiveWeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotateOut();   
+        RotateOut();
+
+        _timer += Time.deltaTime;
     }
 
     private void RotateOut()
@@ -45,9 +49,16 @@ public class ActiveWeaponController : MonoBehaviour
     #region Shooting
     public void Shoot(Vector2 direction)
     {
-        Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
-        BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
-        bullet.SetParameters(direction, _weapon.bulletSpeed, _weapon.bulletDamage, _weapon.bulletDuration, _weapon.bulletSprite);
+        if (_timer - _lastTimeShot < _weapon.fireRate) return;
+
+        for (int i = 0; i < _weapon.bulletsPerShot; i++)
+        {
+            Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
+            BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
+            bullet.SetParameters(direction, _weapon.bulletSpeed, _weapon.bulletDamage, _weapon.bulletDuration, _weapon.bulletSprite);
+        }
+
+        _lastTimeShot = _timer;
     }
     #endregion
 

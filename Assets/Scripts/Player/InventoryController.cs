@@ -56,8 +56,13 @@ public class InventoryController : MonoBehaviour
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public InventoryItem GetItem(int index) 
+    public bool TryGetItem(int index, out InventoryItem item) 
     {
-        return _items[index];
+        item = null;
+
+        if (_items[index] == null) return false;
+
+        item = _items[index];
+        return true;
     }
 }

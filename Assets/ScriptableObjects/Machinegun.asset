@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Machinegun
   itemSprite: {fileID: 21300000, guid: 9d4c90342f6c55d4c967c74cc91476eb, type: 3}
   bulletSprite: {fileID: 21300000, guid: b042412b31a6ff2418869581f9ebd8f3, type: 3}
-  fireRate: 0.3
-  bulletSpeed: 100
-  bulletDamage: 0
-  bulletDuration: 0
-  bulletsPerShot: 0
+  fireRate: 0.2
+  bulletSpeed: 400
+  bulletDamage: 0.7
+  bulletDuration: 3
+  bulletsPerShot: 1

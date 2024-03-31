@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private Camera _camera;
     [SerializeField] private float _interactionBuffer;
 
     [Header("Movement Parameters")]
@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _referencePoint;
     [SerializeField] private ActiveWeaponController _activeWeapon;
 
+    private bool _shootInput;
     private float _timer;
     private Vector2 _playerInput;
     private Vector2 _mousePosition;
@@ -34,19 +35,24 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        _activeWeapon.SwapWeapon((Weapon)_weaponsInventory.GetItem(0));
+        if (_weaponsInventory.TryGetItem(0, out InventoryItem item))
+        {
+            _activeWeapon.SwapWeapon((Weapon)item);
+        }
     }
 
     void Update()
     {
-        MoveWeapon();
         HandleInputs();
+        Shoot();
+
         _timer += Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
         Move();
+        MoveWeapon();
     }
 
     #region Inputs
@@ -77,11 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Shoot
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Debug.Log("Shoot");
-            Shoot();
-        }
+        _shootInput = Input.GetKey(KeyCode.Mouse0);
 
         // Weapons
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -108,7 +110,10 @@ public class PlayerController : MonoBehaviour
     /// <param name="index"></param>
     private void ActivateWeaponAtIndex(int index)
     {
-        _activeWeapon.SwapWeapon((Weapon)_weaponsInventory.GetItem(index));
+        if (_weaponsInventory.TryGetItem(index, out InventoryItem item))
+        {
+            _activeWeapon.SwapWeapon((Weapon)item);
+        }
     }
     #endregion
 
@@ -159,10 +164,12 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
+        if (_shootInput)
         _activeWeapon.Shoot(_mousePosition - _rigidbody.position);
     }
     #endregion
 
     public ActiveWeaponController ActiveWeapon => _activeWeapon;
+    public Vector2 MousePosition => _mousePosition;
 
 }
