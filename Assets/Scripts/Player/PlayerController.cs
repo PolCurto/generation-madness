@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        _activeWeapon.Shoot();
+        _activeWeapon.Shoot(_mousePosition - _rigidbody.position);
     }
     #endregion
 

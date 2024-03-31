@@ -6,6 +6,9 @@ public class ActiveWeaponController : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private GameObject _bullet;
+
+    [SerializeField] private float _bulletSpawnOffset;
 
     private Weapon _weapon;
 
@@ -40,11 +43,12 @@ public class ActiveWeaponController : MonoBehaviour
     }
 
     #region Shooting
-    public void Shoot()
+    public void Shoot(Vector2 direction)
     {
-
+        Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
+        BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
+        bullet.SetParameters(direction, _weapon.bulletSpeed, _weapon.bulletDamage, _weapon.bulletDuration, _weapon.bulletSprite);
     }
-
     #endregion
 
     public Weapon Weapon => _weapon;

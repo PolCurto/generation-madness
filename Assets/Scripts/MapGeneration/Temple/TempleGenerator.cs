@@ -96,7 +96,11 @@ public class TempleGenerator : MonoBehaviour
         RenderFloor();
         GetRoomsToGrid();
         PlaceDoors();
-        LoadingScreen.Instance.gameObject.SetActive(false);
+
+        if (LoadingScreen.Instance != null)
+        {
+            LoadingScreen.Instance.gameObject.SetActive(false);
+        }
     }
 
 

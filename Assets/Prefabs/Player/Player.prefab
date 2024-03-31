@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 676647363588357372}
-  - component: {fileID: 7775142180132653603}
   m_Layer: 8
   m_Name: ReferencePoint
   m_TagString: Untagged
@@ -33,33 +32,6 @@ Transform:
   - {fileID: 3223024113386081148}
   m_Father: {fileID: 1238273585599667472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &7775142180132653603
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912821701121815211}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &5362233831900269479
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,11 +194,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 8429291906498627166}
+  _spriteRenderer: {fileID: 4459358963598234929}
   _camera: {fileID: 0}
   _interactionBuffer: 0.5
   _maxVelocity: 5
   _acceleration: 500
-  _referencePoint: {fileID: 7775142180132653603}
+  _referencePoint: {fileID: 676647363588357372}
   _activeWeapon: {fileID: 798876138641821458}
 --- !u!114 &4371613422081191419
 MonoBehaviour:
@@ -398,3 +371,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 6154942151259948432}
   _spriteRenderer: {fileID: 6441830465157760920}
+  _bullet: {fileID: 5742279288369313162, guid: 9d3618722b6d1034088b78a9424971eb, type: 3}
+  _bulletSpawnOffset: 0

@@ -69,7 +69,10 @@ public class CaveGenerator : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        LoadingScreen.Instance.gameObject.SetActive(false);
+        if (LoadingScreen.Instance != null)
+        {
+            LoadingScreen.Instance.gameObject.SetActive(false);
+        }
     }
 
     #region Cave Generation

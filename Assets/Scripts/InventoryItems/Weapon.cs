@@ -9,6 +9,7 @@ public class Weapon : InventoryItem {
 
     public float fireRate;
     public float bulletSpeed;
-    public float damage;
+    public float bulletDamage;
+    public float bulletDuration;
     public float bulletsPerShot;
 }
