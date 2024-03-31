@@ -57,14 +57,19 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _playerInput * _maxVelocity, _acceleration * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
-
-        
     }
 
+    #region Weapons
     private void MoveWeapon()
     {
         Vector2 direction = _mousePosition - _rigidbody.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         _referencePoint.rotation = angle;
     }
+
+    public void SwapWeapon()
+    {
+
+    }
+    #endregion
 }
