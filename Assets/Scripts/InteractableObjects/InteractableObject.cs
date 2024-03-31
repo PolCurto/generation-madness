@@ -11,7 +11,7 @@ public class InteractableObject : MonoBehaviour
 
     protected virtual void Interact() 
     {
-        //_playerController.DesiredInteraction = false;
+        _playerController.DesiredInteraction = false;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -33,7 +33,7 @@ public class InteractableObject : MonoBehaviour
 
     protected virtual void OnTriggerStay2D(Collider2D collision)
     {
-        if (_playerController != null && Input.GetKeyDown(KeyCode.E))
+        if (_playerController != null && _playerController.DesiredInteraction)
         {
             Interact();
         }

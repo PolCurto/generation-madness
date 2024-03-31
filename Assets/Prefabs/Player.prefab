@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 1238273585599667472}
   - component: {fileID: 8429291906498627166}
   - component: {fileID: 5364020681762669152}
+  - component: {fileID: 4371613422081191419}
   - component: {fileID: 6396933971627623118}
   - component: {fileID: 1447200753824791498}
   m_Layer: 8
@@ -222,9 +223,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 8429291906498627166}
   _camera: {fileID: 0}
+  _interactionBuffer: 0.5
   _maxVelocity: 5
   _acceleration: 500
-  _weapon: {fileID: 912821701121815211}
+  _referencePoint: {fileID: 7775142180132653603}
+  _activeWeapon: {fileID: 798876138641821458}
+--- !u!114 &4371613422081191419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6154942151259948432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe388f8c4677d44a806d5a6c396f9f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxItems: 2
+  _playerController: {fileID: 5364020681762669152}
+  _startingWeapon: {fileID: 11400000, guid: a3081900c1e539c44806cbf1931372aa, type: 2}
 --- !u!70 &6396933971627623118
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -378,5 +396,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54bc0be448cebc24790561a3043b4664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 11400000, guid: a3081900c1e539c44806cbf1931372aa, type: 2}
   _player: {fileID: 6154942151259948432}
+  _spriteRenderer: {fileID: 6441830465157760920}

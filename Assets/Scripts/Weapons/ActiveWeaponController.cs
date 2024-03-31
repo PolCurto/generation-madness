@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class ActiveWeaponController : MonoBehaviour
 {
-    [SerializeField] private Weapon _weapon;
     [SerializeField] private GameObject _player;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
+    private Weapon _weapon;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(_weapon.name);
+       
     }
 
     // Update is called once per frame
@@ -21,7 +23,7 @@ public class ActiveWeaponController : MonoBehaviour
 
     private void RotateOut()
     {
-        if (transform.position.x - _player.transform.position.x < 1)
+        if (transform.position.x - _player.transform.position.x < 0)
         {
             transform.localEulerAngles = new Vector3(180, 0, 0);
         }
@@ -30,4 +32,20 @@ public class ActiveWeaponController : MonoBehaviour
             transform.localEulerAngles = Vector3.zero;
         }
     }
+
+    public void SwapWeapon(Weapon weapon)
+    {
+        _weapon = weapon;
+        _spriteRenderer.sprite = _weapon.itemSprite;
+    }
+
+    #region Shooting
+    public void Shoot()
+    {
+
+    }
+
+    #endregion
+
+    public Weapon Weapon => _weapon;
 }

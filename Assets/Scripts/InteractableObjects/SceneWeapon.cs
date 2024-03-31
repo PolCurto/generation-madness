@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class SceneWeapon : InteractableObject
 {
-    public Weapon Weapon;
+    [SerializeField] private Weapon _weapon;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
+    private void Start()
+    {
+        _spriteRenderer.sprite = _weapon.itemSprite;
+    }
 
     protected override void Interact()
     {
+        Debug.Log("Interact");
         base.Interact();
-        _playerController.SwapWeapon();
+        _playerController.AddWeapon(_weapon);
     }
 }
