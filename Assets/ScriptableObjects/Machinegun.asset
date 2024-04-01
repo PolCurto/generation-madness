@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Machinegun
   weaponSprite: {fileID: 21300000, guid: 9d4c90342f6c55d4c967c74cc91476eb, type: 3}
   fireRate: 0.2
-  maxBullets: 0
-  clipSize: 0
+  maxBullets: 100
+  clipSize: 25
   cameraOffsetMultiplier: 1
   bulletSprite: {fileID: 21300000, guid: b042412b31a6ff2418869581f9ebd8f3, type: 3}
   bulletSpeed: 400

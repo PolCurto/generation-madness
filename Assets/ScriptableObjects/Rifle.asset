@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Rifle
   weaponSprite: {fileID: 21300000, guid: 92e7b8e4af20e144196ae5a835ba46bc, type: 3}
   fireRate: 1.5
-  maxBullets: 0
-  clipSize: 0
+  maxBullets: 10
+  clipSize: 5
   cameraOffsetMultiplier: 2
   bulletSprite: {fileID: 21300000, guid: db929e4ce5a74e84f8435f96cc464f54, type: 3}
   bulletSpeed: 1000

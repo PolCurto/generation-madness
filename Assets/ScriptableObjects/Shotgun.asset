@@ -15,8 +15,8 @@ MonoBehaviour:
   name: Shotgun
   weaponSprite: {fileID: 21300000, guid: 2d762bcc280fd9940861c9f628211eb5, type: 3}
   fireRate: 2
-  maxBullets: 0
-  clipSize: 0
+  maxBullets: 15
+  clipSize: 4
   cameraOffsetMultiplier: 1
   bulletSprite: {fileID: 21300000, guid: 8108daf4f2ce0964c808acd51fcbe1c4, type: 3}
   bulletSpeed: 600
