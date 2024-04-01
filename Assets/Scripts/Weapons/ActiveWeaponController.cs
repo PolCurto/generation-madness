@@ -43,27 +43,44 @@ public class ActiveWeaponController : MonoBehaviour
     public void SwapWeapon(Weapon weapon)
     {
         _weapon = weapon;
-        _spriteRenderer.sprite = _weapon.itemSprite;
+        _spriteRenderer.sprite = _weapon.WeaponBase.weaponSprite;
 
         CameraController.Instance.ResetOffset();
 
-        CameraController.Instance.MaxOffset *= _weapon.cameraOffsetMultiplier;
-        CameraController.Instance.MaxOffset *= _weapon.cameraOffsetMultiplier;
+        CameraController.Instance.MaxOffset *= _weapon.WeaponBase.cameraOffsetMultiplier;
+        CameraController.Instance.MaxOffset *= _weapon.WeaponBase.cameraOffsetMultiplier;
     }
 
     #region Shooting
     public void Shoot(Vector2 direction)
     {
-        if (_timer - _lastTimeShot < _weapon.fireRate) return;
+        if (_timer - _lastTimeShot < _weapon.WeaponBase.fireRate) return;
 
-        for (int i = 0; i < _weapon.bulletsPerShot; i++)
+        if (_weapon.ClipBullets > 0)
         {
-            Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
-            BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
-            bullet.SetParameters(direction, _weapon.bulletSpeed, _weapon.bulletDamage, _weapon.bulletDuration, _weapon.bulletSprite);
+            for (int i = 0; i < _weapon.WeaponBase.bulletsPerShot; i++)
+            {
+                Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
+                BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
+                bullet.SetParameters(direction, _weapon.WeaponBase.bulletSpeed, _weapon.WeaponBase.bulletDamage, _weapon.WeaponBase.bulletDuration, _weapon.WeaponBase.bulletSprite);
+            }
+
+            _weapon.Shoot();
+
+            _lastTimeShot = _timer;
+        }
+        else
+        {
+            Reload();
         }
 
-        _lastTimeShot = _timer;
+        Debug.Log("Total bullets: " + _weapon.TotalBullets);
+        Debug.Log("Clip bullets: " + _weapon.ClipBullets);
+    }
+
+    public void Reload()
+    {
+        _weapon.Reload();
     }
     #endregion
 

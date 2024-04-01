@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        if (_weaponsInventory.TryGetItem(0, out InventoryItem item))
+        if (_weaponsInventory.TryGetItem(0, out Item item))
         {
             _activeWeapon.SwapWeapon((Weapon)item);
         }
@@ -85,6 +85,12 @@ public class PlayerController : MonoBehaviour
         // Shoot
         _shootInput = Input.GetKey(KeyCode.Mouse0);
 
+        // Reload
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
+        }
+
         // Weapons
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -110,7 +116,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="index"></param>
     private void ActivateWeaponAtIndex(int index)
     {
-        if (_weaponsInventory.TryGetItem(index, out InventoryItem item))
+        if (_weaponsInventory.TryGetItem(index, out Item item))
         {
             _activeWeapon.SwapWeapon((Weapon)item);
         }
@@ -155,9 +161,10 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Adds a weapon to the inventory
     /// </summary>
-    /// <param name="weapon">Weapon to add</param>
-    public void AddWeapon(Weapon weapon)
+    /// <param name="weaponBase">Weapon to add</param>
+    public void AddWeapon(WeaponBase weaponBase)
     {
+        Weapon weapon = new Weapon(weaponBase);
         _weaponsInventory.AddItem(weapon);
         _activeWeapon.SwapWeapon(weapon);
     }
@@ -166,6 +173,11 @@ public class PlayerController : MonoBehaviour
     {
         if (_shootInput)
         _activeWeapon.Shoot(_mousePosition - _rigidbody.position);
+    }
+
+    private void Reload()
+    {
+        _activeWeapon.Reload();
     }
     #endregion
 

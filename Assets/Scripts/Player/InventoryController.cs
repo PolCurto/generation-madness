@@ -7,18 +7,18 @@ public class InventoryController : MonoBehaviour
     [SerializeField] protected int _maxItems;
     [SerializeField] protected PlayerController _playerController;
 
-    protected List<InventoryItem> _items;
+    protected List<Item> _items;
 
     protected virtual void Awake()
     {
-        _items = new List<InventoryItem>();
+        _items = new List<Item>();
     }
 
     /// <summary>
     /// Adds the item to the inventory
     /// </summary>
     /// <param name="newItem">Item to add</param>
-    public virtual void AddItem(InventoryItem newItem)
+    public virtual void AddItem(Item newItem)
     {
         _items.Add(newItem);
     }
@@ -28,7 +28,7 @@ public class InventoryController : MonoBehaviour
     /// </summary>
     /// <param name="newItem">Item to add</param>
     /// <param name="index">List index</param>
-    public virtual void AddItemAtIndex(InventoryItem newItem, int index)
+    public virtual void AddItemAtIndex(Item newItem, int index)
     {
         _items.Insert(index, newItem);
     }
@@ -37,7 +37,7 @@ public class InventoryController : MonoBehaviour
     /// Removes an item from the inventory
     /// </summary>
     /// <param name="item">Item to remove</param>
-    public virtual void RemoveItem(InventoryItem item)
+    public virtual void RemoveItem(Item item)
     {
         _items.Remove(item);
     }
@@ -56,7 +56,7 @@ public class InventoryController : MonoBehaviour
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public bool TryGetItem(int index, out InventoryItem item) 
+    public bool TryGetItem(int index, out Item item) 
     {
         item = null;
 

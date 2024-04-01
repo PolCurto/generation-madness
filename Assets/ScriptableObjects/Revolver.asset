@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Revolver
   m_EditorClassIdentifier: 
   name: Revolver
-  itemSprite: {fileID: 21300000, guid: c519912c34d487c49af7c0bee8b6411a, type: 3}
-  bulletSprite: {fileID: 21300000, guid: 83b7f99f80aeb3c40bb77545280e8e7b, type: 3}
+  weaponSprite: {fileID: 21300000, guid: c519912c34d487c49af7c0bee8b6411a, type: 3}
   fireRate: 1
+  maxBullets: 0
+  clipSize: 0
+  cameraOffsetMultiplier: 1.5
+  bulletSprite: {fileID: 21300000, guid: 83b7f99f80aeb3c40bb77545280e8e7b, type: 3}
   bulletSpeed: 600
   bulletDamage: 2
   bulletDuration: 4
   bulletsPerShot: 2
-  cameraOffsetMultiplier: 1.5

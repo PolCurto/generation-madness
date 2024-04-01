@@ -2,16 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Weapon", menuName = "Weapon")]
-public class Weapon : InventoryItem {
+public class Weapon : Item
+{
+    public WeaponBase WeaponBase { get; private set; }
 
-    public Sprite bulletSprite;
+    public int TotalBullets { get; private set; }
+    public int ClipBullets { get; private set; }
 
-    public float fireRate;
-    public float bulletSpeed;
-    public float bulletDamage;
-    public float bulletDuration;
-    public float bulletsPerShot;
+    public Weapon(WeaponBase weaponBase)
+    {
+        WeaponBase = weaponBase;
+        TotalBullets = weaponBase.maxBullets;
+        ClipBullets = weaponBase.clipSize;
+    }
 
-    public float cameraOffsetMultiplier;
+    public void Shoot()
+    {
+        ClipBullets--;
+    }
+
+    public void Reload()
+    {
+        Debug.Log("Start reload. Total bullets: " + TotalBullets + " Clip bullets: " + ClipBullets);
+        int desiredBullets = WeaponBase.clipSize - ClipBullets;
+        int obtainedBullets = Mathf.Min(desiredBullets, TotalBullets);
+
+        ClipBullets += obtainedBullets;
+        TotalBullets -= obtainedBullets;
+
+        if (TotalBullets < 0) TotalBullets = 0;
+        Debug.Log("End reload. Total bullets: " + TotalBullets + " Clip bullets: " + ClipBullets);
+    }
 }
