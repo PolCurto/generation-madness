@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponsInventory : InventoryController
 {
     [SerializeField] private WeaponBase _startingWeapon;
+    [SerializeField] private GameObject _pickableWeapon;
 
     protected override void Awake()
     {
@@ -26,8 +27,12 @@ public class WeaponsInventory : InventoryController
         else
         {
             int weaponIndex = _items.FindIndex(a => a == _playerController.ActiveWeapon.Weapon);
+            Weapon oldWeapon = (Weapon)_items[weaponIndex];
+
             RemoveItem(weaponIndex);
             AddItemAtIndex(newItem, weaponIndex);
+
+            Instantiate(_pickableWeapon, gameObject.transform.position, Quaternion.identity).GetComponent<SceneWeapon>().SetWeapon(oldWeapon);
         }
     }    
 }

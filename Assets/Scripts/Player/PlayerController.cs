@@ -162,9 +162,8 @@ public class PlayerController : MonoBehaviour
     /// Adds a weapon to the inventory
     /// </summary>
     /// <param name="weaponBase">Weapon to add</param>
-    public void AddWeapon(WeaponBase weaponBase)
+    public void AddWeapon(Weapon weapon)
     {
-        Weapon weapon = new Weapon(weaponBase);
         _weaponsInventory.AddItem(weapon);
         _activeWeapon.SwapWeapon(weapon);
     }
