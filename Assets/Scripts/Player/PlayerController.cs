@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
         if (_weaponsInventory.TryGetItem(index, out Item item))
         {
             _activeWeapon.SwapWeapon((Weapon)item);
+            UIController.Instance.HighlightWeaponAtIndex(index);
         }
     }
     #endregion
@@ -166,6 +167,8 @@ public class PlayerController : MonoBehaviour
     {
         _weaponsInventory.AddItem(weapon);
         _activeWeapon.SwapWeapon(weapon);
+
+        UIController.Instance.UpdateWeaponAtIndex(ActiveWeaponIndex, weapon);
     }
 
     private void Shoot()
@@ -182,5 +185,6 @@ public class PlayerController : MonoBehaviour
 
     public ActiveWeaponController ActiveWeapon => _activeWeapon;
     public Vector2 MousePosition => _mousePosition;
+    public int ActiveWeaponIndex => _weaponsInventory.GetActiveWeaponIndex();
 
 }

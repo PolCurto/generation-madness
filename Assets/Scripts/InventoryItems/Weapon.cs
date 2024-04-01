@@ -32,5 +32,6 @@ public class Weapon : Item
 
         if (TotalBullets < 0) TotalBullets = 0;
         Debug.Log("End reload. Total bullets: " + TotalBullets + " Clip bullets: " + ClipBullets);
+
     }
 }

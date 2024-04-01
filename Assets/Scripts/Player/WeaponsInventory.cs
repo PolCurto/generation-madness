@@ -26,7 +26,7 @@ public class WeaponsInventory : InventoryController
         }
         else
         {
-            int weaponIndex = _items.FindIndex(a => a == _playerController.ActiveWeapon.Weapon);
+            int weaponIndex = GetActiveWeaponIndex();
             Weapon oldWeapon = (Weapon)_items[weaponIndex];
 
             RemoveItem(weaponIndex);
@@ -34,5 +34,10 @@ public class WeaponsInventory : InventoryController
 
             Instantiate(_pickableWeapon, gameObject.transform.position, Quaternion.identity).GetComponent<SceneWeapon>().SetWeapon(oldWeapon);
         }
-    }    
+    }
+    
+    public int GetActiveWeaponIndex()
+    {
+        return _items.FindIndex(a => a == _playerController.ActiveWeapon.Weapon);
+    }
 }

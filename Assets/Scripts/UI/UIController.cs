@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,8 @@ public class UIController : MonoBehaviour
         Instance = this;
     }
 
-    #region HUD
-    [Header("HUD")]
+    #region Health
+    [Header("Health")]
     [SerializeField] private Image[] _hearts;
     [SerializeField] private Sprite _fullHeart;
     [SerializeField] private Sprite _emptyHeart;
@@ -38,6 +39,35 @@ public class UIController : MonoBehaviour
                 _hearts[i].sprite = _emptyHeart;
             }
         }
+    }
+    #endregion
+
+    #region Weapons
+    [Header("Weapons")]
+    [SerializeField] private CanvasGroup[] _weapons;
+    [SerializeField] private TextMeshProUGUI[] _clipBullets;
+    [SerializeField] private Image[] _weaponsSprite;
+
+    public void HighlightWeaponAtIndex(int index)
+    {
+        for (int i = 0; i < _weapons.Length; i++)
+        {
+            if (i == index) _weapons[i].alpha = 1;
+            else _weapons[i].alpha = 0.5f;
+        }
+    }
+
+    public void UpdateAmmoAtIndex(int index, int clipBullets)
+    {
+        _clipBullets[index].text = clipBullets.ToString();
+        // Falta la barra
+    }
+
+    public void UpdateWeaponAtIndex(int index, Weapon weapon)
+    {
+        _weaponsSprite[index].sprite = weapon.WeaponBase.weaponSprite;
+        _clipBullets[index].text = weapon.ClipBullets.ToString();
+        // Falta la barra
     }
 
     #endregion

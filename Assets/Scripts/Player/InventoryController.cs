@@ -60,7 +60,7 @@ public class InventoryController : MonoBehaviour
     {
         item = null;
 
-        if (_items[index] == null) return false;
+        if (index >= _items.Count) return false;
 
         item = _items[index];
         return true;

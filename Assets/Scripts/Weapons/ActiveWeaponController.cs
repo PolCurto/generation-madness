@@ -14,10 +14,12 @@ public class ActiveWeaponController : MonoBehaviour
     private float _timer;
     private float _lastTimeShot;
 
+    private PlayerController _playerController;
+
     // Start is called before the first frame update
     void Start()
     {
-       
+       _playerController = _player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -45,11 +47,15 @@ public class ActiveWeaponController : MonoBehaviour
         _weapon = weapon;
         _spriteRenderer.sprite = _weapon.WeaponBase.weaponSprite;
 
+       // UIController.Instance.UpdateWeaponAtIndex
+
         CameraController.Instance.ResetOffset();
 
         CameraController.Instance.MaxOffset *= _weapon.WeaponBase.cameraOffsetMultiplier;
         CameraController.Instance.MaxOffset *= _weapon.WeaponBase.cameraOffsetMultiplier;
     }
+
+   
 
     #region Shooting
     public void Shoot(Vector2 direction)
@@ -71,11 +77,15 @@ public class ActiveWeaponController : MonoBehaviour
             _weapon.Shoot();
 
             _lastTimeShot = _timer;
+
+            UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets);
         }
         else
         {
             Reload();
         }
+
+        
 
         Debug.Log("Total bullets: " + _weapon.TotalBullets);
         Debug.Log("Clip bullets: " + _weapon.ClipBullets);
@@ -84,6 +94,8 @@ public class ActiveWeaponController : MonoBehaviour
     public void Reload()
     {
         _weapon.Reload();
+
+        UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets);
     }
     #endregion
 
