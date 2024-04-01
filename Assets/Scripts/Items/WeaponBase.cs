@@ -7,11 +7,14 @@ public class WeaponBase : ScriptableObject
 {
     [Header("Weapon")]
     public new string name;
+    public float cameraOffsetMultiplier;
+
     public Sprite weaponSprite;
     public float fireRate;
     public int maxBullets;
     public int clipSize;
-    public float cameraOffsetMultiplier;
+    public float dispersion;
+    
 
     [Header("Bullets")]
     public Sprite bulletSprite;

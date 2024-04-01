@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   name: Pistol
+  cameraOffsetMultiplier: 1
   weaponSprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}
   fireRate: 0.6
   maxBullets: 30
   clipSize: 20
-  cameraOffsetMultiplier: 1
+  dispersion: 1
   bulletSprite: {fileID: 21300000, guid: c578d8a1450aca14ab52dc644b43af00, type: 3}
   bulletSpeed: 450
   bulletDamage: 1

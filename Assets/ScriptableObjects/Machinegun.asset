@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Machinegun
   m_EditorClassIdentifier: 
   name: Machinegun
+  cameraOffsetMultiplier: 1
   weaponSprite: {fileID: 21300000, guid: 9d4c90342f6c55d4c967c74cc91476eb, type: 3}
   fireRate: 0.2
   maxBullets: 100
   clipSize: 25
-  cameraOffsetMultiplier: 1
+  dispersion: 2
   bulletSprite: {fileID: 21300000, guid: b042412b31a6ff2418869581f9ebd8f3, type: 3}
   bulletSpeed: 400
   bulletDamage: 0.7

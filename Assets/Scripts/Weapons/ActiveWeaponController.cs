@@ -58,8 +58,11 @@ public class ActiveWeaponController : MonoBehaviour
 
         if (_weapon.ClipBullets > 0)
         {
+            float dispersion = _weapon.WeaponBase.dispersion;
+
             for (int i = 0; i < _weapon.WeaponBase.bulletsPerShot; i++)
             {
+                direction += new Vector2(Random.Range(-dispersion, dispersion), Random.Range(-dispersion, dispersion));
                 Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
                 BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
                 bullet.SetParameters(direction, _weapon.WeaponBase.bulletSpeed, _weapon.WeaponBase.bulletDamage, _weapon.WeaponBase.bulletDuration, _weapon.WeaponBase.bulletSprite);
