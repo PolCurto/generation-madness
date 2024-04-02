@@ -165,6 +165,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="weaponBase">Weapon to add</param>
     public void AddWeapon(Weapon weapon)
     {
+        if (_weaponsInventory.GetAllItems().Count <= 1)
+        {
+            UIController.Instance.HighlightWeaponAtIndex(1);
+        }
+
         _weaponsInventory.AddItem(weapon);
         _activeWeapon.SwapWeapon(weapon);
 

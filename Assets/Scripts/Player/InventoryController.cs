@@ -65,4 +65,9 @@ public class InventoryController : MonoBehaviour
         item = _items[index];
         return true;
     }
+
+    public List<Item> GetAllItems()
+    {
+        return _items;
+    }
 }

@@ -8,8 +8,6 @@ public class UIController : MonoBehaviour
 {
     [HideInInspector] public static UIController Instance;
 
-    
-
     private void Awake()
     {
         Instance = this;
@@ -47,27 +45,34 @@ public class UIController : MonoBehaviour
     [SerializeField] private CanvasGroup[] _weapons;
     [SerializeField] private TextMeshProUGUI[] _clipBullets;
     [SerializeField] private Image[] _weaponsSprite;
+    [SerializeField] private Slider[] _ammoSliders;
+    [SerializeField] private Image[] _ammoBars;
+    [SerializeField] private float _hiddenWeaponsAlpha;
 
     public void HighlightWeaponAtIndex(int index)
     {
         for (int i = 0; i < _weapons.Length; i++)
         {
             if (i == index) _weapons[i].alpha = 1;
-            else _weapons[i].alpha = 0.5f;
+            else _weapons[i].alpha = _hiddenWeaponsAlpha;
         }
     }
 
-    public void UpdateAmmoAtIndex(int index, int clipBullets)
+    public void UpdateAmmoAtIndex(int index, int clipBullets, int totalBullets)
     {
         _clipBullets[index].text = clipBullets.ToString();
-        // Falta la barra
+        _ammoSliders[index].value = totalBullets;
     }
 
     public void UpdateWeaponAtIndex(int index, Weapon weapon)
     {
         _weaponsSprite[index].sprite = weapon.WeaponBase.weaponSprite;
         _clipBullets[index].text = weapon.ClipBullets.ToString();
-        // Falta la barra
+
+        _ammoSliders[index].maxValue = weapon.WeaponBase.maxBullets;
+        _ammoSliders[index].value = weapon.TotalBullets;
+
+        _ammoBars[index].color = weapon.WeaponBase.color;
     }
 
     #endregion

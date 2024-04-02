@@ -19,8 +19,9 @@ MonoBehaviour:
   maxBullets: 20
   clipSize: 6
   dispersion: 0.5
+  color: {r: 0.8431373, g: 0.8705883, b: 0.2509804, a: 1}
   bulletSprite: {fileID: 21300000, guid: 83b7f99f80aeb3c40bb77545280e8e7b, type: 3}
   bulletSpeed: 600
-  bulletDamage: 2
+  bulletDamage: 15
   bulletDuration: 4
   bulletsPerShot: 2

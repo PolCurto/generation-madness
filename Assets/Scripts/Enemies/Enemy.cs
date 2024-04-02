@@ -7,17 +7,17 @@ public class Enemy : MonoBehaviour
 {
     #region Global Variables
     [SerializeField] protected Rigidbody2D _rigidbody;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
 
     [Header("Global Stats")]
     [SerializeField] protected int _cost;
-    [SerializeField] protected int _maxLife;
     [SerializeField] protected float _maxVelocity;
     [SerializeField] protected float _acceleration;
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
     [SerializeField] protected float _attackDistance;
 
-    protected Transform _player;
+    protected Rigidbody2D _player;
     private bool _playerInSight;
     private bool _isColiding;
     #endregion
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        _player = GameObject.Find("Player").transform;
+        _player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         _pathToTake = new List<Vector2>();
     }
 
@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour
     {
         CheckPlayerPosition();
         CheckPlayerWithinRange();
+        FlipSprite();
 
         if (!_isEnabled) return;
 
@@ -61,8 +62,8 @@ public class Enemy : MonoBehaviour
         if (!_isEnabled) return;
 
         PlayerDetection();
-        Attack();
-        UpdatePath();
+        SetAttackStatus();
+        //UpdatePath();
         MoveAround();
     }
     #endregion
@@ -109,13 +110,13 @@ public class Enemy : MonoBehaviour
         // If the player is within the enemy detection range, checks if is on sight
         if (_playerWithinRange)
         {
-            PlayerInSight();
+            CheckPlayerInSight();
             // If it hits the player, the player is detected
             if (_playerInSight && !_playerDetected)
             {
                 //StopCoroutine("MoveAround");
                 _playerDetected = true;
-                FindPath();
+                //FindPath();
                 Debug.Log("Player Detected");
             }
         }
@@ -139,18 +140,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void PlayerInSight()
+    private void CheckPlayerInSight()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, _player.position - transform.position, 20f, LayerMask.GetMask("Player", "Walls"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, _player.position - _rigidbody.position, 20f, LayerMask.GetMask("Player", "Walls"));
 
         // Debug
         if (hit.collider.CompareTag("Player"))
         {
-            Debug.DrawRay(transform.position, (_player.position - transform.position), Color.green);
+            Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.green);
         }
         else
         {
-            Debug.DrawRay(transform.position, (_player.position - transform.position), Color.red);
+            Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.red);
         }
 
         _playerInSight = hit.collider.CompareTag("Player");
@@ -165,7 +166,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _maxWaitingTime;
     [SerializeField] protected float _pathfindingRate;
 
-
     private float _moveTime;
     private float _moveTimer;
     private bool _isWalking;
@@ -175,6 +175,7 @@ public class Enemy : MonoBehaviour
     protected List<Vector2> _pathToTake;
     protected bool _isAttacking;
 
+    /*
     private void UpdatePath()
     {
         if (!_playerDetected) return;
@@ -198,6 +199,19 @@ public class Enemy : MonoBehaviour
             return;
         }
         _pathToTake.RemoveAt(0);
+    }
+    */
+
+    protected void FlipSprite()
+    {
+        if (_rigidbody.velocity.x < 0)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else if (_rigidbody.velocity.x > 0)
+        {
+            _spriteRenderer.flipX = false;
+        }
     }
 
     /// <summary>
@@ -226,7 +240,7 @@ public class Enemy : MonoBehaviour
         if (_isWalking)
         {
             _moveTime = Random.Range(_minWalkingTime, _maxWalkingTime);
-            _direction = GetValidDirection();
+            _direction = GetValidDirection().normalized;
         }
         else
         {
@@ -245,7 +259,7 @@ public class Enemy : MonoBehaviour
         {
             direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
             Debug.DrawRay(transform.position, direction, Color.yellow);
-            if (!Physics2D.Raycast(transform.position, direction, 1, LayerMask.GetMask("Walls")) ||iterations > 100)
+            if (!Physics2D.Raycast(transform.position, direction, 1, LayerMask.GetMask("Walls")) || iterations > 100)
             {
                 break;
             }
@@ -324,9 +338,10 @@ public class Enemy : MonoBehaviour
         
     }
     */
+    #endregion
 
     #region Attack
-    protected void Attack()
+    protected void SetAttackStatus()
     {
         if (!_playerDetected) return;
 
@@ -339,12 +354,8 @@ public class Enemy : MonoBehaviour
         if (!_isAttacking && DistanceToPlayer() <= _attackDistance)
         {
             _isAttacking = true;
+            Debug.Log("Attack");
         }
-
-        Debug.Log("Attack");
-
-        _isAttacking = true;
-        _rigidbody.velocity = Vector2.zero;
     }
     #endregion
 
@@ -352,7 +363,7 @@ public class Enemy : MonoBehaviour
     {
         return Vector2.Distance(_player.transform.position, _rigidbody.position);
     }
-    #endregion
+    
 
     public int Cost()
     {

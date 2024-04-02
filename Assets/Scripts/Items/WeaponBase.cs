@@ -14,12 +14,13 @@ public class WeaponBase : ScriptableObject
     public int maxBullets;
     public int clipSize;
     public float dispersion;
+    public Color color;
     
 
     [Header("Bullets")]
     public Sprite bulletSprite;
     public float bulletSpeed;
-    public float bulletDamage;
+    public int bulletDamage;
     public float bulletDuration;
-    public float bulletsPerShot;
+    public int bulletsPerShot;
 }

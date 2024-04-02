@@ -8,7 +8,7 @@ public class damageArea : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<HealthController>().GetHit(1);
+            collision.GetComponent<PlayerHealthController>().GetHit(1);
         }
     }
 }

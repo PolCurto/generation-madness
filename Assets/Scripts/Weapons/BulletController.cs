@@ -10,7 +10,7 @@ public class BulletController : MonoBehaviour
 
     private Vector2 _direction;
     private float _speed;
-    private float _damage;
+    private int _damage;
     private float _timeToLive;
     private float _timeAlive;
 
@@ -28,13 +28,19 @@ public class BulletController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Wall")) Destroy(gameObject);
+
+        if (collision.TryGetComponent(out HealthController health))
+        {
+            health.GetHit(_damage);
+            Destroy(gameObject);
+        }
     }
     #endregion
 
     /// <summary>
     /// Set all the bullet parameters
     /// </summary>
-    public void SetParameters(Vector2 direction, float speed, float damage, float timeToLive, Sprite sprite)
+    public void SetParameters(Vector2 direction, float speed, int damage, float timeToLive, Sprite sprite)
     {
         _direction = direction.normalized;
         _speed = speed;
