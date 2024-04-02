@@ -5,18 +5,15 @@ using UnityEngine;
 public class HoodSkeleton : Enemy
 {
     [Header("Basic Enemy Parameters")]
-    [SerializeField] private float _fireRate;
+    [SerializeField] protected EnemyWeaponController _weaponController;
+    [SerializeField] protected Transform _referencePoint;
 
-    /*
-    void Start()
-    {
-        
-    }
-    */
-    
+    protected float _lastTimeShot;
+
     protected override void Update()
     {
         base.Update();
+        MoveWeapon();
         Attack();
     }
 
@@ -49,11 +46,43 @@ public class HoodSkeleton : Enemy
         */
     }
 
+    private void MoveWeapon()
+    {
+        if (!_playerDetected) return;
+
+        Vector2 direction = _player.position - _rigidbody.position;
+        _referencePoint.up = direction;
+
+        Vector3 rotation = _referencePoint.localEulerAngles;
+        rotation.z += 90;
+        _referencePoint.localEulerAngles = rotation;
+    }
+
     protected void Attack()
     {
         if (!_isAttacking) return;
 
+        if (_timer - _lastTimeShot > _weaponController.WeaponBase.fireRate)
+        {
+            _animator.SetTrigger("Shoot");
+            _lastTimeShot = _timer;
+        }
+
         _rigidbody.velocity = Vector2.zero;
+
+        if (_player.position.x < _rigidbody.position.x)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else
+        {
+            _spriteRenderer.flipX = false;
+        }
+    }
+
+    protected virtual void Shoot()
+    {
+        _weaponController.Shoot(_player.position - _rigidbody.position);
     }
 
     /*

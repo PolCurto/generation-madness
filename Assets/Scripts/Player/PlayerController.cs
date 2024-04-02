@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
 
     public bool DesiredInteraction { get; set; }
 
-
     void Awake()
     {
         _weaponsInventory = GetComponent<WeaponsInventory>();

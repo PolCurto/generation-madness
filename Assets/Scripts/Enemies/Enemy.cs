@@ -18,15 +18,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _attackDistance;
 
     protected Rigidbody2D _player;
+    protected Animator _animator;
+    protected float _timer;
     private bool _playerInSight;
     private bool _isColiding;
     #endregion
 
     #region Unity Methods
-    private void Awake()
+    protected virtual void Awake()
     {
         _player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         _pathToTake = new List<Vector2>();
+        _animator = GetComponent<Animator>();
     }
 
     protected void Start()
@@ -49,12 +52,16 @@ public class Enemy : MonoBehaviour
         CheckPlayerWithinRange();
         FlipSprite();
 
+        _animator.SetFloat("Velocity", Mathf.Abs(_rigidbody.velocity.magnitude));
+
         if (!_isEnabled) return;
 
         for (int i = 0; i < _pathToTake.Count - 1; i++)
         {
             Debug.DrawLine(_pathToTake[i], _pathToTake[i + 1]);
-        }  
+        }
+
+        _timer += Time.deltaTime;
     }
 
     protected virtual void FixedUpdate()

@@ -791,15 +791,20 @@ MonoBehaviour:
   _emptyHeart: {fileID: 21300000, guid: 524662809372b2e4fac6a7cff12bcda2, type: 3}
   _weapons:
   - {fileID: 4796087777419912256}
-  - {fileID: 0}
+  - {fileID: 7845035489120578161}
   _clipBullets:
   - {fileID: 4260228770021593374}
-  - {fileID: 0}
+  - {fileID: 3814106506378159595}
   _weaponsSprite:
   - {fileID: 2810818386571011903}
-  - {fileID: 0}
-  _ammoSliders: []
-  _ammoBars: []
+  - {fileID: 1963523651602762537}
+  _ammoSliders:
+  - {fileID: 2749366248245283322}
+  - {fileID: 4923730474999057493}
+  _ammoBars:
+  - {fileID: 142985362519839857}
+  - {fileID: 8423781589327640403}
+  _hiddenWeaponsAlpha: 0.3
   _pauseMenu: {fileID: 8535942062801112887}
 --- !u!1 &1527128171319802075
 GameObject:
@@ -1784,7 +1789,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 300
+  m_text: 20
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4621ecf7e32e5214b9ce32187c8296a7, type: 2}
   m_sharedMaterial: {fileID: 7151680436661236893, guid: 4621ecf7e32e5214b9ce32187c8296a7, type: 2}
@@ -2108,7 +2113,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c519912c34d487c49af7c0bee8b6411a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2225,7 +2230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8705883, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 0.2509804, g: 0.47450984, b: 0.8705883, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
