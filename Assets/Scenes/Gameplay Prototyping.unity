@@ -10246,6 +10246,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27fe9a2437dac954bad438a12f8913bd, type: 3}
+--- !u!1001 &6651309382034748646
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_Name
+      value: Ent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2a483e29d103da7499146922eb512797, type: 3}
 --- !u!1001 &7376212323768073953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10323,6 +10380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crook Shroom
       objectReference: {fileID: 0}
+    - target: {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8538014903047075322, guid: 94f246969083327458f0209b3289e131, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.37
@@ -10386,3 +10447,4 @@ SceneRoots:
   - {fileID: 555552158602881075}
   - {fileID: 7376212323768073953}
   - {fileID: 8911973347539375280}
+  - {fileID: 6651309382034748646}
