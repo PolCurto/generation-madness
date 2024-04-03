@@ -9,6 +9,7 @@ public class HoodSkeleton : Enemy
     [SerializeField] protected Transform _referencePoint;
 
     protected float _lastTimeShot;
+    protected bool _isShooting;
 
     protected override void Update()
     {
@@ -23,10 +24,10 @@ public class HoodSkeleton : Enemy
         FollowPlayer();
     }
 
-    private void FollowPlayer()
+    protected virtual void FollowPlayer()
     {
         // Remove isAttacking
-        if (!_playerDetected || _isAttacking) return;
+        if (!_playerDetected || _isAttacking || _isShooting) return;
         
         _direction = (_player.position - _rigidbody.position).normalized;           
         Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
@@ -65,6 +66,7 @@ public class HoodSkeleton : Enemy
         if (_timer - _lastTimeShot > _weaponController.WeaponBase.fireRate)
         {
             _animator.SetTrigger("Shoot");
+            _isShooting = true;
             _lastTimeShot = _timer;
         }
 
@@ -95,4 +97,6 @@ public class HoodSkeleton : Enemy
         else return false;
     }
     */
+
+    public bool IsShooting { get { return _isShooting; } set { _isShooting = value; } }
 }

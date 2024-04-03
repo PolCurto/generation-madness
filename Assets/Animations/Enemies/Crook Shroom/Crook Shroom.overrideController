@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Crook Shroom
+  m_Controller: {fileID: 9100000, guid: 4c8a58f45b796b1459e8b970f46423ef, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 87d1338c4e2d22944994ea42ed629ee2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a9d01d98a3e3a3148a07dc072f42221a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4afe538223e1a2f48be36d5cc470cac0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 652f12cecdbe81640820a061f0f962cc, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1148c5779889e6542a15bf1d06aeb421, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 62009539e86e9af4e83de4ee24a9e900, type: 2}
