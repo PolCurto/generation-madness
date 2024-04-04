@@ -34,12 +34,14 @@ public class EnemyWeaponController : MonoBehaviour
             transform.localEulerAngles = Vector3.zero;
         }
 
-        if (transform.position.y - _enemy.transform.position.x < 0)
+        if (transform.position.y - _enemy.transform.position.y < 0)
         {
+            Debug.Log("Down");
             _spriteRenderer.sortingOrder = 1;
         }
         else
         {
+            Debug.Log("Up");
             _spriteRenderer.sortingOrder = -1;
         }
     }
