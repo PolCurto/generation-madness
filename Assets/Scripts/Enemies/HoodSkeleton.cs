@@ -59,7 +59,7 @@ public class HoodSkeleton : Enemy
         _referencePoint.localEulerAngles = rotation;
     }
 
-    protected void Attack()
+    protected virtual void Attack()
     {
         if (!_isAttacking) return;
 

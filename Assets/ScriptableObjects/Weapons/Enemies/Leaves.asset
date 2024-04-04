@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponSprite: {fileID: 0}
   fireRate: 0.8
   dispersion: 2
-  bulletSprite: {fileID: 21300000, guid: b042412b31a6ff2418869581f9ebd8f3, type: 3}
+  bulletSprite: {fileID: 21300000, guid: 542b193f03371bc429a0a42d66ea8edf, type: 3}
   bulletSpeed: 400
   bulletDamage: 1
   bulletDuration: 2
