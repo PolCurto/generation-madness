@@ -17,7 +17,7 @@ public class FloorGenerator : MonoBehaviour
     [Header("Rooms")]
     [SerializeField] private GameObject _testingRoom;
     [SerializeField] private GameObject _startRoom;
-    [SerializeField] private GameObject _treasureRoom;
+    [SerializeField] private GameObject _treasureRoomPrefab;
     [SerializeField] private GameObject _characterRoom;
     [SerializeField] private GameObject _keyRoom;
     [SerializeField] private GameObject _managementRoom;
@@ -46,12 +46,22 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private float _pullSpeed;
     [SerializeField] private TileBase _wallTile;
 
+    [Header("Items & Weapons")]
+    [SerializeField] private GameObject _passiveItemPrefab;
+    [SerializeField] private ItemBase[] _itemsPool;
+    [SerializeField] private GameObject _weaponPrefab;
+    [SerializeField] private WeaponBase[] _weaponsPool;
+
     private Vector2Int _startPosition;
     private Walker _walker;
     private DungeonRoom[,] _floorGrid;
     private List<DungeonRoom> _rooms;
     private List<DungeonRoom> _deadEnds;
     private List<Corridor> _corridors;
+
+    // Special Rooms
+    private DungeonRoom _treasureRoom;
+    private DungeonRoom _weaponRoom;
 
     private int _iterations;
     #endregion
@@ -65,6 +75,7 @@ public class FloorGenerator : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
             GenerateFloor();
@@ -104,18 +115,6 @@ public class FloorGenerator : MonoBehaviour
             _tilesController.DrawWalls(_wallTile);
         }
 
-        if (_corridors != null)
-        {
-            foreach (Corridor corridor in _corridors)
-            {
-                for (int i = 0; i < corridor.Positions.Count - 1; i++)
-                {
-                    Debug.DrawLine(new Vector3 (corridor.Positions[i].x, corridor.Positions[i].y), new Vector3(corridor.Positions[i + 1].x, corridor.Positions[i + 1].y));
-                }
-            }
-        }
-
-        /*
         foreach (Room room in _roomsList)
         {
             foreach (Room connectedRoom in room.ConnectedRooms)
@@ -124,6 +123,17 @@ public class FloorGenerator : MonoBehaviour
             }  
         }
         */
+
+        if (_corridors != null)
+        {
+            foreach (Corridor corridor in _corridors)
+            {
+                for (int i = 0; i < corridor.Positions.Count - 1; i++)
+                {
+                    Debug.DrawLine(new Vector3(corridor.Positions[i].x, corridor.Positions[i].y), new Vector3(corridor.Positions[i + 1].x, corridor.Positions[i + 1].y));
+                }
+            }
+        }
     }
     #endregion
 
@@ -134,6 +144,7 @@ public class FloorGenerator : MonoBehaviour
         RenderFloor();
         yield return StartCoroutine(PullRoomsTogether());
         GetRoomsToGrid();
+        InstantiateItems();
         GenerateCorridors();
         _tilesController.DrawWalls(_wallTile);
         _tilesController.CleanWalls();
@@ -286,7 +297,8 @@ public class FloorGenerator : MonoBehaviour
         {
             if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
             {
-                deadEnd.Type = DungeonRoom.DungeonRoomType.Character;
+                deadEnd.Type = DungeonRoom.DungeonRoomType.Weapon;
+                _weaponRoom = deadEnd;
                 break;
             }
         }
@@ -297,6 +309,7 @@ public class FloorGenerator : MonoBehaviour
             if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
             {
                 deadEnd.Type = DungeonRoom.DungeonRoomType.Treasure;
+                _treasureRoom = deadEnd;
                 break;
             }
         }
@@ -443,7 +456,7 @@ public class FloorGenerator : MonoBehaviour
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case DungeonRoom.DungeonRoomType.Character:
+                case DungeonRoom.DungeonRoomType.Weapon:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
                     room.AddSceneRoom(newRoom);
@@ -502,11 +515,11 @@ public class FloorGenerator : MonoBehaviour
                     break;
 
                 case DungeonRoom.DungeonRoomType.Treasure:
-                    newRoom = Instantiate(_treasureRoom, room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_treasureRoomPrefab, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case DungeonRoom.DungeonRoomType.Character:
+                case DungeonRoom.DungeonRoomType.Weapon:
                     newRoom = Instantiate(_characterRoom, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
@@ -803,6 +816,19 @@ public class FloorGenerator : MonoBehaviour
 
         if (Mathf.Abs(positionDif.x) > Mathf.Abs(positionDif.y)) return true;
         else return false;
+    }
+    #endregion
+
+    #region Items & Weapons
+    private void InstantiateItems()
+    {
+        Vector3 itemPos = _treasureRoom.Position;
+        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();
+        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length - 1)]);
+
+        Vector3 weaponPos = _weaponRoom.Position;
+        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
+        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
     }
     #endregion
 

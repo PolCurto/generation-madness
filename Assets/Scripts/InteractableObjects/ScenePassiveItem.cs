@@ -20,4 +20,9 @@ public class ScenePassiveItem : InteractableObject
         _playerController.ModifyStats(_itemBase);
         Destroy(gameObject);
     }
+
+    public void SetBaseItem(ItemBase itemBase)
+    {
+        _itemBase = itemBase;
+    }
 }

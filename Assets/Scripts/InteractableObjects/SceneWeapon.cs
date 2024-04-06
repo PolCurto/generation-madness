@@ -9,15 +9,6 @@ public class SceneWeapon : InteractableObject
 
     private Weapon _weapon;
 
-    private void Awake()
-    {
-        if (_weaponBase != null)
-        {
-            _spriteRenderer.sprite = _weaponBase.weaponSprite;
-            _weapon = new Weapon(_weaponBase);
-        }
-    }
-
     protected override void Interact()
     {
         base.Interact();
@@ -25,17 +16,17 @@ public class SceneWeapon : InteractableObject
         Destroy(gameObject);
     }
 
-    public void SetWeaponBase(WeaponBase weaponBase)
-    {
-        _weaponBase = weaponBase;
-        _weapon = new Weapon(weaponBase);
-        _spriteRenderer.sprite = _weaponBase.weaponSprite;
-    }
-
     public void SetWeapon(Weapon weapon)
     {
         _weaponBase = weapon.WeaponBase;
         _weapon = weapon;
+        _spriteRenderer.sprite = _weaponBase.weaponSprite;
+    }
+
+    public void SetBaseWeapon(WeaponBase weaponBase)
+    {
+        _weaponBase = weaponBase;
+        _weapon = new Weapon(weaponBase);
         _spriteRenderer.sprite = _weaponBase.weaponSprite;
     }
 }

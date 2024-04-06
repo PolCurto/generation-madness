@@ -21,7 +21,7 @@ public class DungeonRoom
         Boss = 2,
         Treasure = 3,
         Loop = 4,
-        Character = 5,
+        Weapon = 5,
         Checkpoint = 6,
         KeyRoom = 7
     }
