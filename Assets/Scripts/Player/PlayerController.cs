@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private PlayerHealthController _healthController;
     [SerializeField] private float _interactionBuffer;
 
     [Header("Movement Parameters")]
@@ -23,13 +24,24 @@ public class PlayerController : MonoBehaviour
     private Vector2 _playerInput;
     private Vector2 _mousePosition;
 
+    private InventoryController _itemsInventory;
     private WeaponsInventory _weaponsInventory;
+
+    // Stats
+    public float DamageMultiplier { get; private set; }
+    public float AttackSpeed { get; private set; }
+    public float ReloadSpeed { get; private set; }
+    public float BulletSpeed { get; private set; }
 
     public bool DesiredInteraction { get; set; }
 
     void Awake()
     {
         _weaponsInventory = GetComponent<WeaponsInventory>();
+        DamageMultiplier = 1;
+        AttackSpeed = 1;
+        ReloadSpeed = 1;
+        BulletSpeed = 1;
     }
 
     private void Start()
@@ -184,6 +196,47 @@ public class PlayerController : MonoBehaviour
     private void Reload()
     {
         _activeWeapon.Reload();
+    }
+    #endregion
+
+    #region Items
+    public void AddItem(Item item)
+    {
+        _itemsInventory.AddItem(item);
+    }
+
+    public void ModifyStats(ItemBase item)
+    {
+        ModifyMaxHealth(item.life);
+        if (item.healOnObtain) Heal(item.life);
+
+        DamageMultiplier += item.attack;
+        _maxVelocity += item.speed;
+        AttackSpeed += item.attackSpeed;
+        ReloadSpeed += item.reloadSpeed;
+        BulletSpeed += item.bulletSpeed;
+
+        Debug.Log("Damage: " + DamageMultiplier);
+        Debug.Log("Speed: " + _maxVelocity);
+        Debug.Log("Attack speed: " + AttackSpeed);
+        Debug.Log("Reload speed: " + ReloadSpeed);
+        Debug.Log("Bullet speed: " + BulletSpeed);
+    }
+    #endregion
+
+    #region Health
+    /// <summary>
+    /// Modifies the player's max health
+    /// </summary>
+    /// <param name="health">Health points to modify</param>
+    public void ModifyMaxHealth(int health)
+    {
+        _healthController.ModifyMaxHealth(health);
+    }
+
+    public void Heal(int health)
+    {
+        _healthController.Heal(health);
     }
     #endregion
 

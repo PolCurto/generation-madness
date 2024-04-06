@@ -6,7 +6,7 @@ public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private ObjectType type;
 
-    public enum ObjectType { Weapon }
+    public enum ObjectType { Weapon, Item }
     protected PlayerController _playerController;
 
     protected virtual void Interact() 

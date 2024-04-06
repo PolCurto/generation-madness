@@ -423,6 +423,10 @@ PrefabInstance:
       propertyPath: _playerRb
       value: 
       objectReference: {fileID: 1072086806}
+    - target: {fileID: 9222914020891344058, guid: 27fe9a2437dac954bad438a12f8913bd, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1072086811}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -499,6 +503,17 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 8429291906498627166, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
   m_PrefabInstance: {fileID: 1072086805}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1072086811 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+  m_PrefabInstance: {fileID: 1072086805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226361002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c0548ddfbfdc54a838f87355e9676f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1457728016
 GameObject:
   m_ObjectHideFlags: 0

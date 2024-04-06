@@ -6,12 +6,13 @@ public class HealthController : MonoBehaviour
 {
     [Header("Common parameters")]
     [SerializeField] protected int _maxLife;
+    [SerializeField] protected int _currentMaxLife;
 
     protected int _currentLife;
 
     protected virtual void Start()
     {
-        _currentLife = _maxLife;
+        _currentLife = _currentMaxLife;
     }
 
     public virtual void GetHit(int damage)
@@ -28,5 +29,14 @@ public class HealthController : MonoBehaviour
     protected virtual void Die()
     {
 
+    }
+
+    /// <summary>
+    /// Heals the entity
+    /// </summary>
+    /// <param name="health">Amount to heal</param>
+    public virtual void Heal(int health)
+    {
+        _currentLife += health;
     }
 }

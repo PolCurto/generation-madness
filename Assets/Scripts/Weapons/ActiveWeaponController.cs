@@ -60,7 +60,7 @@ public class ActiveWeaponController : MonoBehaviour
     #region Shooting
     public void Shoot(Vector2 direction)
     {
-        if (_timer - _lastTimeShot < _weapon.WeaponBase.fireRate) return;
+        if (_timer - _lastTimeShot < _weapon.WeaponBase.fireRate * _playerController.AttackSpeed) return;
 
         if (_weapon.ClipBullets > 0)
         {
@@ -71,7 +71,7 @@ public class ActiveWeaponController : MonoBehaviour
                 direction += new Vector2(Random.Range(-dispersion, dispersion), Random.Range(-dispersion, dispersion));
                 Vector3 spawnPosition = transform.position + (transform.right * _bulletSpawnOffset);
                 BulletController bullet = Instantiate(_bullet, spawnPosition, Quaternion.identity).GetComponent<BulletController>();
-                bullet.SetParameters(direction, _weapon.WeaponBase.bulletSpeed, _weapon.WeaponBase.bulletDamage, _weapon.WeaponBase.bulletDuration, _weapon.WeaponBase.bulletSprite);
+                SetBulletParameters(bullet, direction);
             }
 
             _weapon.Shoot();
@@ -96,6 +96,14 @@ public class ActiveWeaponController : MonoBehaviour
         _weapon.Reload();
 
         UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.TotalBullets);
+    }
+
+    private void SetBulletParameters(BulletController bullet, Vector2 direction)
+    {
+        float speed = _weapon.WeaponBase.bulletSpeed * _playerController.BulletSpeed;
+        int damage = Mathf.RoundToInt(_weapon.WeaponBase.bulletDamage * _playerController.DamageMultiplier);
+
+        bullet.SetParameters(direction, speed, damage, _weapon.WeaponBase.bulletDuration, _weapon.WeaponBase.bulletSprite);
     }
     #endregion
 
