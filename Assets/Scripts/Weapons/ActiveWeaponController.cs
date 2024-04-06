@@ -107,5 +107,11 @@ public class ActiveWeaponController : MonoBehaviour
     }
     #endregion
 
+    public void RestoreAmmo(int amount)
+    {
+        _weapon.RestoreAmmo(amount);
+        UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.TotalBullets);
+    }
+
     public Weapon Weapon => _weapon;
 }

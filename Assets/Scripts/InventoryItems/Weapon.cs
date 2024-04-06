@@ -34,4 +34,14 @@ public class Weapon : Item
         Debug.Log("End reload. Total bullets: " + TotalBullets + " Clip bullets: " + ClipBullets);
 
     }
+
+    public void RestoreAmmo(int amount)
+    {
+        TotalBullets += amount;
+        if (TotalBullets > WeaponBase.maxBullets)
+        {
+            TotalBullets = WeaponBase.maxBullets;
+        }
+    }
+
 }

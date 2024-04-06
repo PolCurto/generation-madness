@@ -222,6 +222,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Reload speed: " + ReloadSpeed);
         Debug.Log("Bullet speed: " + BulletSpeed);
     }
+
+    public void RestoreAmmo(int amount)
+    {
+        _activeWeapon.RestoreAmmo(amount);
+    }
     #endregion
 
     #region Health
