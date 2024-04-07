@@ -517,7 +517,7 @@ public class TempleGenerator : MonoBehaviour
 
                     if (checkingRoom != null && checkingRoom != room)
                     {
-                        Connection connection = new Connection(gridPosition);
+                        Connection connection = new Connection(gridPosition, room);
                         room.AddConnection(connection);
                     }
                 }
@@ -551,7 +551,7 @@ public class TempleGenerator : MonoBehaviour
         // Links the bonds between them
         foreach (Bond bond in _bonds)
         {
-            foreach (Bond neighbourBond in bond.Connection.Bonds)
+            foreach (Bond neighbourBond in bond.LinkedConnection.Bonds)
             {
                 if (bond.Direction + neighbourBond.Direction == Vector2Int.zero)
                 {
@@ -559,18 +559,16 @@ public class TempleGenerator : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     private void PlaceDoors()
     {
         foreach (TempleRoom room in _rooms)
         {
-            Debug.Log("Connections count: " + room.Connections.Count);
+            //Debug.Log("Connections count: " + room.Connections.Count);
             foreach (Connection connection in room.Connections)
             {
-                Debug.Log("Bond count: " + connection.Bonds.Count);
+                //Debug.Log("Bond count: " + connection.Bonds.Count);
                 foreach(Bond bond in connection.Bonds)
                 {
                     Vector2 bondPosition = connection.Position + (bond.Direction * _connectionOffset) + new Vector2(0.5f, -0.5f);
@@ -874,11 +872,11 @@ public class TempleGenerator : MonoBehaviour
     {
         Vector2 itemPos = _treasureRoom.Position;
         ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();
-        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length - 1)]);
+        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
         Vector2 weaponPos = _weaponRoom.Position;
         SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
-        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
+        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
         foreach(TempleRoom room in _rooms)
         {

@@ -5,11 +5,13 @@ using UnityEngine;
 public class Connection
 {
     public Vector2Int Position { get; set; }
+    public TempleRoom ParentRoom { get; set; }
     public List<Bond> Bonds { get; set; }
-    
-    public Connection(Vector2Int position) 
+
+    public Connection(Vector2Int position, TempleRoom parentRoom) 
     {
         Position = position;
+        ParentRoom = parentRoom;
         Bonds = new List<Bond>();
     }
 

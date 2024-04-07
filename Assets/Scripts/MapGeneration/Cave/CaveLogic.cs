@@ -264,7 +264,7 @@ public class CaveLogic : MonoBehaviour
 
         // Instantiates the item
         ScenePassiveItem item = Instantiate(_passiveItemPrefab, (Vector3Int)position, Quaternion.identity).GetComponent<ScenePassiveItem>();
-        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length - 1)]);
+        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
         return (Vector3Int)position;
     }
@@ -295,7 +295,7 @@ public class CaveLogic : MonoBehaviour
         _tilesController.PrefabToMainGrid(weaponArea);
 
         SceneWeapon weapon = Instantiate(_weaponPrefab, (Vector3Int)position, Quaternion.identity).GetComponent<SceneWeapon>();
-        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
+        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
     }
 
     /// <summary>

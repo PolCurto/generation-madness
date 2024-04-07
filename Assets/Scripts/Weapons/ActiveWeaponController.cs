@@ -94,10 +94,8 @@ public class ActiveWeaponController : MonoBehaviour
             Reload();
         }
 
-        
-
-        Debug.Log("Total bullets: " + _weapon.TotalBullets);
-        Debug.Log("Clip bullets: " + _weapon.ClipBullets);
+        //Debug.Log("Total bullets: " + _weapon.TotalBullets);
+        //Debug.Log("Clip bullets: " + _weapon.ClipBullets);
     }
 
     public void Reload()

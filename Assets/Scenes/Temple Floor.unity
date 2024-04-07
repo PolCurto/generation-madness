@@ -291,6 +291,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &245499269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 245499271}
+  - component: {fileID: 245499270}
+  m_Layer: 0
+  m_Name: Temple Level Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &245499270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245499269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185b3a1d2c000e24bb93c4f98a3dc397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &245499271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245499269}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.1170747, y: -3.6073804, z: -0.12099574}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &307675488 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 8673454928052780807, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
@@ -1307,6 +1351,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7835882426929364805, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _connectionOffset.y
+      value: 7.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _treasureRoomPrefab
       value: 
       objectReference: {fileID: 11400000, guid: 8423f44ecc2c6854fb8f6a27d1a11829, type: 2}
@@ -1686,3 +1734,4 @@ SceneRoots:
   - {fileID: 1843788556}
   - {fileID: 9154311511343520747}
   - {fileID: 1408188062}
+  - {fileID: 245499271}

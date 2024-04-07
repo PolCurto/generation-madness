@@ -17,6 +17,11 @@ public class DoorController : MonoBehaviour
         _open = true;
     }
 
+    private void Start()
+    {
+        //Debug.Log("Door at position: " + transform.position + "has parent connection at position: " + Bond.Connection.Position);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_open) return;
@@ -33,9 +38,8 @@ public class DoorController : MonoBehaviour
     /// <param name="rb">Player rigidbody</param>
     private void GoNextRoom(Rigidbody2D rb)
     {
-        rb.MovePosition(_linkedDoor.transform.position + (new Vector3(Bond.Direction.x, Bond.Direction.y) * _roomMovingOffset));
-        
-        //Invoke(nameof(CloseLinkedDoor), .2f);
+        rb.MovePosition(Bond.LinkedBond.DoorController.transform.position + (new Vector3(Bond.Direction.x, Bond.Direction.y) * _roomMovingOffset));
+        Invoke(nameof(PlayerEnterRoom), .2f);
     }
 
     public void LinkDoor(DoorController linkedDoor)
@@ -43,9 +47,9 @@ public class DoorController : MonoBehaviour
         _linkedDoor = linkedDoor;
     }
 
-    private void CloseLinkedDoor()
+    private void PlayerEnterRoom()
     {
-        _linkedDoor.CloseDoor();
+        TempleLevelController.Instance.OnPlayerEnterRoom(Bond.LinkedConnection.ParentRoom);
     }
 
     public void CloseDoor()

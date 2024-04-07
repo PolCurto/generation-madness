@@ -830,11 +830,11 @@ public class FloorGenerator : MonoBehaviour
     {
         Vector3 itemPos = _treasureRoom.Position;
         ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();
-        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length - 1)]);
+        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
         Vector3 weaponPos = _weaponRoom.Position;
         SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
-        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
+        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
         foreach (DungeonRoom room in _rooms)
         {

@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _open: 0
   _collider: {fileID: 7935629910738329976}
-  _roomMovingOffset: 1.5
+  _roomMovingOffset: 3
 --- !u!61 &4658653651205510181
 BoxCollider2D:
   m_ObjectHideFlags: 0
