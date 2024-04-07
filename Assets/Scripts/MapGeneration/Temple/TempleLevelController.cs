@@ -15,36 +15,67 @@ public class TempleLevelController : MonoBehaviour
 
     public void OnPlayerEnterRoom(TempleRoom room)
     {
-        Debug.Log(room.Position);
-
         // Tanca portes
         foreach (Connection connection in room.Connections)
         {
-            Debug.Log("Connectrion");
             foreach(Bond bond in connection.Bonds)
             {
                 bond.DoorController.CloseDoor();
-                Debug.Log("Close door");
             }
         }
 
+        List<GameObject> enemies = new List<GameObject>();
+
         // Spawn enemics
-
-        //StartCoroutine(CheckActiveRoomStatus());
-    }
-
-    private void OnRoomFinished()
-    {
-
-    }
-
-    private IEnumerator CheckActiveRoomStatus()
-    {
-        while (true)
+        foreach (KeyValuePair<Vector2, GameObject> enemyData in room.Enemies)
         {
-            yield return null;
+            Vector2 enemyPos = enemyData.Key + room.Position;
+            enemies.Add(Instantiate(enemyData.Value, enemyPos, Quaternion.identity));
         }
 
-        OnRoomFinished();
+        Debug.Log("Enter room");
+
+        StartCoroutine(CheckActiveRoomStatus(room, enemies));
+    }
+
+    private void OnRoomFinished(TempleRoom room)
+    {
+        Debug.Log("Finished room");
+
+        foreach (Connection connection in room.Connections)
+        {
+            foreach (Bond bond in connection.Bonds)
+            {
+                bond.DoorController.OpenDoor();
+            }
+        }
+    }
+
+    private IEnumerator CheckActiveRoomStatus(TempleRoom room, List<GameObject> enemies)
+    {
+        bool enemiesAlive = true;
+        int aliveCounter;
+
+        while (enemiesAlive)
+        {
+            aliveCounter = 0;
+
+            foreach (GameObject enemy in enemies)
+            {
+                if (enemy.activeSelf)
+                {
+                    aliveCounter++;
+                }
+            }
+
+            yield return null;
+
+            if (aliveCounter == 0)
+            {
+                enemiesAlive = false;
+            }
+        }
+
+        OnRoomFinished(room);
     }
 }

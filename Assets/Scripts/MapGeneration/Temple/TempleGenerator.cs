@@ -878,6 +878,7 @@ public class TempleGenerator : MonoBehaviour
         SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
+        /*
         foreach(TempleRoom room in _rooms)
         {
             foreach (KeyValuePair<Vector2, GameObject> enemyData in room.Enemies)
@@ -886,6 +887,7 @@ public class TempleGenerator : MonoBehaviour
                 Instantiate(enemyData.Value, enemyPos, Quaternion.identity);
             }
         }
+        */
     }
     #endregion
 }

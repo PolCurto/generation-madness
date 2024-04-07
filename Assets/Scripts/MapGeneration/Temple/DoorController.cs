@@ -57,4 +57,10 @@ public class DoorController : MonoBehaviour
         _open = false;
         _collider.enabled = true;
     }
+
+    public void OpenDoor()
+    {
+        _open = true;
+        _collider.enabled = false;
+    }
 }

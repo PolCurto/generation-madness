@@ -124,7 +124,7 @@ public class Enemy : MonoBehaviour
                 //StopCoroutine("MoveAround");
                 _playerDetected = true;
                 //FindPath();
-                Debug.Log("Player Detected");
+                //Debug.Log("Player Detected");
             }
         }
 
@@ -361,7 +361,7 @@ public class Enemy : MonoBehaviour
         if (!_isAttacking && DistanceToPlayer() <= _attackDistance)
         {
             _isAttacking = true;
-            Debug.Log("Attack");
+            //Debug.Log("Attack");
         }
     }
     #endregion
