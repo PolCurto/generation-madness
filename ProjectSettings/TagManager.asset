@@ -18,7 +18,7 @@ TagManager:
   - Walls
   - Bullet
   - Enemy Bullet
-  - 
+  - Floor
   - 
   - 
   - 
@@ -42,9 +42,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Floor
+    uniqueID: 1451968217
+    locked: 0
   - name: Walls
     uniqueID: 1297506169
     locked: 0
   - name: Details
     uniqueID: 842890155
+    locked: 0
+  - name: Enemy
+    uniqueID: 3125622385
+    locked: 0
+  - name: Player
+    uniqueID: 143768377
     locked: 0

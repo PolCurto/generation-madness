@@ -22,7 +22,7 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject _weaponRoomPrefab;
     [SerializeField] private GameObject _keyRoom;
     [SerializeField] private GameObject _bossRoom;
-    [SerializeField] private GameObject[] _normalRooms;
+    [SerializeField] private RoomData[] _normalRooms;
     [SerializeField] private GameObject[] _longHorizontalRooms;
     [SerializeField] private GameObject[] _longVerticalRooms;
     [SerializeField] private GameObject[] _bigRooms;
@@ -794,8 +794,14 @@ public class TempleGenerator : MonoBehaviour
                     break;
 
                 case TempleRoom.TempleRoomType.Normal:
-                    newRoom = Instantiate(_normalRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_normalRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+
+                    for (int i = 0; i < _normalRooms[0].enemies.Length; i++)
+                    {
+                        room.Enemies.Add(_normalRooms[0].enemyPositions[i], _normalRooms[0].enemies[i]);
+                    }
+                    
                     break;
 
                 case TempleRoom.TempleRoomType.LongHorizontal:

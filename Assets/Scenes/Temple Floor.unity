@@ -363,7 +363,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 842890155
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -700,6 +700,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4459358963598234929, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459358963598234929, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459358963598234929, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 143768377
+      objectReference: {fileID: 0}
     - target: {fileID: 5364020681762669152, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: _camera
       value: 
@@ -707,6 +719,14 @@ PrefabInstance:
     - target: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441830465157760920, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441830465157760920, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 143768377
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -914,9 +934,9 @@ GameObject:
   - component: {fileID: 1241335455}
   - component: {fileID: 1241335454}
   - component: {fileID: 1241335453}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1610,8 +1630,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1451968217
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1739,6 +1759,10 @@ PrefabInstance:
       propertyPath: _itemsPool.Array.data[5]
       value: 
       objectReference: {fileID: 11400000, guid: e576c4127c666614583e86122d44dbec, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _normalRooms.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e6e0173c24f22e54b91aa3fa5766465b, type: 2}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _weaponsPool.Array.data[0]
       value: 

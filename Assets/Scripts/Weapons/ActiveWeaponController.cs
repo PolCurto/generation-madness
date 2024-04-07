@@ -40,6 +40,15 @@ public class ActiveWeaponController : MonoBehaviour
         {
             transform.localEulerAngles = Vector3.zero;
         }
+
+        if (transform.position.y - _player.transform.position.y < 0)
+        {
+            _spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            _spriteRenderer.sortingOrder = -1;
+        }
     }
 
     public void SwapWeapon(Weapon weapon)

@@ -14,6 +14,9 @@ public class TempleRoom
     public List<Connection> Connections { get; set; }
     public List<Vector2Int> GridPositions { get; set; }
 
+    public Dictionary<Vector2, GameObject> Items { get; set; }
+    public Dictionary<Vector2, GameObject> Enemies { get; set; }
+
     public enum TempleRoomType
     {
         Start = 0,
@@ -35,6 +38,8 @@ public class TempleRoom
         _connectedRooms = new List<TempleRoom>();
         GridPositions = new List<Vector2Int>();
         Connections = new List<Connection>();
+        Items = new Dictionary<Vector2, GameObject>();
+        Enemies = new Dictionary<Vector2, GameObject>();
     }
 
     public void AddConnectedRoom(TempleRoom newRoom)

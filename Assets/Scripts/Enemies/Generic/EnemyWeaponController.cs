@@ -36,12 +36,10 @@ public class EnemyWeaponController : MonoBehaviour
 
         if (transform.position.y - _enemy.transform.position.y < 0)
         {
-            Debug.Log("Down");
             _spriteRenderer.sortingOrder = 1;
         }
         else
         {
-            Debug.Log("Up");
             _spriteRenderer.sortingOrder = -1;
         }
     }
