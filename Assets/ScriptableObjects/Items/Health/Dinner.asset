@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dinner
   m_EditorClassIdentifier: 
   name: Dinner
-  itemSprite: {fileID: 21300000, guid: 8108daf4f2ce0964c808acd51fcbe1c4, type: 3}
+  itemSprite: {fileID: 21300000, guid: f3f04c9ae74b7e9449d186eafa9eaf23, type: 3}
   life: 1
   healOnObtain: 1
   attack: 0

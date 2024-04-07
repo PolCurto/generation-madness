@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8988955875812395203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334444078718924974}
+  - component: {fileID: 4714491842700461796}
+  m_Layer: 0
+  m_Name: Dungeon Floor Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1334444078718924974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988955875812395203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4714491842700461796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988955875812395203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3a6dbb6879e484e86663cf7d61401b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tilesController: {fileID: 0}
+  _player: {fileID: 0}
+  _testingRoom: {fileID: 5050088980480476351, guid: 24da019120670494a97ed51d647b113a, type: 3}
+  _startRoom: {fileID: 3830335875092767822, guid: 47c7253189c78c34f93d0faf7541b2b9, type: 3}
+  _treasureRoomPrefab: {fileID: 6203144229532863318, guid: 686a7d7feb590ef48b5dddf817ee9dd7, type: 3}
+  _characterRoom: {fileID: 5169608887198089435, guid: a13589702587d654ead76d0e72b494e7, type: 3}
+  _keyRoom: {fileID: 3042021228778192474, guid: d0324c5a244dff5448abee364d05b04a, type: 3}
+  _managementRoom: {fileID: 7046842497461757844, guid: 59648e53fdae88648b8e5bb150899441, type: 3}
+  _bossRoom: {fileID: 759952746484493855, guid: 9b0f7c2bcc691b442836659bb7a8fb1f, type: 3}
+  _normalRooms:
+  - {fileID: 9100351639050162836, guid: 91d249a72e6dca040a6824e811507797, type: 3}
+  - {fileID: 1662842724038029655, guid: 138c936554de7ab478aea78ccfff3d0e, type: 3}
+  _maxGenerationIterations: 15
+  _maxRooms: 15
+  _gridWidth: 50
+  _gridHeight: 50
+  _movementScalar: 35
+  _adjacentRooms: 1
+  _connectionChance: 1
+  _maxDeadEnds: 5
+  _minDepth: 7
+  _walkersTimeToLive: 5
+  _pullTime: 0.2
+  _pullSpeed: 5
+  _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
+  _passiveItemPrefab: {fileID: 7835882426929364805, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
+  _itemsPool:
+  - {fileID: 11400000, guid: 513cef438cea7f44e9801df241c8b279, type: 2}
+  - {fileID: 11400000, guid: e576c4127c666614583e86122d44dbec, type: 2}
+  _weaponPrefab: {fileID: 2330681484569148427, guid: 70e0ffc9a79cb02468c73d6db08dea60, type: 3}
+  _weaponsPool:
+  - {fileID: 11400000, guid: f0f5d275bbc0dfb4686fba1c04f3c654, type: 2}
+  - {fileID: 11400000, guid: a3081900c1e539c44806cbf1931372aa, type: 2}
+  - {fileID: 11400000, guid: b24ddf8de8746684e82287b42f916a35, type: 2}
+  - {fileID: 11400000, guid: a8789fc28f6d02d499d2bdda1d8dc9f9, type: 2}
+  - {fileID: 11400000, guid: 3bfe790bd49f67148ac0a106320c4c8a, type: 2}

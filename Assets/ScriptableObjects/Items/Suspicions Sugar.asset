@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60575a8b7684b724691526bacc6715d2, type: 3}
-  m_Name: Wind Boots
+  m_Name: Suspicions Sugar
   m_EditorClassIdentifier: 
-  name: Wind Boots
-  itemSprite: {fileID: 21300000, guid: 5af2503f24543c548b93b94a2bed5c7a, type: 3}
+  name: Suspicios Sugar
+  itemSprite: {fileID: 21300000, guid: b51b93cf4a0d0fe4f8a10ecf79197c79, type: 3}
   life: 0
   healOnObtain: 0
   attack: 0
-  speed: 2
-  attackSpeed: 0
+  speed: 0
+  attackSpeed: -0.2
   reloadSpeed: 0
   bulletSpeed: 0

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60575a8b7684b724691526bacc6715d2, type: 3}
   m_Name: Dark Mana
   m_EditorClassIdentifier: 
-  name: 
-  itemSprite: {fileID: 0}
+  name: Dark Mana
+  itemSprite: {fileID: 21300000, guid: 5922f48ab0947e445823e68d6cb02367, type: 3}
   life: 0
   healOnObtain: 0
-  attack: 0.5
+  attack: 0.25
   speed: 0
   attackSpeed: 0
   reloadSpeed: 0

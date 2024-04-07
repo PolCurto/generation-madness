@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60575a8b7684b724691526bacc6715d2, type: 3}
-  m_Name: New Item
+  m_Name: Troll's Ham
   m_EditorClassIdentifier: 
   name: Troll's Ham
-  itemSprite: {fileID: 21300000, guid: 743954464d8a65e4e86f2b18df10d194, type: 3}
+  itemSprite: {fileID: 21300000, guid: 175e7811284f6f544bca08744e872459, type: 3}
   life: 2
   healOnObtain: 0
   attack: 0

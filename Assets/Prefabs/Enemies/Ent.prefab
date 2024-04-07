@@ -206,7 +206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7817742949462751975
 Transform:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 8737940060509241371}
   _spriteRenderer: {fileID: 119260964107505975}
   _cost: 3
-  _maxVelocity: 3.5
+  _maxVelocity: 2.5
   _acceleration: 500
   _detectionDistance: 8
   _enablingDistance: 15
@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxLife: 70
+  _currentMaxLife: 0
 --- !u!58 &1183586246593391619
 CircleCollider2D:
   m_ObjectHideFlags: 0

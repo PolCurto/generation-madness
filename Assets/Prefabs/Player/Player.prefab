@@ -196,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 8429291906498627166}
   _spriteRenderer: {fileID: 4459358963598234929}
+  _healthController: {fileID: 8448160343743679461}
   _interactionBuffer: 0.5
   _maxVelocity: 5
   _acceleration: 500
@@ -229,7 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf14bcaa335fc7459f00f7c886d978a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxLife: 5
+  _maxLife: 10
+  _currentMaxLife: 3
 --- !u!70 &6396933971627623118
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

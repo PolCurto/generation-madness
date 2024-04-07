@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScenePassiveItem : InteractableObject
 {
     [SerializeField] private ItemBase _itemBase;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     //protected Item _item;
 
     private void Awake()
@@ -24,5 +25,6 @@ public class ScenePassiveItem : InteractableObject
     public void SetBaseItem(ItemBase itemBase)
     {
         _itemBase = itemBase;
+        _spriteRenderer.sprite = itemBase.itemSprite;
     }
 }
