@@ -18,8 +18,8 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject _testingRoomLongV;
     [SerializeField] private GameObject _testingRoomBig;
     [SerializeField] private GameObject _startRoom;
-    [SerializeField] private GameObject _treasureRoom;
-    [SerializeField] private GameObject _characterRoom;
+    [SerializeField] private GameObject _treasureRoomPrefab;
+    [SerializeField] private GameObject _weaponRoomPrefab;
     [SerializeField] private GameObject _keyRoom;
     [SerializeField] private GameObject _bossRoom;
     [SerializeField] private GameObject[] _normalRooms;
@@ -57,12 +57,21 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] Vector2 _connectionOffset;
     [SerializeField] GameObject _door;
 
+    [Header("Items & Weapons")]
+    [SerializeField] private GameObject _passiveItemPrefab;
+    [SerializeField] private ItemBase[] _itemsPool;
+    [SerializeField] private GameObject _weaponPrefab;
+    [SerializeField] private WeaponBase[] _weaponsPool;
+
     private Vector2Int _startPosition;
     private Walker _walker;
     private TempleRoom[,] _floorGrid;
     private List<TempleRoom> _rooms;
     private List<TempleRoom> _deadEnds;
     private List<Bond> _bonds;
+
+    private TempleRoom _treasureRoom;
+    private TempleRoom _weaponRoom;
 
     private int _iterations;
     private int _longRoomsCount;
@@ -95,6 +104,7 @@ public class TempleGenerator : MonoBehaviour
         CreateConnections();
         RenderFloor();
         GetRoomsToGrid();
+        InstantiateItems();
         PlaceDoors();
 
         if (LoadingScreen.Instance != null)
@@ -240,6 +250,7 @@ public class TempleGenerator : MonoBehaviour
             if (deadEnd.Type == TempleRoom.TempleRoomType.Normal)
             {
                 deadEnd.Type = TempleRoom.TempleRoomType.Character;
+                _weaponRoom = deadEnd;
                 break;
             }
         }
@@ -250,6 +261,7 @@ public class TempleGenerator : MonoBehaviour
             if (deadEnd.Type == TempleRoom.TempleRoomType.Normal)
             {
                 deadEnd.Type = TempleRoom.TempleRoomType.Treasure;
+                _treasureRoom = deadEnd;
                 break;
             }
         }
@@ -802,12 +814,12 @@ public class TempleGenerator : MonoBehaviour
                     break;
 
                 case TempleRoom.TempleRoomType.Treasure:
-                    newRoom = Instantiate(_treasureRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_treasureRoomPrefab, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Character:
-                    newRoom = Instantiate(_characterRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_weaponRoomPrefab, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
 
@@ -831,6 +843,19 @@ public class TempleGenerator : MonoBehaviour
             room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
         }
         _tilesController.GetRoomsToMainGrid(_rooms);
+    }
+    #endregion
+
+    #region Items & Weapons
+    private void InstantiateItems()
+    {
+        Vector2 itemPos = _treasureRoom.Position;
+        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();
+        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length - 1)]);
+
+        Vector2 weaponPos = _weaponRoom.Position;
+        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
+        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
     }
     #endregion
 }

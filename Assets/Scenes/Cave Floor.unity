@@ -589,6 +589,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 6390367591410451615, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390367591410451615, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6782123902386688234, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -667,6 +675,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6782123902386688234, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393561892828769020, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393561892828769020, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1187,10 +1203,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1955579609}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _camera
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _player
       value: 
       objectReference: {fileID: 226361002}
@@ -1210,10 +1222,6 @@ PrefabInstance:
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1457728017}
-    - target: {fileID: 7066200646264466313, guid: abfcc470d62752e499680ccf748d243b, type: 3}
-      propertyPath: _setBorders
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7066200646264466313, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 

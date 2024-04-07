@@ -55,7 +55,7 @@ MonoBehaviour:
   _height: 100
   _iterations: 50
   _minFloorTiles: 2000
-  _maxFloorTiles: 3500
+  _maxFloorTiles: 3000
   _floorTilemap: {fileID: 0}
   _wallsTilemap: {fileID: 0}
   _floorTile: {fileID: 11400000, guid: ee5cd9005a36bf7419dbe14bcda8eb83, type: 2}
@@ -72,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab20115be4376144a91e611d55c20f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 0}
   _startArea: {fileID: 9145481707697847977, guid: 1afa08c3b44da244b801b8c3ca6a413f, type: 3}
   _bossRoom: {fileID: 8322169871981495501, guid: 4b7c0e0ac67f8484385c0b661f8840c6, type: 3}
   _weaponArea: {fileID: 7873665298485291223, guid: 5f4df713390005f4c8ec52188ce87b27, type: 3}
@@ -89,6 +90,21 @@ MonoBehaviour:
   _numHealingChests: 2
   _minEnemiesDistance: 20
   _enemyMinDepth: 30
+  _passiveItemPrefab: {fileID: 7835882426929364805, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
+  _itemsPool:
+  - {fileID: 11400000, guid: 513cef438cea7f44e9801df241c8b279, type: 2}
+  - {fileID: 11400000, guid: 269d799c42ed76d4d836631193a9b625, type: 2}
+  - {fileID: 11400000, guid: ed4ded83b1ec9144bb12bea8e26f2d19, type: 2}
+  - {fileID: 11400000, guid: 2fbce71ae47b8354eb6cdda065bf1171, type: 2}
+  - {fileID: 11400000, guid: 8482561bc3f0fbb41b97e6388e89c75c, type: 2}
+  - {fileID: 11400000, guid: e576c4127c666614583e86122d44dbec, type: 2}
+  _weaponPrefab: {fileID: 2330681484569148427, guid: 70e0ffc9a79cb02468c73d6db08dea60, type: 3}
+  _weaponsPool:
+  - {fileID: 11400000, guid: f0f5d275bbc0dfb4686fba1c04f3c654, type: 2}
+  - {fileID: 11400000, guid: a3081900c1e539c44806cbf1931372aa, type: 2}
+  - {fileID: 11400000, guid: b24ddf8de8746684e82287b42f916a35, type: 2}
+  - {fileID: 11400000, guid: a8789fc28f6d02d499d2bdda1d8dc9f9, type: 2}
+  - {fileID: 11400000, guid: 3bfe790bd49f67148ac0a106320c4c8a, type: 2}
   _tilesController: {fileID: 0}
   _floorTilemap: {fileID: 0}
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}

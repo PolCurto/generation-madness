@@ -35,6 +35,7 @@ public class CaveGenerator : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             GenerateCaveBase();
@@ -44,8 +45,9 @@ public class CaveGenerator : MonoBehaviour
             _caveLogic.SetSpecialZones();
             _caveLogic.SetWalls();
             _caveLogic.SetEnemies();
-            */
+            
         }
+        */
     }
 
     private IEnumerator GenerateLevel()
@@ -64,7 +66,7 @@ public class CaveGenerator : MonoBehaviour
 
         _caveLogic.SetSpecialZones();
         _caveLogic.SetWalls();
-        _caveLogic.SetEnemies();
+        //_caveLogic.SetEnemies();
         _caveLogic.SpawnPlayer();
 
         yield return new WaitForSeconds(0.5f);

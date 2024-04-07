@@ -32,6 +32,12 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private int _minEnemiesDistance;
     [SerializeField] private int _enemyMinDepth;
 
+    [Header("Items & Weapons")]
+    [SerializeField] private GameObject _passiveItemPrefab;
+    [SerializeField] private ItemBase[] _itemsPool;
+    [SerializeField] private GameObject _weaponPrefab;
+    [SerializeField] private WeaponBase[] _weaponsPool;
+
     [Header("Tiles")]
     [SerializeField] private TilesController _tilesController;
     [SerializeField] private Tilemap _floorTilemap;
@@ -61,6 +67,7 @@ public class CaveLogic : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SetBaseLogic();
@@ -78,6 +85,7 @@ public class CaveLogic : MonoBehaviour
         {
             SetWalls();   
         }
+        */
     }
 
     #region Basic Logic
@@ -254,6 +262,10 @@ public class CaveLogic : MonoBehaviour
         var treasureArea = Instantiate(_treasureArea, (Vector3Int)position, Quaternion.identity);
         _tilesController.PrefabToMainGrid(treasureArea);
 
+        // Instantiates the item
+        ScenePassiveItem item = Instantiate(_passiveItemPrefab, (Vector3Int)position, Quaternion.identity).GetComponent<ScenePassiveItem>();
+        item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length - 1)]);
+
         return (Vector3Int)position;
     }
 
@@ -281,6 +293,9 @@ public class CaveLogic : MonoBehaviour
 
         var weaponArea = Instantiate(_weaponArea, (Vector3Int)position, Quaternion.identity);
         _tilesController.PrefabToMainGrid(weaponArea);
+
+        SceneWeapon weapon = Instantiate(_weaponPrefab, (Vector3Int)position, Quaternion.identity).GetComponent<SceneWeapon>();
+        weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
     }
 
     /// <summary>

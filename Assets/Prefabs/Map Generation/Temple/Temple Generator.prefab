@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3812817299905916221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9204446539799581294}
+  - component: {fileID: 3209150497452770102}
+  m_Layer: 0
+  m_Name: Temple Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9204446539799581294
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3812817299905916221}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3209150497452770102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3812817299905916221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed73134561cd478b6ddfc9e10997e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tilesController: {fileID: 0}
+  _player: {fileID: 0}
+  _testingRoom: {fileID: 0}
+  _testingRoomLongH: {fileID: 0}
+  _testingRoomLongV: {fileID: 0}
+  _testingRoomBig: {fileID: 0}
+  _startRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _treasureRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _characterRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _keyRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _bossRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _normalRooms:
+  - {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _longHorizontalRooms:
+  - {fileID: 4452905042334726878, guid: 4ddec79abc6119a4988ed20e72af5680, type: 3}
+  _longVerticalRooms:
+  - {fileID: 1755194264061431982, guid: 935599238d18b2d459e95fb644028486, type: 3}
+  _bigRooms:
+  - {fileID: 705564717537585662, guid: 1c7864e30c3f5cd4ca92eed73f09dd2f, type: 3}
+  _maxGenerationIterations: 15
+  _maxRooms: 15
+  _gridWidth: 50
+  _gridHeight: 50
+  _minEmptyAdjacentRooms: 3
+  _minEmptyAdjacentRoomsLong: 3
+  _minEmptyAdjacentRoomsBig: 4
+  _minDeadEnds: 4
+  _maxDeadEnds: 7
+  _minDepth: 7
+  _longRoomChance: 0.2
+  _bigRoomChance: 0.2
+  _maxLongRooms: 3
+  _maxBigRooms: 2
+  _walkersTimeToLive: 10
+  _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
+  _movementScalar: {x: 30, y: 19}
+  _connectionOffset: {x: 12.25, y: 7.25}
+  _door: {fileID: 3167307966368846065, guid: 734e0a06cba522843b13e0fb36185f6e, type: 3}

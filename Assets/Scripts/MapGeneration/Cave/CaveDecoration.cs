@@ -32,6 +32,7 @@ public class CaveDecoration : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             //GenerateGroundTiles();
@@ -49,6 +50,7 @@ public class CaveDecoration : MonoBehaviour
             PlaceWallProps();
             PlaceGroundProps();
         }
+        */
     }
 
     public void DecorateCave()
