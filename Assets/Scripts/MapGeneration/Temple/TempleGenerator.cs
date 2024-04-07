@@ -17,15 +17,15 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject _testingRoomLongH;
     [SerializeField] private GameObject _testingRoomLongV;
     [SerializeField] private GameObject _testingRoomBig;
-    [SerializeField] private GameObject _startRoom;
-    [SerializeField] private GameObject _treasureRoomPrefab;
-    [SerializeField] private GameObject _weaponRoomPrefab;
-    [SerializeField] private GameObject _keyRoom;
-    [SerializeField] private GameObject _bossRoom;
+    [SerializeField] private RoomData _startRoom;
+    [SerializeField] private RoomData _treasureRoomPrefab;
+    [SerializeField] private RoomData _weaponRoomPrefab;
+    [SerializeField] private RoomData _keyRoom;
+    [SerializeField] private RoomData _bossRoom;
     [SerializeField] private RoomData[] _normalRooms;
-    [SerializeField] private GameObject[] _longHorizontalRooms;
-    [SerializeField] private GameObject[] _longVerticalRooms;
-    [SerializeField] private GameObject[] _bigRooms;
+    [SerializeField] private RoomData[] _longHorizontalRooms;
+    [SerializeField] private RoomData[] _longVerticalRooms;
+    [SerializeField] private RoomData[] _bigRooms;
 
     [Header("Floor Params")]
     [SerializeField] private int _maxGenerationIterations;
@@ -770,6 +770,9 @@ public class TempleGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Renders the floor with the selected rooms once the loop has ended
+    /// </summary>
     private void RenderFloor()
     {
         foreach (TempleRoom room in _rooms)
@@ -789,7 +792,7 @@ public class TempleGenerator : MonoBehaviour
             switch (room.Type)
             {
                 case TempleRoom.TempleRoomType.Start:
-                    newRoom = Instantiate(_startRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_startRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
 
@@ -801,41 +804,55 @@ public class TempleGenerator : MonoBehaviour
                     {
                         room.Enemies.Add(_normalRooms[0].enemyPositions[i], _normalRooms[0].enemies[i]);
                     }
-                    
                     break;
 
                 case TempleRoom.TempleRoomType.LongHorizontal:
-                    newRoom = Instantiate(_longHorizontalRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_longHorizontalRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+
+                    for (int i = 0; i < _longHorizontalRooms[0].enemies.Length; i++)
+                    {
+                        room.Enemies.Add(_longHorizontalRooms[0].enemyPositions[i], _longHorizontalRooms[0].enemies[i]);
+                    }
                     break;
 
                 case TempleRoom.TempleRoomType.LongVertical:
-                    newRoom = Instantiate(_longVerticalRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_longVerticalRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+
+                    for (int i = 0; i < _longVerticalRooms[0].enemies.Length; i++)
+                    {
+                        room.Enemies.Add(_longVerticalRooms[0].enemyPositions[i], _longVerticalRooms[0].enemies[i]);
+                    }
                     break;
 
                 case TempleRoom.TempleRoomType.Big:
-                    newRoom = Instantiate(_bigRooms[0], (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_bigRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+
+                    for (int i = 0; i < _bigRooms[0].enemies.Length; i++)
+                    {
+                        room.Enemies.Add(_bigRooms[0].enemyPositions[i], _bigRooms[0].enemies[i]);
+                    }
                     break;
 
                 case TempleRoom.TempleRoomType.Treasure:
-                    newRoom = Instantiate(_treasureRoomPrefab, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_treasureRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Character:
-                    newRoom = Instantiate(_weaponRoomPrefab, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_weaponRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.KeyRoom:
-                    newRoom = Instantiate(_keyRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_keyRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
 
                 case TempleRoom.TempleRoomType.Boss:
-                    newRoom = Instantiate(_bossRoom, (Vector3Int)room.Position, Quaternion.identity);
+                    newRoom = Instantiate(_bossRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
             }
@@ -862,6 +879,15 @@ public class TempleGenerator : MonoBehaviour
         Vector2 weaponPos = _weaponRoom.Position;
         SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length - 1)]);
+
+        foreach(TempleRoom room in _rooms)
+        {
+            foreach (KeyValuePair<Vector2, GameObject> enemyData in room.Enemies)
+            {
+                Vector2 enemyPos = enemyData.Key + room.Position;
+                Instantiate(enemyData.Value, enemyPos, Quaternion.identity);
+            }
+        }
     }
     #endregion
 }

@@ -14,6 +14,9 @@ public class DungeonRoom
 
     private List<Corridor> _corridors;
 
+    public Dictionary<Vector2, GameObject> Items { get; set; }
+    public Dictionary<Vector2, GameObject> Enemies { get; set; }
+
     public enum DungeonRoomType
     {
         Start = 0,
@@ -33,6 +36,8 @@ public class DungeonRoom
         _position = position;
         _connectedRooms = new List<DungeonRoom>();
         _corridors = new List<Corridor>();
+        Items = new Dictionary<Vector2, GameObject>();
+        Enemies = new Dictionary<Vector2, GameObject>();
     }
 
     public void AddConnectedRoom(DungeonRoom newRoom)
