@@ -362,12 +362,12 @@ public class CaveLogic : MonoBehaviour
             {
                 Instantiate(_enemyZone, gridPos.WorldPosition + _gridOffset, Quaternion.identity);
 
-                float depthLimit = _maxDepth / 3;
+                float depthLimit = _floorGrid.MaxDepth / 3;
                 EnemyZone.ZoneType type = 0;
 
                 if (gridPos.Depth <= depthLimit) type = EnemyZone.ZoneType.Easy;
                 else if (gridPos.Depth > depthLimit && gridPos.Depth <= depthLimit * 2) type = EnemyZone.ZoneType.Medium;
-                else if (gridPos.Depth > depthLimit) type = EnemyZone.ZoneType.Hard;
+                else if (gridPos.Depth > depthLimit * 2) type = EnemyZone.ZoneType.Hard;
 
                 _enemyZones.Add(new EnemyZone(type, gridPos.CellPosition, 7));
             }
@@ -393,42 +393,54 @@ public class CaveLogic : MonoBehaviour
 
     private void Spawn()
     {
+        
+
+        foreach (EnemyZone zone in _enemyZones)
+        {
+            List<Enemy> enemies = SetEnemyPool(5);
+
+            switch (zone.Type)
+            {
+                case EnemyZone.ZoneType.Easy:
+                    SpawnEnemies(zone, enemies);
+                    break;
+                case EnemyZone.ZoneType.Medium:
+                    SpawnEnemies(zone, enemies);
+                    break;
+                case EnemyZone.ZoneType.Hard:
+                    SpawnEnemies(zone, enemies);
+                    break;
+            }
+        }
+    }
+
+    private List<Enemy> SetEnemyPool(int enemyPoints)
+    {
         List<Enemy> availableEnemies = new List<Enemy>();
+        List<Enemy> enemiesToSpawn = new List<Enemy>();
 
         foreach (GameObject enemy in _enemies)
         {
             availableEnemies.Add(enemy.GetComponent<Enemy>());
         }
 
-        foreach (EnemyZone zone in _enemyZones)
-        {
-            switch (zone.Type)
-            {
-                case EnemyZone.ZoneType.Easy:
-                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
-                    break;
-                case EnemyZone.ZoneType.Medium:
-                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
-                    break;
-                case EnemyZone.ZoneType.Hard:
-                    SpawnEnemies(zone, SetEnemyPool(5, availableEnemies));
-                    break;
-            }
-        }
-    }
+        int iterations = 0;
 
-    private List<Enemy> SetEnemyPool(int enemyPoints, List<Enemy> availableEnemies)
-    {
-        List<Enemy> enemiesToSpawn = new List<Enemy>();
-        
         while (enemyPoints > 0)
         {
-            var enemy = availableEnemies[Random.Range(0, 2)];
+            Enemy enemy = availableEnemies[Random.Range(0, _enemies.Length)];
+            Debug.Log("Enemy: " + enemy);
 
             if (enemy.Cost() <= enemyPoints)
             {
                 enemyPoints -= enemy.Cost();
                 enemiesToSpawn.Add(enemy);
+            }
+
+            // Avoids infinite loops
+            if (iterations > 100)
+            {
+                break;
             }
         }
 
@@ -442,6 +454,8 @@ public class CaveLogic : MonoBehaviour
 
         int numEnemies = enemies.Count;
         int i = 0;
+
+        int iterations = 0;
 
         while (numEnemies > 0)
         {
@@ -461,6 +475,13 @@ public class CaveLogic : MonoBehaviour
                 }
             }
             offset--;
+            iterations++;
+            
+            // Avoids infinite loops
+            if (iterations > 100)
+            {
+                break;
+            }
         } 
     }
     #endregion

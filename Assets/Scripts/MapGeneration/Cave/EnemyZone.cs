@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyZone
 {    public enum ZoneType
     {
-        Easy,
-        Medium,
-        Hard
+        Easy = 0,
+        Medium = 1,
+        Hard = 2
     }
 
     public ZoneType Type { get; set; }

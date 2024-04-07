@@ -35,19 +35,14 @@ public class CaveGenerator : MonoBehaviour
 
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             GenerateCaveBase();
-            /*
-            _caveLogic.SetBaseLogic();
-            _caveDecoration.DecorateCave();
-            _caveLogic.SetSpecialZones();
-            _caveLogic.SetWalls();
             _caveLogic.SetEnemies();
             
         }
-        */
+        
     }
 
     private IEnumerator GenerateLevel()
@@ -62,11 +57,9 @@ public class CaveGenerator : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Ended groudn tiles");
-
         _caveLogic.SetSpecialZones();
         _caveLogic.SetWalls();
-        //_caveLogic.SetEnemies();
+        _caveLogic.SetEnemies();
         _caveLogic.SpawnPlayer();
 
         yield return new WaitForSeconds(0.5f);

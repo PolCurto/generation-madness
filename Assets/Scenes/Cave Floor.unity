@@ -706,6 +706,38 @@ PrefabInstance:
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1706507624}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[2]
+      value: 
+      objectReference: {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[3]
+      value: 
+      objectReference: {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[4]
+      value: 
+      objectReference: {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[5]
+      value: 
+      objectReference: {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _enemies.Array.data[6]
+      value: 
+      objectReference: {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
     - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _detailsTilemap
       value: 
