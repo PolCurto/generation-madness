@@ -15,6 +15,8 @@ public class TempleLevelController : MonoBehaviour
 
     public void OnPlayerEnterRoom(TempleRoom room)
     {
+        if (room.Completed) return;
+
         // Tanca portes
         foreach (Connection connection in room.Connections)
         {
@@ -49,6 +51,8 @@ public class TempleLevelController : MonoBehaviour
                 bond.DoorController.OpenDoor();
             }
         }
+
+        room.Completed = true;
     }
 
     private IEnumerator CheckActiveRoomStatus(TempleRoom room, List<GameObject> enemies)

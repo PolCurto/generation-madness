@@ -792,6 +792,7 @@ public class TempleGenerator : MonoBehaviour
                 case TempleRoom.TempleRoomType.Start:
                     newRoom = Instantiate(_startRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+                    room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.Normal:
@@ -837,16 +838,19 @@ public class TempleGenerator : MonoBehaviour
                 case TempleRoom.TempleRoomType.Treasure:
                     newRoom = Instantiate(_treasureRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+                    room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.Character:
                     newRoom = Instantiate(_weaponRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+                    room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.KeyRoom:
                     newRoom = Instantiate(_keyRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
+                    room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.Boss:

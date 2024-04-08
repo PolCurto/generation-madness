@@ -13,6 +13,7 @@ public class TempleRoom
     public GameObject SceneRoom { get; set; }
     public List<Connection> Connections { get; set; }
     public List<Vector2Int> GridPositions { get; set; }
+    public bool Completed { get; set; }
 
     public Dictionary<Vector2, GameObject> Items { get; set; }
     public Dictionary<Vector2, GameObject> Enemies { get; set; }

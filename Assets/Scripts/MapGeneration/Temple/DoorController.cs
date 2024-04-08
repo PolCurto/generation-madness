@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    [SerializeField] private bool _open;
     [SerializeField] private Collider2D _collider;
     [SerializeField] private float _roomMovingOffset;
 
+    private Animator _animator;
     private DoorController _linkedDoor;
+
+    private bool _open;
 
     public Bond Bond { get; set; }
 
     private void Awake()
     {
         _open = true;
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -54,12 +57,14 @@ public class DoorController : MonoBehaviour
 
     public void CloseDoor()
     {
+        _animator.Play("Door_Close");
         _open = false;
         _collider.enabled = true;
     }
 
     public void OpenDoor()
     {
+        _animator.Play("Door_Open");
         _open = true;
         _collider.enabled = false;
     }
