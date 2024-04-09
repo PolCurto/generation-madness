@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _progress: {fileID: 8192782152831896877}
-  _rotateSpeed: 0
+  _rotateSpeed: 400
 --- !u!1 &7589200303389569198
 GameObject:
   m_ObjectHideFlags: 0

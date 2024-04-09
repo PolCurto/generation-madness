@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -80,6 +81,7 @@ public class UIController : MonoBehaviour
     #region Pause Menu
     [Header("Pause Menu")]
     [SerializeField] private GameObject _pauseMenu;
+
     public void TogglePauseMenu()
     {
         if (_pauseMenu.activeSelf)
@@ -101,5 +103,22 @@ public class UIController : MonoBehaviour
     }
     #endregion
 
-    
+    #region Level Complete Screen
+    [Header("Level Complete Screen")]
+    [SerializeField] private GameObject _levelCompleteScreen;
+
+    public void OnLevelCompleted()
+    {
+        _levelCompleteScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void LoadNextFloor()
+    {
+        Time.timeScale = 1f;
+        LoadingScreen.Instance.gameObject.SetActive(true);
+        LevelsLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    #endregion
+
 }

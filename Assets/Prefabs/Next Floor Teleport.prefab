@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7182522213277744988}
   - component: {fileID: 1862182257765893745}
   - component: {fileID: 6504255586598716105}
+  - component: {fileID: 8816588518400504280}
   m_Layer: 0
   m_Name: Next Floor Teleport
   m_TagString: Untagged
@@ -120,3 +121,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8816588518400504280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341341745548048879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1a2028b3a231f439694c63b500c68b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -110,6 +110,7 @@ public class TempleGenerator : MonoBehaviour
         if (LoadingScreen.Instance != null)
         {
             LoadingScreen.Instance.gameObject.SetActive(false);
+            UIController.Instance.GetComponent<CanvasGroup>().alpha = 1;
         }
     }
 

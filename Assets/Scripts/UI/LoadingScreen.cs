@@ -21,7 +21,7 @@ public class LoadingScreen : MonoBehaviour
             Destroy(gameObject);
         }
 
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
