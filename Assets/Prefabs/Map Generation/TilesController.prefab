@@ -47,10 +47,11 @@ MonoBehaviour:
   _floorTilemap: {fileID: 0}
   _wallTilemap: {fileID: 0}
   _detailsTilemap: {fileID: 0}
+  _holesTilemap: {fileID: 0}
   _floorTile: {fileID: 11400000, guid: 27e89b612492d2d4f919a8f8768e0ae4, type: 2}
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
   _limitTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
-  _tileRange: 3
+  _tileRange: 4
   _surroundings:
   - {x: 1, y: 0, z: 0}
   - {x: 1, y: -1, z: 0}

@@ -12,6 +12,7 @@ public class TilesController : MonoBehaviour
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private Tilemap _wallTilemap;
     [SerializeField] private Tilemap _detailsTilemap;
+    [SerializeField] private Tilemap _holesTilemap;
 
     [Header("Tiles")]
     [SerializeField] private TileBase _floorTile;
@@ -53,6 +54,12 @@ public class TilesController : MonoBehaviour
             PassOnTiles(roomTilemaps[0], _floorTilemap);
             PassOnTiles(roomTilemaps[1], _wallTilemap);
             PassOnTiles(roomTilemaps[2], _detailsTilemap);
+
+            if (roomTilemaps.Length > 3)
+            {
+                PassOnTiles(roomTilemaps[3], _holesTilemap);
+            }
+
             Destroy(room.SceneRoom);
         }
     }
@@ -69,6 +76,12 @@ public class TilesController : MonoBehaviour
             PassOnTiles(roomTilemaps[0], _floorTilemap);
             PassOnTiles(roomTilemaps[1], _wallTilemap);
             PassOnTiles(roomTilemaps[2], _detailsTilemap);
+
+            if (roomTilemaps.Length > 3)
+            {
+                PassOnTiles(roomTilemaps[3], _holesTilemap);
+            }
+
             Destroy(room.SceneRoom);
         }
     }
@@ -133,8 +146,13 @@ public class TilesController : MonoBehaviour
                     _floorTilemap.SetTile(localPos, _floorTile);
                     _floorTilemap.SetTile(auxPos, _floorTile);
 
+                    // Removes the walls where corridors are being drown
                     if (_wallTilemap.HasTile(localPos)) _wallTilemap.SetTile(localPos, null);
                     if (_wallTilemap.HasTile(auxPos)) _wallTilemap.SetTile(auxPos, null);
+
+                    // Removes details where corridors are being drawn
+                    if (_detailsTilemap.HasTile(localPos)) _wallTilemap.SetTile(localPos, null);
+                    if (_detailsTilemap.HasTile(auxPos)) _wallTilemap.SetTile(auxPos, null);
                 }
                 i++;
             }
