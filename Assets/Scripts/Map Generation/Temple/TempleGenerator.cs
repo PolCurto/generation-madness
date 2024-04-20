@@ -781,6 +781,7 @@ public class TempleGenerator : MonoBehaviour
             // Center to 0
             room.Position -= _startPosition * _movementScalar;
             GameObject newRoom;
+            RoomData roomData = null;
 
             foreach (Connection connection in room.Connections)
             {
@@ -791,73 +792,70 @@ public class TempleGenerator : MonoBehaviour
             switch (room.Type)
             {
                 case TempleRoom.TempleRoomType.Start:
-                    newRoom = Instantiate(_startRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
+                    roomData = _startRoom;
+                    newRoom = Instantiate(roomData.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.Normal:
-                    newRoom = Instantiate(_normalRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
+                    roomData = _normalRooms[Random.Range(0, _normalRooms.Length)];
+                    newRoom = Instantiate(roomData.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
-
-                    for (int i = 0; i < _normalRooms[0].enemies.Length; i++)
-                    {
-                        room.Enemies.Add(_normalRooms[0].enemyPositions[i], _normalRooms[0].enemies[i]);
-                    }
                     break;
 
                 case TempleRoom.TempleRoomType.LongHorizontal:
-                    newRoom = Instantiate(_longHorizontalRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
+                    roomData = _longHorizontalRooms[Random.Range(0, _longHorizontalRooms.Length)];
+                    newRoom = Instantiate(roomData.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
-
-                    for (int i = 0; i < _longHorizontalRooms[0].enemies.Length; i++)
-                    {
-                        room.Enemies.Add(_longHorizontalRooms[0].enemyPositions[i], _longHorizontalRooms[0].enemies[i]);
-                    }
                     break;
 
                 case TempleRoom.TempleRoomType.LongVertical:
-                    newRoom = Instantiate(_longVerticalRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
+                    roomData = _longVerticalRooms[Random.Range(0, _longVerticalRooms.Length)];
+                    newRoom = Instantiate(roomData.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
-
-                    for (int i = 0; i < _longVerticalRooms[0].enemies.Length; i++)
-                    {
-                        room.Enemies.Add(_longVerticalRooms[0].enemyPositions[i], _longVerticalRooms[0].enemies[i]);
-                    }
                     break;
 
                 case TempleRoom.TempleRoomType.Big:
-                    newRoom = Instantiate(_bigRooms[0].roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
+                    roomData = _bigRooms[Random.Range(0, _bigRooms.Length)];
+                    newRoom = Instantiate(roomData.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
-
-                    for (int i = 0; i < _bigRooms[0].enemies.Length; i++)
-                    {
-                        room.Enemies.Add(_bigRooms[0].enemyPositions[i], _bigRooms[0].enemies[i]);
-                    }
                     break;
 
                 case TempleRoom.TempleRoomType.Treasure:
+                    roomData = _treasureRoomPrefab;
                     newRoom = Instantiate(_treasureRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.Character:
+                    roomData = _weaponRoomPrefab;
                     newRoom = Instantiate(_weaponRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.KeyRoom:
+                    roomData = _keyRoom;
                     newRoom = Instantiate(_keyRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     room.Completed = true;
                     break;
 
                 case TempleRoom.TempleRoomType.Boss:
+                    roomData = _bossRoom;
                     newRoom = Instantiate(_bossRoom.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;
                     break;
+            }
+
+            if (roomData != null)
+            {
+                for (int i = 0; i < roomData.enemies.Length; i++)
+                {
+                    room.Enemies.Add(roomData.enemyPositions[i], roomData.enemies[i]);
+                }
             }
         }
     }

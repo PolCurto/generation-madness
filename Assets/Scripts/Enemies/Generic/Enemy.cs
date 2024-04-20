@@ -147,6 +147,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the player is within its line of vision
+    /// </summary>
     private void CheckPlayerInSight()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _player.position - _rigidbody.position, 20f, LayerMask.GetMask("Player", "Walls"));
@@ -240,6 +243,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes the direction where the enemy will head the next time it moves
+    /// </summary>
     private void ChangeDirection()
     {
         _isWalking = !_isWalking;
@@ -256,6 +262,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets a valid dirction, avoiding walking into walls
+    /// </summary>
+    /// <returns></returns>
     private Vector2 GetValidDirection()
     {
         Vector2 direction;

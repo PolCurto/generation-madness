@@ -6,13 +6,13 @@ public class HealthController : MonoBehaviour
 {
     [Header("Common parameters")]
     [SerializeField] protected int _maxLife;
-    [SerializeField] protected int _currentMaxLife;
 
     protected int _currentLife;
+    protected bool _isDead;
 
     protected virtual void Start()
     {
-        _currentLife = _currentMaxLife;
+        _currentLife = _maxLife;
     }
 
     public virtual void GetHit(int damage)
@@ -23,12 +23,11 @@ public class HealthController : MonoBehaviour
         {
             Die();
         }
-
     }
 
     protected virtual void Die()
     {
-
+        _isDead = true;
     }
 
     /// <summary>

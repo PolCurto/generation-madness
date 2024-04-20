@@ -2,18 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempleLevelController : MonoBehaviour
+public class TempleLevelController : FloorLogicController
 {
-    [HideInInspector] public static TempleLevelController Instance;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-
-    public void OnPlayerEnterRoom(TempleRoom room)
+    public override void OnPlayerEnterRoom(TempleRoom room)
     {
         if (room.Completed) return;
 

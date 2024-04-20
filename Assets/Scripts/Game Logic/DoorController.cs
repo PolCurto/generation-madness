@@ -52,7 +52,7 @@ public class DoorController : MonoBehaviour
 
     private void PlayerEnterRoom()
     {
-        TempleLevelController.Instance.OnPlayerEnterRoom(Bond.LinkedConnection.ParentRoom);
+        FloorLogicController.Instance.OnPlayerEnterRoom(Bond.LinkedConnection.ParentRoom);
     }
 
     public void CloseDoor()

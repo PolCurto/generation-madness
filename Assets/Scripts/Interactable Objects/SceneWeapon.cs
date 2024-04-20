@@ -9,6 +9,11 @@ public class SceneWeapon : InteractableObject
 
     private Weapon _weapon;
 
+    private void Awake()
+    {
+        SetBaseWeapon(_weaponBase);
+    }
+
     protected override void Interact()
     {
         base.Interact();

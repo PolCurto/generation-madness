@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerHealthController : HealthController
 {
+    [SerializeField] protected int _currentMaxLife;
+
     protected override void Start()
     {
-        base.Start();
+        _currentLife = _currentMaxLife;
         UIController.Instance.UpdateLife(_currentMaxLife, _currentLife);
     }
 

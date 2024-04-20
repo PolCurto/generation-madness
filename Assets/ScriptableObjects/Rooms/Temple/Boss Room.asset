@@ -15,5 +15,7 @@ MonoBehaviour:
   roomTilemap: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
   items: []
   itemsPositions: []
-  enemies: []
-  enemyPositions: []
+  enemies:
+  - {fileID: 9216253534233367719, guid: 9a518068c42cf3b4392a3a2eface3938, type: 3}
+  enemyPositions:
+  - {x: 0, y: 0}

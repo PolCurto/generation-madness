@@ -6,6 +6,7 @@ public class EnemyHealthController : HealthController
 {
     protected override void Die()
     {
+        base.Die();
         gameObject.SetActive(false);
     }
 }

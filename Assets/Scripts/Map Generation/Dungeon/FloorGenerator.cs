@@ -144,7 +144,7 @@ public class FloorGenerator : MonoBehaviour
         RenderFloor();
         yield return StartCoroutine(PullRoomsTogether());
         GetRoomsToGrid();
-        InstantiateItems();
+        InstantiatePrefabs();
         GenerateCorridors();
         _tilesController.DrawWalls(_wallTile);
         _tilesController.CleanWalls();
@@ -502,54 +502,66 @@ public class FloorGenerator : MonoBehaviour
             // Center to 0
             room.Position -= _startPosition * _movementScalar;
             GameObject newRoom;
+            RoomData roomData = null;
 
             switch (room.Type)
             {
                 case DungeonRoom.DungeonRoomType.Start:
-                    newRoom = Instantiate(_startRoom.roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _startRoom;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case DungeonRoom.DungeonRoomType.Normal:
-                    RoomData roomData = _normalRooms[Random.Range(0, 2)];
+                    roomData = _normalRooms[Random.Range(0, _normalRooms.Length)];
                     newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
-
-                    for (int i = 0; i < roomData.enemies.Length; i++)
-                    {
-                        room.Enemies.Add(roomData.enemyPositions[i], roomData.enemies[i]);
-                    }
                     break;
 
                 case DungeonRoom.DungeonRoomType.Treasure:
-                    newRoom = Instantiate(_treasureRoomData.roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _treasureRoomData;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case DungeonRoom.DungeonRoomType.Weapon:
-                    newRoom = Instantiate(_weaponRoomData.roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _weaponRoomData;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case DungeonRoom.DungeonRoomType.Loop:
-                    newRoom = Instantiate(_normalRooms[Random.Range(0, 2)].roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _normalRooms[Random.Range(0, _normalRooms.Length)]; ;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case DungeonRoom.DungeonRoomType.KeyRoom:
-                    newRoom = Instantiate(_keyRoom.roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _keyRoom;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case DungeonRoom.DungeonRoomType.Checkpoint:
-                    newRoom = Instantiate(_managementRoom.roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _managementRoom;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
 
                 case DungeonRoom.DungeonRoomType.Boss:
-                    newRoom = Instantiate(_bossRoom.roomTilemap, room.Position, Quaternion.identity);
+                    roomData = _bossRoom;
+                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
+            }
+
+            // Stores the room enemies to the room data
+            if (roomData != null)
+            {
+                for (int i = 0; i < roomData.enemies.Length; i++)
+                {
+                    room.Enemies.Add(roomData.enemyPositions[i], roomData.enemies[i]);
+                }
             }
         }
     }
@@ -827,7 +839,7 @@ public class FloorGenerator : MonoBehaviour
     #endregion
 
     #region Items & Weapons
-    private void InstantiateItems()
+    private void InstantiatePrefabs()
     {
         Vector3 itemPos = _treasureRoom.Position;
         ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();

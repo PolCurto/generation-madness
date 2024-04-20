@@ -22,6 +22,7 @@ public class CaveLogic : MonoBehaviour
     [Header("Enemies")]
     [SerializeField] private GameObject _enemyZone;
     [SerializeField] private GameObject[] _enemies;
+    [SerializeField] private GameObject[] _bosses;
  
     [Header("Cave Logic Parameters")]
     [SerializeField] private int _startPositionArea;
@@ -235,6 +236,8 @@ public class CaveLogic : MonoBehaviour
         _floorGrid.BossPosition = _floorGrid.GetGridPosFromWorld(Vector2Int.RoundToInt(bossPosition));
         var bossRoom = Instantiate(_bossRoom, bossPosition, Quaternion.identity);
         _tilesController.PrefabToMainGrid(bossRoom);
+
+        Instantiate(_bosses[Random.Range(0, _bosses.Length)], bossPosition, Quaternion.identity);
     }
 
     /// <summary>
@@ -393,8 +396,6 @@ public class CaveLogic : MonoBehaviour
 
     private void Spawn()
     {
-        
-
         foreach (EnemyZone zone in _enemyZones)
         {
             List<Enemy> enemies = SetEnemyPool(5);

@@ -81,8 +81,12 @@ MonoBehaviour:
   _healingChest: {fileID: 989211842980675411, guid: aae2719427ce8bf4fa4679dbf4d29a5f, type: 3}
   _enemyZone: {fileID: 5480985395189605892, guid: 46008d6288dcaf34d9c7dd40afc55d11, type: 3}
   _enemies:
-  - {fileID: 4810090923118679187, guid: 298f244d32cb1d843bfcda3e7d7e1be8, type: 3}
-  - {fileID: 4892958769259977148, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
+  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  _bosses:
+  - {fileID: 9216253534233367719, guid: 9a518068c42cf3b4392a3a2eface3938, type: 3}
   _startPositionArea: 2
   _chestsMinOffset: -30
   _chestsMaxOffset: 30

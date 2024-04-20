@@ -26,7 +26,6 @@ public class HoodSkeleton : Enemy
 
     protected virtual void FollowPlayer()
     {
-        // Remove isAttacking
         if (!_playerDetected || _isAttacking || _isShooting) return;
         
         _direction = (_player.position - _rigidbody.position).normalized;           
@@ -47,7 +46,7 @@ public class HoodSkeleton : Enemy
         */
     }
 
-    private void MoveWeapon()
+    protected virtual void MoveWeapon()
     {
         if (!_playerDetected) return;
 
