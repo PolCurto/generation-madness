@@ -91,11 +91,13 @@ public class CaveDecoration : MonoBehaviour
         Vector2Int[] positions = new Vector2Int[] { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
         List<GridPos> availablePositions = GetSuitablePropPositions(positions, false);
 
+        List<GameObject> props = new List<GameObject>();
+
         foreach (GridPos pos in availablePositions)
         {
-            if (Random.Range(0f, 1f) < _groundPropRate)
+            if (Random.Range(0f, 1f) < _groundPropRate && !HasPropNearby((Vector3Int)pos.WorldPosition, props))
             {
-                Instantiate(_groundProps[Random.Range(0, _groundProps.Length)], (Vector3Int)pos.WorldPosition + new Vector3(0.5f, 0.5f), Quaternion.identity);
+                props.Add(Instantiate(_groundProps[Random.Range(0, _groundProps.Length)], (Vector3Int)pos.WorldPosition + new Vector3(0.5f, 0.5f), Quaternion.identity));
             }
         }
     }
@@ -120,10 +122,23 @@ public class CaveDecoration : MonoBehaviour
                     availablePositions.Add(pos);
                 }
             }
-            
+        }
+        return availablePositions;
+    }
+
+    private bool HasPropNearby(Vector3 position, List<GameObject> props)
+    {
+        int minDistance = 2;
+
+        foreach(GameObject prop in props)
+        {
+            if (Vector3.Distance(position, prop.transform.position) < minDistance)
+            {
+                return true;
+            }
         }
 
-        return availablePositions;
+        return false;
     }
     #endregion
 

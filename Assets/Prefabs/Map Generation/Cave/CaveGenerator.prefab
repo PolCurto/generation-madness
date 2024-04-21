@@ -152,4 +152,6 @@ MonoBehaviour:
   _wallPropRate: 0.4
   _groundProps:
   - {fileID: 6643015924504016733, guid: 6facf2cea25ad5e4196ce8d266e622c8, type: 3}
+  - {fileID: 2997980418712981769, guid: 1c5a3eff9b3f4c146869a37369121995, type: 3}
+  - {fileID: 7706742077520362656, guid: ebe86bf20b151bb43af9eda14818e974, type: 3}
   _groundPropRate: 0.05

@@ -731,6 +731,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 6390367591410451615, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390367591410451615, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6782123902386688234, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -811,6 +819,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7393561892828769020, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393561892828769020, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -881,6 +897,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f51ebfecfd40a9044bee9689de2073dc, type: 2}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _prefabChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _managementRoom
       value: 
       objectReference: {fileID: 11400000, guid: c8d6f69cc2746604a91184aa2c2c6e7e, type: 2}
@@ -901,6 +921,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _decoration.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _itemsPool.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 8482561bc3f0fbb41b97e6388e89c75c, type: 2}
@@ -916,6 +940,18 @@ PrefabInstance:
       propertyPath: _itemsPool.Array.data[5]
       value: 
       objectReference: {fileID: 11400000, guid: 269d799c42ed76d4d836631193a9b625, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _decoration.Array.data[0]
+      value: 
+      objectReference: {fileID: 6643015924504016733, guid: 6facf2cea25ad5e4196ce8d266e622c8, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _decoration.Array.data[1]
+      value: 
+      objectReference: {fileID: 2997980418712981769, guid: 1c5a3eff9b3f4c146869a37369121995, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _decoration.Array.data[2]
+      value: 
+      objectReference: {fileID: 7706742077520362656, guid: ebe86bf20b151bb43af9eda14818e974, type: 3}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _normalRooms.Array.data[0]
       value: 
