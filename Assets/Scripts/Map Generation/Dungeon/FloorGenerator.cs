@@ -682,66 +682,31 @@ public class FloorGenerator : MonoBehaviour
             {
                 corridor.ResetPositions();
                 position = originalPosition;
-                while (position.y != connectedRoomPosition.y)
-                {
-                    if (position.y < connectedRoomPosition.y) position.y += 1;
-                    else position.y -= 1;
-                    corridor.AddNewPosition(position, false);
-                }
 
-                while (position.x != connectedRoomPosition.x)
-                {
-                    if (position.x < connectedRoomPosition.x) position.x += 1;
-                    else position.x -= 1;
-                    corridor.AddNewPosition(position, true);
-
-                }
+                SetCorridorVerticalLine(position, connectedRoomPosition, corridor);
+                SetCorridorHorizontalLine(position, connectedRoomPosition, corridor);
             }
             else
             {
-                while (position.y != connectedRoomPosition.y)
-                {
-                    if (position.y < connectedRoomPosition.y) position.y += 1;
-                    else position.y -= 1;
-                    corridor.AddNewPosition(position, false);
-                }
+                SetCorridorVerticalLine(position, connectedRoomPosition, corridor);
             }
         }
 
         else
         {
-            while (position.y != connectedRoomPosition.y)
-            {
-                if (position.y < connectedRoomPosition.y) position.y += 1;
-                else position.y -= 1;
-                corridor.AddNewPosition(position, false);
-            }
+            SetCorridorVerticalLine(position, connectedRoomPosition, corridor);
 
             if (CorridorCollides(corridor.Positions[^1], corridor.DestinationRoom, corridor.OriginRoom))
             {
                 corridor.ResetPositions();
                 position = originalPosition;
-                while (position.x != connectedRoomPosition.x)
-                {
-                    if (position.x < connectedRoomPosition.x) position.x += 1;
-                    else position.x -= 1;
-                    corridor.AddNewPosition(position, true);
-                }
-                while (position.y != connectedRoomPosition.y)
-                {
-                    if (position.y < connectedRoomPosition.y) position.y += 1;
-                    else position.y -= 1;
-                    corridor.AddNewPosition(position, false);
-                }
+
+                SetCorridorHorizontalLine(position, connectedRoomPosition, corridor);
+                SetCorridorVerticalLine(position, connectedRoomPosition, corridor);
             }
             else
             {
-                while (position.x != connectedRoomPosition.x)
-                {
-                    if (position.x < connectedRoomPosition.x) position.x += 1;
-                    else position.x -= 1;
-                    corridor.AddNewPosition(position, true);
-                }
+                SetCorridorHorizontalLine(position, connectedRoomPosition, corridor);
             }
         }
     }
@@ -754,15 +719,24 @@ public class FloorGenerator : MonoBehaviour
             else position.x -= 1;
             corridor.AddNewPosition(position, true);
 
-            if (IsWithinRoomBounds(position, corridor.DestinationRoom) && _tilesController.FloorTilemap.HasTile(_tilesController.FloorTilemap.WorldToCell((Vector3Int)position))) break;
+            if (IsWithinRoomBounds(position, corridor.DestinationRoom) && _tilesController.FloorTilemap.HasTile((Vector3Int)position)) break;
         }
 
         return position;
     }
 
-    private void SetCorridorVerticalLine()
+    private Vector2Int SetCorridorVerticalLine(Vector2Int position, Vector2Int connectedRoomPosition, Corridor corridor)
     {
+        while (position.y != connectedRoomPosition.y)
+        {
+            if (position.y < connectedRoomPosition.y) position.y += 1;
+            else position.y -= 1;
+            corridor.AddNewPosition(position, false);
 
+            if (IsWithinRoomBounds(position, corridor.DestinationRoom) && _tilesController.FloorTilemap.HasTile((Vector3Int)position)) break;
+        }
+
+        return position;
     }
 
     private bool IsWithinRoomBounds(Vector2Int position, DungeonRoom room)
