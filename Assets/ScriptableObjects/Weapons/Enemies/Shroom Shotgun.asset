@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Shroom Shotgun
   weaponSprite: {fileID: 21300000, guid: 1cb01df1432af194fa1e9c4364d42bcc, type: 3}
-  fireRate: 4
+  fireRate: 3
   dispersion: 2
   bulletSprite: {fileID: 21300000, guid: c4476d5cc408a044ba61e10fd649acc6, type: 3}
   bulletSpeed: 350

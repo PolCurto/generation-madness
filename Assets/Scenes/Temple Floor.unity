@@ -1410,25 +1410,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1129658828}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _keyRoom
-      value: 
-      objectReference: {fileID: 11400000, guid: 135441cc88f7e6c4da8b619b22b30c81, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _bossRoom
-      value: 
-      objectReference: {fileID: 11400000, guid: a027b8de7e43da44080a1bbcd01be4ba, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _startRoom
-      value: 
-      objectReference: {fileID: 11400000, guid: 588d4aaa5ff12dc458ad7c2dba95cb34, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _testingRoom
       value: 
       objectReference: {fileID: 545903398}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponPrefab
-      value: 
-      objectReference: {fileID: 2330681484569148427, guid: 70e0ffc9a79cb02468c73d6db08dea60, type: 3}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _testingRoomBig
       value: 
@@ -1446,105 +1430,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1863561298}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponRoomPrefab
-      value: 
-      objectReference: {fileID: 11400000, guid: 1140b8fe28680d242957594824a834bd, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _passiveItemPrefab
-      value: 
-      objectReference: {fileID: 7835882426929364805, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _connectionOffset.y
-      value: 7.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _treasureRoomPrefab
-      value: 
-      objectReference: {fileID: 11400000, guid: 8423f44ecc2c6854fb8f6a27d1a11829, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _bigRooms.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f437f0dc51373db4a90148953fa29e33, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _normalRooms.Array.size
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponsPool.Array.size
-      value: 5
+      propertyPath: _normalRooms.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ec528d34d0c671408542bab0418bcda, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _normalRooms.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 002c2abff2945b442b7f27ac4eddfc25, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _normalRooms.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: a728b8693559e7e439e74c3720d7c90f, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _normalRooms.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 02aa78ce984937d4eb32f43c99482c6d, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _normalRooms.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ab18dd57e0b30b4aacdb133aec1fcf0, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _normalRooms.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: f757d993c16aa0a4ab4c51517600744e, type: 2}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _longVerticalRooms.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 513cef438cea7f44e9801df241c8b279, type: 2}
+      propertyPath: _longHorizontalRooms.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.data[1]
+      propertyPath: _longVerticalRooms.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 269d799c42ed76d4d836631193a9b625, type: 2}
+      objectReference: {fileID: 11400000, guid: 7da2679093759064bbf90242ffbf377a, type: 2}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.data[2]
+      propertyPath: _longHorizontalRooms.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: ed4ded83b1ec9144bb12bea8e26f2d19, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 2fbce71ae47b8354eb6cdda065bf1171, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8482561bc3f0fbb41b97e6388e89c75c, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _itemsPool.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: e576c4127c666614583e86122d44dbec, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _normalRooms.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: e6e0173c24f22e54b91aa3fa5766465b, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _normalRooms.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff5aea73221608543b959fafe19de9b8, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _normalRooms.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: da9814cfe365d7e41821d8d32278fc68, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _normalRooms.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: e079f45db8e7b6943b2fdae915973ae5, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponsPool.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f0f5d275bbc0dfb4686fba1c04f3c654, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponsPool.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: a3081900c1e539c44806cbf1931372aa, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponsPool.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: b24ddf8de8746684e82287b42f916a35, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponsPool.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: a8789fc28f6d02d499d2bdda1d8dc9f9, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _weaponsPool.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3bfe790bd49f67148ac0a106320c4c8a, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _longVerticalRooms.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4ac2d7869f9c0134a93e2ffb076ce67d, type: 2}
-    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
-      propertyPath: _longHorizontalRooms.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9652713bec713f240b342f4b9f4b94e2, type: 2}
+      objectReference: {fileID: 11400000, guid: 4b84315fbdace5b429896cb2b581cf10, type: 2}
     - target: {fileID: 3812817299905916221, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: m_Name
       value: Temple Generator

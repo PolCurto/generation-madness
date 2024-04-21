@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
   enemyPositions:
-  - {x: -5, y: 5}
-  - {x: 5, y: -5}
+  - {x: -4, y: 4}
+  - {x: 4, y: -4}

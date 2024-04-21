@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04f9b747fcf4fbc4e876bd4c92bd0540, type: 3}
-  m_Name: Long Room H 1
+  m_Name: Common Room 8
   m_EditorClassIdentifier: 
-  roomTilemap: {fileID: 4452905042334726878, guid: 4ddec79abc6119a4988ed20e72af5680, type: 3}
+  roomTilemap: {fileID: 7295069627287265493, guid: 12c59318acb46504cb0722bd98101c3c, type: 3}
   items: []
   itemsPositions: []
   enemies:
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
   - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
   enemyPositions:
-  - {x: 5, y: 5}
-  - {x: -5, y: -5}
+  - {x: 4, y: 3}
+  - {x: 4, y: -4}
+  - {x: -4, y: 3}
+  - {x: -4, y: -3}

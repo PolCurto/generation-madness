@@ -55,7 +55,7 @@ MonoBehaviour:
   _cost: 4
   _maxVelocity: 2
   _acceleration: 500
-  _detectionDistance: 8
+  _detectionDistance: 12
   _enablingDistance: 20
   _attackDistance: 4
   _loseDetectionTime: 2
@@ -66,7 +66,7 @@ MonoBehaviour:
   _pathfindingRate: 0
   _weaponController: {fileID: 7764790766768438084}
   _referencePoint: {fileID: 5363437540000372635}
-  _velocityMultiplier: 2
+  _velocityMultiplier: 2.5
 --- !u!114 &6944874938763639691
 MonoBehaviour:
   m_ObjectHideFlags: 0

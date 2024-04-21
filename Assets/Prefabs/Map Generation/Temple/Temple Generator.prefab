@@ -50,19 +50,25 @@ MonoBehaviour:
   _testingRoomLongH: {fileID: 0}
   _testingRoomLongV: {fileID: 0}
   _testingRoomBig: {fileID: 0}
-  _startRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
-  _treasureRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
-  _characterRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
-  _keyRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
-  _bossRoom: {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  _startRoom: {fileID: 11400000, guid: 588d4aaa5ff12dc458ad7c2dba95cb34, type: 2}
+  _treasureRoomPrefab: {fileID: 11400000, guid: 8423f44ecc2c6854fb8f6a27d1a11829, type: 2}
+  _weaponRoomPrefab: {fileID: 11400000, guid: 1140b8fe28680d242957594824a834bd, type: 2}
+  _keyRoom: {fileID: 11400000, guid: 135441cc88f7e6c4da8b619b22b30c81, type: 2}
+  _bossRoom: {fileID: 11400000, guid: a027b8de7e43da44080a1bbcd01be4ba, type: 2}
   _normalRooms:
-  - {fileID: 7295069627287265493, guid: e4a0ab90fcabebb4593788d620f1aba4, type: 3}
+  - {fileID: 11400000, guid: e6e0173c24f22e54b91aa3fa5766465b, type: 2}
+  - {fileID: 11400000, guid: ff5aea73221608543b959fafe19de9b8, type: 2}
+  - {fileID: 11400000, guid: da9814cfe365d7e41821d8d32278fc68, type: 2}
+  - {fileID: 11400000, guid: e079f45db8e7b6943b2fdae915973ae5, type: 2}
   _longHorizontalRooms:
-  - {fileID: 4452905042334726878, guid: 4ddec79abc6119a4988ed20e72af5680, type: 3}
+  - {fileID: 11400000, guid: 9652713bec713f240b342f4b9f4b94e2, type: 2}
   _longVerticalRooms:
-  - {fileID: 1755194264061431982, guid: 935599238d18b2d459e95fb644028486, type: 3}
+  - {fileID: 11400000, guid: 4ac2d7869f9c0134a93e2ffb076ce67d, type: 2}
   _bigRooms:
-  - {fileID: 705564717537585662, guid: 1c7864e30c3f5cd4ca92eed73f09dd2f, type: 3}
+  - {fileID: 11400000, guid: f437f0dc51373db4a90148953fa29e33, type: 2}
+  - {fileID: 11400000, guid: 251e7d7984afb0641ab4f00473a2a1d8, type: 2}
+  - {fileID: 11400000, guid: 7f085e0eda751084d9fe1d9bc6b2bab6, type: 2}
+  - {fileID: 11400000, guid: b63fcebde3bbc424b968a39b1e4ea180, type: 2}
   _maxGenerationIterations: 15
   _maxRooms: 15
   _gridWidth: 50
@@ -82,3 +88,18 @@ MonoBehaviour:
   _movementScalar: {x: 30, y: 19}
   _connectionOffset: {x: 12.25, y: 7.25}
   _door: {fileID: 3167307966368846065, guid: 734e0a06cba522843b13e0fb36185f6e, type: 3}
+  _passiveItemPrefab: {fileID: 7835882426929364805, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
+  _itemsPool:
+  - {fileID: 11400000, guid: 513cef438cea7f44e9801df241c8b279, type: 2}
+  - {fileID: 11400000, guid: 269d799c42ed76d4d836631193a9b625, type: 2}
+  - {fileID: 11400000, guid: ed4ded83b1ec9144bb12bea8e26f2d19, type: 2}
+  - {fileID: 11400000, guid: 2fbce71ae47b8354eb6cdda065bf1171, type: 2}
+  - {fileID: 11400000, guid: 8482561bc3f0fbb41b97e6388e89c75c, type: 2}
+  - {fileID: 11400000, guid: e576c4127c666614583e86122d44dbec, type: 2}
+  _weaponPrefab: {fileID: 2330681484569148427, guid: 70e0ffc9a79cb02468c73d6db08dea60, type: 3}
+  _weaponsPool:
+  - {fileID: 11400000, guid: f0f5d275bbc0dfb4686fba1c04f3c654, type: 2}
+  - {fileID: 11400000, guid: a3081900c1e539c44806cbf1931372aa, type: 2}
+  - {fileID: 11400000, guid: b24ddf8de8746684e82287b42f916a35, type: 2}
+  - {fileID: 11400000, guid: a8789fc28f6d02d499d2bdda1d8dc9f9, type: 2}
+  - {fileID: 11400000, guid: 3bfe790bd49f67148ac0a106320c4c8a, type: 2}

@@ -139,7 +139,7 @@ MonoBehaviour:
   _cost: 2
   _maxVelocity: 3
   _acceleration: 500
-  _detectionDistance: 12
+  _detectionDistance: 16
   _enablingDistance: 20
   _attackDistance: 10
   _loseDetectionTime: 5

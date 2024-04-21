@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f9b747fcf4fbc4e876bd4c92bd0540, type: 3}
+  m_Name: Big Room 3
+  m_EditorClassIdentifier: 
+  roomTilemap: {fileID: 705564717537585662, guid: fb7c8ac5a983c434a8fb5c4e29dfe7d3, type: 3}
+  items: []
+  itemsPositions: []
+  enemies:
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
+  - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
+  - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
+  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  enemyPositions:
+  - {x: -6, y: 8}
+  - {x: 38, y: 8}
+  - {x: 1, y: 8}
+  - {x: 31, y: 8}
+  - {x: 1, y: 18}
+  - {x: 31, y: 18}
+  - {x: 1, y: -2}
+  - {x: 31, y: -2}
+  - {x: 16, y: 22}
+  - {x: 16, y: -6}
+  - {x: 16, y: 16}
+  - {x: 16, y: 0}

@@ -6,16 +6,12 @@ public class CrookShroom : HoodSkeleton
 {
     [Header("Crook Shroom Parameters")]
     [SerializeField] float _velocityMultiplier;
-    private bool _velocityBoosted;
     protected override void FollowPlayer()
     {
-        base.FollowPlayer();
+        if (!_playerDetected || _isAttacking || _isShooting) return;
 
-        if (!_velocityBoosted)
-        {
-            _velocityBoosted = true;
-            _rigidbody.velocity *= _velocityMultiplier;
-        }
-       
+        _direction = (_player.position - _rigidbody.position).normalized;
+        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
+        _rigidbody.velocity = moveForce * _velocityMultiplier;
     }
 }

@@ -10,14 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04f9b747fcf4fbc4e876bd4c92bd0540, type: 3}
-  m_Name: Common Room 4
+  m_Name: Vertical Room 1
   m_EditorClassIdentifier: 
-  roomTilemap: {fileID: 7295069627287265493, guid: f3424f41748dae84b9d0a84135c8427a, type: 3}
+  roomTilemap: {fileID: 1755194264061431982, guid: 7e61f2f487d19dc44b4b018453fa7aee, type: 3}
   items: []
   itemsPositions: []
   enemies:
+  - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
   - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
+  - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
   - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
   enemyPositions:
-  - {x: 0, y: 3}
-  - {x: 0, y: -3}
+  - {x: 1, y: 2}
+  - {x: 7, y: 9}
+  - {x: -7, y: 9}
+  - {x: 1, y: 15}
+  - {x: 10, y: 9}
+  - {x: -10, y: 9}
