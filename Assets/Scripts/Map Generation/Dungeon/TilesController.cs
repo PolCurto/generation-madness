@@ -222,4 +222,6 @@ public class TilesController : MonoBehaviour
 
         _wallTilemap.SetTile(gridPos, null);
     }
+
+    public Tilemap FloorTilemap => _floorTilemap;
 }

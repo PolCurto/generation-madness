@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -45,12 +46,14 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private float _pullTime;
     [SerializeField] private float _pullSpeed;
     [SerializeField] private TileBase _wallTile;
+    [SerializeField] private float _prefabChance;
 
     [Header("Items & Weapons")]
     [SerializeField] private GameObject _passiveItemPrefab;
     [SerializeField] private ItemBase[] _itemsPool;
     [SerializeField] private GameObject _weaponPrefab;
     [SerializeField] private WeaponBase[] _weaponsPool;
+    [SerializeField] private GameObject[] _decoration;
 
     private Vector2Int _startPosition;
     private Walker _walker;
@@ -233,7 +236,7 @@ public class FloorGenerator : MonoBehaviour
 
         // Sort the dead ends by their depth
         _deadEnds.Sort((r1, r2) => r1.Depth.CompareTo(r2.Depth));
-
+        
         // If there is no room deep enough generates the floor again
         if (_deadEnds[^1].Depth < _minDepth && _iterations < _maxGenerationIterations)
         {
@@ -841,12 +844,14 @@ public class FloorGenerator : MonoBehaviour
     #region Items & Weapons
     private void InstantiatePrefabs()
     {
+        Vector3 offset = new Vector2(.5f, .5f);
+
         Vector3 itemPos = _treasureRoom.Position;
-        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();
+        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos + offset, Quaternion.identity).GetComponent<ScenePassiveItem>();
         item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
         Vector3 weaponPos = _weaponRoom.Position;
-        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
+        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos + offset, Quaternion.identity).GetComponent<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
         foreach (DungeonRoom room in _rooms)
@@ -857,6 +862,48 @@ public class FloorGenerator : MonoBehaviour
                 Instantiate(enemyData.Value, enemyPos, Quaternion.identity);
             }
         }
+
+        List<GameObject> prefabs = new List<GameObject>();
+
+        foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
+        {
+            if (Random.value < _prefabChance && HasClearSurroundings(position, prefabs))
+            {
+                prefabs.Add(Instantiate(_decoration[Random.Range(0, _decoration.Length)], position, Quaternion.identity));
+            }
+        }
+    }
+
+    private bool HasClearSurroundings(Vector3Int position, List<GameObject> prefabs)
+    {
+        int tileRange = 2;
+        int minDistance = 5;
+
+        Debug.Log("Check Surroundings");
+
+        // Checks if it has floor tiles around
+        for (int x = position.x - tileRange; x <= position.x + tileRange; x++)
+        {
+            for (int y = position.y - tileRange; y <= position.y + tileRange; y++)
+            {
+                if (!_tilesController.FloorTilemap.HasTile(new Vector3Int(x, y)))
+                {
+                    //Debug.Log("Has no tile");
+                    return false;
+                }
+            }
+        }        
+
+        foreach(GameObject prefab in prefabs)
+        {
+            if (Vector3.Distance(prefab.transform.position, position) < minDistance)
+            {
+                return false;
+            }
+        }
+
+        Debug.Log("De locos");
+        return true;
     }
     #endregion
 
