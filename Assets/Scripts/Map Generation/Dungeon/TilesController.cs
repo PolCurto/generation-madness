@@ -151,8 +151,8 @@ public class TilesController : MonoBehaviour
                     if (_wallTilemap.HasTile(auxPos)) _wallTilemap.SetTile(auxPos, null);
 
                     // Removes details where corridors are being drawn
-                    if (_detailsTilemap.HasTile(localPos)) _wallTilemap.SetTile(localPos, null);
-                    if (_detailsTilemap.HasTile(auxPos)) _wallTilemap.SetTile(auxPos, null);
+                    if (_detailsTilemap.HasTile(localPos)) _detailsTilemap.SetTile(localPos, null);
+                    if (_detailsTilemap.HasTile(auxPos)) _detailsTilemap.SetTile(auxPos, null);
                 }
                 i++;
             }
