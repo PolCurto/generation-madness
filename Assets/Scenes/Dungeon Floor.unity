@@ -244,6 +244,10 @@ PrefabInstance:
       value: TilesController
       objectReference: {fileID: 0}
     - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _tileRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: _wallTilemap
       value: 
       objectReference: {fileID: 1732516323}
@@ -925,6 +929,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _normalRooms.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _itemsPool.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 8482561bc3f0fbb41b97e6388e89c75c, type: 2}
@@ -960,6 +968,14 @@ PrefabInstance:
       propertyPath: _normalRooms.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 428b54633fe668b4abc658147d90840d, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _normalRooms.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: d2483757990ff2d47a64ce19c5027702, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _normalRooms.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2925da3c539b3c740b30e5367417f34c, type: 2}
     - target: {fileID: 8988955875812395203, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: m_Name
       value: Dungeon Floor Generator

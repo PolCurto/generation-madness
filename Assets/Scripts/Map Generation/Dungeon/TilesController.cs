@@ -153,6 +153,10 @@ public class TilesController : MonoBehaviour
                     // Removes details where corridors are being drawn
                     if (_detailsTilemap.HasTile(localPos)) _detailsTilemap.SetTile(localPos, null);
                     if (_detailsTilemap.HasTile(auxPos)) _detailsTilemap.SetTile(auxPos, null);
+
+                    // Removes the holes where corridors are being drown
+                    if (_holesTilemap.HasTile(localPos)) _holesTilemap.SetTile(localPos, null);
+                    if (_holesTilemap.HasTile(auxPos)) _holesTilemap.SetTile(auxPos, null);
                 }
                 i++;
             }
@@ -173,7 +177,8 @@ public class TilesController : MonoBehaviour
                 {
                     for (int y = floorTilePos.y - _tileRange; y <= floorTilePos.y + _tileRange; y++)
                     {
-                        if (!_floorTilemap.HasTile(new Vector3Int(x, y))) _wallTilemap.SetTile(new Vector3Int(x, y), wallTile);
+                        Vector3Int position = new Vector3Int(x, y);
+                        if (!_floorTilemap.HasTile(position) && !_holesTilemap.HasTile(position)) _wallTilemap.SetTile(new Vector3Int(x, y), wallTile);
                     }
                 }
             }
@@ -206,7 +211,7 @@ public class TilesController : MonoBehaviour
     {
         foreach (Vector3Int offset in _surroundings)
         {
-            if (!_wallTilemap.HasTile(position + offset) && !_floorTilemap.HasTile(position + offset))
+            if (!_wallTilemap.HasTile(position + offset) && !_floorTilemap.HasTile(position + offset) && !_holesTilemap.HasTile(position + offset))
             {
                 return false;
             }

@@ -754,7 +754,7 @@ public class FloorGenerator : MonoBehaviour
             else position.x -= 1;
             corridor.AddNewPosition(position, true);
 
-            if (IsWithinRoomBounds(position, corridor.DestinationRoom)) break;
+            if (IsWithinRoomBounds(position, corridor.DestinationRoom) && _tilesController.FloorTilemap.HasTile(_tilesController.FloorTilemap.WorldToCell((Vector3Int)position))) break;
         }
 
         return position;
