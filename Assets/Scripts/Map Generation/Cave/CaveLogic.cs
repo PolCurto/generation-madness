@@ -15,10 +15,6 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private GameObject _weaponArea;
     [SerializeField] private GameObject _treasureArea;
 
-    [Header("Objects")]
-    [SerializeField] private GameObject _ammoChest;
-    [SerializeField] private GameObject _healingChest;
-
     [Header("Enemies")]
     [SerializeField] private GameObject _enemyZone;
     [SerializeField] private GameObject[] _enemies;
@@ -40,7 +36,7 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private TileBase _wallTile;
 
-    private Pathfinding pathFinding;
+    private MyPathfinding pathFinding;
     private int _maxDepth;
     private bool _startPointIsSet;
     private Vector2Int _worldStartPoint;
@@ -197,7 +193,7 @@ public class CaveLogic : MonoBehaviour
             gridPos.Neighbours = GetNeighbors(gridPos.CellPosition);
         }
 
-        Pathfinding.Instance.SetFloorGrid(_floorGrid);
+        MyPathfinding.Instance.SetFloorGrid(_floorGrid);
 
         //Debug.Log("Depth set");
     }

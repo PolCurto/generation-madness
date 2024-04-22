@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 620909184345189905}
   - component: {fileID: 7175341570621315198}
   - component: {fileID: 3840658700838354595}
+  - component: {fileID: 5647574533578958359}
   m_Layer: 7
   m_Name: Crook Shroom
   m_TagString: Untagged
@@ -58,6 +59,8 @@ MonoBehaviour:
   _detectionDistance: 12
   _enablingDistance: 20
   _attackDistance: 4
+  _updatePathRate: 0
+  _nextWaypointDistance: 0
   _loseDetectionTime: 2
   _minWalkingTime: 1
   _maxWalkingTime: 3
@@ -163,6 +166,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5647574533578958359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356345493961234995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
 --- !u!1 &1967098047884112760
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +266,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1169344911
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1cb01df1432af194fa1e9c4364d42bcc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -336,7 +367,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1169344911
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e5dee0421486db94db7299332ef4549f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

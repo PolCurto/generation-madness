@@ -8,7 +8,7 @@ public class CrookShroom : HoodSkeleton
     [SerializeField] float _velocityMultiplier;
     protected override void FollowPlayer()
     {
-        if (!_playerDetected || _isAttacking || _isShooting) return;
+        if (!_playerDetected || _canAttack || _path == null || _isShooting) return;
 
         _direction = (_player.position - _rigidbody.position).normalized;
         Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);

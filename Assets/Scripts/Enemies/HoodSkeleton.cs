@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class HoodSkeleton : Enemy
 {
@@ -26,11 +27,27 @@ public class HoodSkeleton : Enemy
 
     protected virtual void FollowPlayer()
     {
-        if (!_playerDetected || _isAttacking || _isShooting) return;
-        
-        _direction = (_player.position - _rigidbody.position).normalized;           
-        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
+        if (!_playerDetected || _canAttack || _path == null || _isShooting) return;
+
+        if (_currentWaypoint >= _path.vectorPath.Count)
+        {
+            _reachedEndOfPath = true;
+            return;
+        }
+        else
+        {
+            _reachedEndOfPath = false;
+        }
+
+        _direction = ((Vector2)_path.vectorPath[_currentWaypoint] - _rigidbody.position).normalized;           
+        Vector2 moveForce = _maxVelocity * Time.deltaTime * _direction;
         _rigidbody.velocity = moveForce;
+
+        float distance = Vector2.Distance(_rigidbody.position, _path.vectorPath[_currentWaypoint]);
+        if (distance < _nextWaypointDistance)
+        {
+            _currentWaypoint += 1;
+        }
 
         /*
         Vector2 direction = (Vector2)_player.position - _rigidbody.position;
@@ -60,7 +77,7 @@ public class HoodSkeleton : Enemy
 
     protected virtual void Attack()
     {
-        if (!_isAttacking) return;
+        if (!_canAttack) return;
 
         if (_timer - _lastTimeShot > _weaponController.WeaponBase.fireRate)
         {

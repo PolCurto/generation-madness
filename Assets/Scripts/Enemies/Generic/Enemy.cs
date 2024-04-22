@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
@@ -16,12 +17,21 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
     [SerializeField] protected float _attackDistance;
+    [SerializeField] protected float _updatePathRate;
+    [SerializeField] protected float _nextWaypointDistance;
 
     protected Rigidbody2D _player;
     protected Animator _animator;
     protected float _timer;
     private bool _playerInSight;
     private bool _isColiding;
+
+    // Pathfinding
+    protected Path _path;
+    protected int _currentWaypoint;
+    protected bool _reachedEndOfPath;
+    protected Seeker _seeker;
+
     #endregion
 
     #region Unity Methods
@@ -30,11 +40,13 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         _pathToTake = new List<Vector2>();
         _animator = GetComponent<Animator>();
+        _seeker = GetComponent<Seeker>();
     }
 
     protected void Start()
     {
         //StartCoroutine("MoveAround");
+        InvokeRepeating(nameof(CalculatePath), 0, _updatePathRate);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -174,7 +186,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _maxWalkingTime;
     [SerializeField] protected float _minWaitingTime;
     [SerializeField] protected float _maxWaitingTime;
-    [SerializeField] protected float _pathfindingRate;
 
     private float _moveTime;
     private float _moveTimer;
@@ -183,7 +194,7 @@ public class Enemy : MonoBehaviour
     protected Vector2 _direction;
     private float _pathTimer;
     protected List<Vector2> _pathToTake;
-    protected bool _isAttacking;
+    protected bool _canAttack;
 
     /*
     private void UpdatePath()
@@ -288,6 +299,23 @@ public class Enemy : MonoBehaviour
         return direction;
     }
 
+    protected void CalculatePath()
+    {
+        if (_seeker.IsDone())
+        {
+            _seeker.StartPath(_rigidbody.position, _player.position, OnPathComplete);
+        }
+    }
+
+    protected void OnPathComplete(Path path)
+    {
+        if (!path.error)
+        {
+            _path = path;
+            _currentWaypoint = 0;
+        }
+    }
+
     /*
     protected IEnumerator MoveAround()
     {
@@ -362,15 +390,16 @@ public class Enemy : MonoBehaviour
     {
         if (!_playerDetected) return;
 
-        if (_isAttacking && (DistanceToPlayer() > _attackDistance || !_playerInSight))
+        if (_canAttack && (DistanceToPlayer() > _attackDistance || !_playerInSight))
         {
-            _isAttacking = false;
+            Debug.Log("Can't attack");
+            _canAttack = false;
             return;
         }
 
-        if (!_isAttacking && DistanceToPlayer() <= _attackDistance)
+        if (!_canAttack && DistanceToPlayer() <= _attackDistance)
         {
-            _isAttacking = true;
+            _canAttack = true;
             //Debug.Log("Attack");
         }
     }

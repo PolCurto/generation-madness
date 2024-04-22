@@ -6,7 +6,7 @@ public class Ent : HoodSkeleton
 {
     protected override void FollowPlayer()
     {
-        if (!_playerDetected) return;
+        if (!_playerDetected || _path == null) return;
 
         _direction = (_player.position - _rigidbody.position).normalized;           
         Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
@@ -15,7 +15,7 @@ public class Ent : HoodSkeleton
 
     protected override void Attack()
     {
-        if (!_isAttacking) return;
+        if (!_canAttack) return;
 
         if (_timer - _lastTimeShot > _weaponController.WeaponBase.fireRate)
         {

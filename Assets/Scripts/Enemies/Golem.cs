@@ -6,7 +6,7 @@ public class Golem : HoodSkeleton
 {
     protected override void Attack()
     {
-        if (!_isAttacking) return;
+        if (!_canAttack) return;
 
         Debug.Log("Golem attacking");
 

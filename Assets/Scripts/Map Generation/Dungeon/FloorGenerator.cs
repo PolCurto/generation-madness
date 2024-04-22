@@ -148,6 +148,8 @@ public class FloorGenerator : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
+        AstarPath.active.Scan();
+
         if (LoadingScreen.Instance != null)
         {
             LoadingScreen.Instance.gameObject.SetActive(false);
