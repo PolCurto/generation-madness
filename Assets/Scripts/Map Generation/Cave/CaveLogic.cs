@@ -26,10 +26,6 @@ public class CaveLogic : MonoBehaviour
  
     [Header("Cave Logic Parameters")]
     [SerializeField] private int _startPositionArea;
-    [SerializeField] private int _chestsMinOffset;
-    [SerializeField] private int _chestsMaxOffset;
-    [SerializeField] private int _numAmmoChests;
-    [SerializeField] private int _numHealingChests;
     [SerializeField] private int _minEnemiesDistance;
     [SerializeField] private int _enemyMinDepth;
 
@@ -215,16 +211,6 @@ public class CaveLogic : MonoBehaviour
         SetBoss();
         Vector3Int treasurePosition = SetTreasurePoint();
         SetWeaponPoint(treasurePosition);
-
-        for (int i = 0; i < _numAmmoChests; i++) 
-        {
-            SetChest(_ammoChest);
-        }
-
-        for (int i = 0; i < _numHealingChests; i++)
-        {
-            SetChest(_healingChest);
-        }
     }
 
     /// <summary>
@@ -299,44 +285,6 @@ public class CaveLogic : MonoBehaviour
 
         SceneWeapon weapon = Instantiate(_weaponPrefab, (Vector3Int)position, Quaternion.identity).GetComponent<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
-    }
-
-    /// <summary>
-    /// Sets a chest randomly in the map
-    /// </summary>
-    private void SetChest(GameObject chest)
-    {
-        int tileDepth = _floorGrid.GridPositions[^1].Depth / 2 + Random.Range(_chestsMinOffset, _chestsMaxOffset);
-
-        float oldDistance = 0;
-        float currDistance;
-        Vector2Int gridPosition = new Vector2Int();
-
-        foreach (GridPos gridPos in _floorGrid.GridPositions)
-        {
-            if (gridPos.Depth >= tileDepth - 20 && gridPos.Depth <= tileDepth + 20)
-            {
-                if (_chests.Count == 0)
-                {
-                    gridPosition = gridPos.WorldPosition;
-                    break;
-                }
-                currDistance = 0;
-                foreach (GameObject c in _chests)
-                {
-                    currDistance += Vector2Int.Distance(gridPos.WorldPosition, Vector2Int.RoundToInt(c.transform.position));
-                }
-
-                if (currDistance > oldDistance)
-                {
-                    oldDistance = currDistance;
-                    gridPosition = gridPos.WorldPosition;
-                }
-            }
-        }
-        Vector2 worldPosition = gridPosition;
-        worldPosition += _gridOffset;
-        _chests.Add(Instantiate(chest, worldPosition, Quaternion.identity));
     }
     #endregion
 
