@@ -807,14 +807,14 @@ public class FloorGenerator : MonoBehaviour
     #region Items & Weapons
     private void InstantiatePrefabs()
     {
-        Vector3 offset = new Vector2(.5f, .5f);
+        Vector3 offset = new Vector2(0, .5f);
 
         Vector3 itemPos = _treasureRoom.Position;
-        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos + offset, Quaternion.identity).GetComponent<ScenePassiveItem>();
+        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos - offset, Quaternion.identity).GetComponent<ScenePassiveItem>();
         item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
         Vector3 weaponPos = _weaponRoom.Position;
-        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos + offset, Quaternion.identity).GetComponent<SceneWeapon>();
+        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos - offset, Quaternion.identity).GetComponent<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
         foreach (DungeonRoom room in _rooms)
@@ -828,11 +828,14 @@ public class FloorGenerator : MonoBehaviour
 
         List<GameObject> prefabs = new List<GameObject>();
 
+        offset.x = 0.5f;
+        offset.y = 0.5f;
+
         foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
         {
             if (Random.value < _prefabChance && HasClearSurroundings(position, prefabs))
             {
-                prefabs.Add(Instantiate(_decoration[Random.Range(0, _decoration.Length)], position, Quaternion.identity));
+                prefabs.Add(Instantiate(_decoration[Random.Range(0, _decoration.Length)], position + offset, Quaternion.identity));
             }
         }
     }
