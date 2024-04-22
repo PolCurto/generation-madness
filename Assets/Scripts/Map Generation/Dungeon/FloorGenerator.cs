@@ -17,13 +17,13 @@ public class FloorGenerator : MonoBehaviour
 
     [Header("Rooms")]
     [SerializeField] private GameObject _testingRoom;
-    [SerializeField] private TempleRoomData _startRoom;
-    [SerializeField] private TempleRoomData _treasureRoomData;
-    [SerializeField] private TempleRoomData _weaponRoomData;
-    [SerializeField] private TempleRoomData _keyRoom;
-    [SerializeField] private TempleRoomData _managementRoom;
-    [SerializeField] private TempleRoomData _bossRoom;
-    [SerializeField] private TempleRoomData[] _normalRooms;
+    [SerializeField] private DungeonRoomData _startRoom;
+    [SerializeField] private DungeonRoomData _treasureRoomData;
+    [SerializeField] private DungeonRoomData _weaponRoomData;
+    [SerializeField] private DungeonRoomData _keyRoom;
+    [SerializeField] private DungeonRoomData _managementRoom;
+    [SerializeField] private DungeonRoomData _bossRoom;
+    [SerializeField] private DungeonRoomData[] _normalRooms;
 
     [Header("Floor Params")]
     [SerializeField] private int _maxGenerationIterations;
@@ -498,7 +498,7 @@ public class FloorGenerator : MonoBehaviour
             // Center to 0
             room.Position -= _startPosition * _movementScalar;
             GameObject newRoom;
-            TempleRoomData roomData = null;
+            DungeonRoomData roomData = null;
 
             switch (room.Type)
             {
@@ -554,10 +554,9 @@ public class FloorGenerator : MonoBehaviour
             // Stores the room enemies to the room data
             if (roomData != null)
             {
-                for (int i = 0; i < roomData.enemies.Length; i++)
-                {
-                    room.Enemies.Add(roomData.enemyPositions[i], roomData.enemies[i]);
-                }
+                room.EnemyPositions = roomData.enemyPositions.ToList();
+                room.EnemyPool = roomData.enemyPool.ToList();
+                room.EnemyTypeLimits = roomData.enemyTypeLimits.ToList();
             }
         }
     }
@@ -819,10 +818,20 @@ public class FloorGenerator : MonoBehaviour
 
         foreach (DungeonRoom room in _rooms)
         {
-            foreach (KeyValuePair<Vector2, GameObject> enemyData in room.Enemies)
+            foreach (Vector2 position in room.EnemyPositions)
             {
-                Vector2 enemyPos = enemyData.Key + room.Position;
-                Instantiate(enemyData.Value, enemyPos, Quaternion.identity);
+                int enemyIndex;
+
+                do
+                {
+                    enemyIndex = Random.Range(0, room.EnemyPool.Count);
+                }
+                while (room.EnemyTypeLimits[enemyIndex] == 0);
+
+                room.EnemyTypeLimits[enemyIndex] -= 1;
+                GameObject enemy = room.EnemyPool[enemyIndex];
+
+                Instantiate(enemy, room.Position + position, Quaternion.identity);
             }
         }
 

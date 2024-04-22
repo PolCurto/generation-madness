@@ -9,15 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04f9b747fcf4fbc4e876bd4c92bd0540, type: 3}
+  m_Script: {fileID: 11500000, guid: 796d5117d108ace4cb140fa3937b11ca, type: 3}
   m_Name: Normal Room 2
   m_EditorClassIdentifier: 
   roomTilemap: {fileID: 1662842724038029655, guid: 138c936554de7ab478aea78ccfff3d0e, type: 3}
-  items: []
-  itemsPositions: []
-  enemies:
-  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  enemyPool:
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
+  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
+  enemyTypeLimits: ffffffff03000000
   enemyPositions:
-  - {x: 5, y: 3}
-  - {x: -5, y: -5}
+  - {x: 0, y: 0}
+  - {x: 9, y: 5}
+  - {x: 9, y: -7}
+  - {x: -9, y: 5}
+  - {x: -9, y: -7}

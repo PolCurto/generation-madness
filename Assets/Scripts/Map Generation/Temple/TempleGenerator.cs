@@ -873,12 +873,14 @@ public class TempleGenerator : MonoBehaviour
     #region Items & Weapons
     private void InstantiateItems()
     {
+        Vector2 offset = new Vector2(.5f, -.5f);
+
         Vector2 itemPos = _treasureRoom.Position;
-        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos, Quaternion.identity).GetComponent<ScenePassiveItem>();
+        ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos + offset, Quaternion.identity).GetComponent<ScenePassiveItem>();
         item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
         Vector2 weaponPos = _weaponRoom.Position;
-        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos, Quaternion.identity).GetComponent<SceneWeapon>();
+        SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos + offset, Quaternion.identity).GetComponent<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
         /*

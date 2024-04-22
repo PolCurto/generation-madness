@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04f9b747fcf4fbc4e876bd4c92bd0540, type: 3}
+  m_Script: {fileID: 11500000, guid: 796d5117d108ace4cb140fa3937b11ca, type: 3}
   m_Name: Boss Room
   m_EditorClassIdentifier: 
   roomTilemap: {fileID: 759952746484493855, guid: 9b0f7c2bcc691b442836659bb7a8fb1f, type: 3}
-  items: []
-  itemsPositions: []
-  enemies:
-  - {fileID: 9216253534233367719, guid: 9a518068c42cf3b4392a3a2eface3938, type: 3}
-  enemyPositions:
-  - {x: 0, y: 0}
+  enemyPool: []
+  enemyTypeLimits: 
+  enemyPositions: []
