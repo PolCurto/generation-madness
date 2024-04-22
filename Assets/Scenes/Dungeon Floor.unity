@@ -930,7 +930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _normalRooms.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _itemsPool.Array.data[2]
@@ -976,6 +976,14 @@ PrefabInstance:
       propertyPath: _normalRooms.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 2925da3c539b3c740b30e5367417f34c, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _normalRooms.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e809924597ff6a74e95d2bdd393a55f4, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _normalRooms.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b7ba65a61dc8d34fbf0088e9f2d582b, type: 2}
     - target: {fileID: 8988955875812395203, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: m_Name
       value: Dungeon Floor Generator

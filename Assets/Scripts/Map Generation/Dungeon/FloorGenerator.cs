@@ -73,12 +73,12 @@ public class FloorGenerator : MonoBehaviour
     void Start()
     {
         _startPosition = new Vector2Int(_gridHeight / 2, _gridWidth / 2);
-        //StartCoroutine(GenerateLevel());
+        StartCoroutine(GenerateLevel());
     }
 
     private void Update()
     {
-        
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
             GenerateFloor();
@@ -117,6 +117,7 @@ public class FloorGenerator : MonoBehaviour
         {
             _tilesController.DrawWalls(_wallTile);
         }
+        */
         
 
         if (_corridors != null)
