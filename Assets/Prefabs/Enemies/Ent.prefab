@@ -240,19 +240,17 @@ MonoBehaviour:
   _rigidbody: {fileID: 8737940060509241371}
   _spriteRenderer: {fileID: 119260964107505975}
   _cost: 3
-  _maxVelocity: 2.5
-  _acceleration: 500
+  _velocity: 150
   _detectionDistance: 14
   _enablingDistance: 20
   _attackDistance: 6
-  _updatePathRate: 0
-  _nextWaypointDistance: 0
+  _updatePathRate: 1
+  _nextWaypointDistance: 1
   _loseDetectionTime: 3
   _minWalkingTime: 2
   _maxWalkingTime: 5
   _minWaitingTime: 1
   _maxWaitingTime: 3
-  _pathfindingRate: 0
   _weaponController: {fileID: 3731736714541779159}
   _referencePoint: {fileID: 1099293742212688483}
 --- !u!114 &796559712418095968

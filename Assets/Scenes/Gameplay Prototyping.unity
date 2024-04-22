@@ -2074,7 +2074,7 @@ GameObject:
   - component: {fileID: 1226750692}
   - component: {fileID: 1226750691}
   - component: {fileID: 1226750690}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Holes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3703,18 +3703,6 @@ PrefabInstance:
     - target: {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
       propertyPath: m_Name
       value: Bandit
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307197234036938062, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
-      propertyPath: _velocity
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307197234036938062, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
-      propertyPath: _updatePathRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307197234036938062, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
-      propertyPath: _nextWaypointDistance
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8092227949405297772, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11468,8 +11456,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670709679233012430, guid: f059d2d343589514188bf36f84f31423, type: 3}
+      propertyPath: showGraphs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670709679233012430, guid: f059d2d343589514188bf36f84f31423, type: 3}
       propertyPath: data.dataString
-      value: UEsDBBQAAAgIAAAIIexYQk5qWgIAABIFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VMmS2jAQ/RVK55BimQVySzwMk8MM1DCpufgipDZWIUsuLazFv6cl29hDKifEe6+7X7daPhOhbAnMaTM3gr9qDuRHj4Qz+dZryRc40I1WK3GCRvMpuMuDiEbNO3VCIz4MYVYX4IxgP9VGBvEAQa9Epk0x4xtItHUW4YxKC0gZ7UK0QujcIwf86U9DyBFPo8dwOuFpOuhd8MhAOTCttBE2skrlFZO0KIEHy6347pr2PsoUNlMrgnGmpRS2dkLcsYydJrS0HvtAARcUO4vlgz4HscldSNcNXmSZBVdbMvT4JAwOqMpKfulqagW128rXjkof6twPR9FTlfT1H74/jHRmdPHS1B0OQg2XC7Z9p0dGreuMtQs/fTXu1Z7KLV1L+MxBvem50V5xJJ3xIdRbGD21f6+tJTmwbYtXVm9AX/7/ckIPl9j9IZGiWAfq+10FrKSO845XDwZv5jcajoth6xSIBhd/LHzQTXeDauJZGOuQqrtUwd5aexOkZBZnFrrxLtFGQYRr0yUoKt1xiWnc7RXecJ2yN8wzDW+lLl5zzRO4CYlwqx8Mbqil3l8vy+Z6/wo2X3gnhYLWdCDecE6JVqrasO5MmrCVNxllnbCNF/zrapEpHz9OYDqYjMbT8cNk0mfsgd+vR8M7TikdT0Yk7p5Q2CeVy8poPR68NdUmV7hnzSekNze0jNvODd3PxanQnZELlekVMwBqUWW4GgeDRfBV8hkXOKAVOCdUvG9yTonUbAs8vSZKY6ezgzM0bbOkpBQ77QKSkiR+M1IS4OsuLw3sBOxD8SbZhVz+AlBLAwQUAAAICAAACCHs1WrcP20AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0kmWKsblFqqWBhZGxpbGZhYVucrJZimmSkaFJSmJiorGFkVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAACCHsWEJOaloCAAASBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAACCHs1WrcP20AAAB4AAAACQAkAAAAAAAAAAAAAACnAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAF8DAAAAAA==
+      value: UEsDBBQAAAgIAAAIIewFW/3VWwIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VEtz2jAQ/iuMzk3HPJJAb61DSA8kTEgnF1+EtMYaZMmjB49k+O9dyTZ26PTE8u23u98+5E8ilK2AOW0WRvCl5kB+DEiwybdB53yCI91qtRYf0HLeBXdFINHIeaVOaMSHIczqEpwR7KfaykBOEPRK5NqUc76FVFtnEc6ptIAuo12IVgh9DsgRf25mIeSE1ug+WB9ozZLBGU0GyoHpqC2xpdUsr5ikZQU8SO7Ik0va20hT2EzDCMKZllLYRglxpyp2mtLKeuwDCVxQ7CyWD/wCxLZwIV0/+CXPLbhGkqGnB2FwQHVW8kvXUyup3dW69lT6UGd6n0yiqDrr8h/CzTC6c6PLp7bwMAlFXCHY7pWeGLWuN9c+/PBVuVcHKnd0I+G9APWsF0Z7xdHpjA+h3sLooft76S0tgO06vJZ6Bfrq/9sJPZxj+8dUinITXN8nNbCWOg487h4MruY3Co6XYZsUiAYVfyy80W3/hBrHozDWoavpUgV5G+1NoJJ5nFnoxrtUGwURbkRXoKh0pxWmcdc7vPL1yl55Hml4LE3xxte+gauQCHf8JLlyrfThsixb6MMSbPHinRQKOtHB8YxzSrVS9Yn1Z9KGrb3JKeuFbb3gX0+LzPj4fgqzZDoaz8Z30+kNY3f8djMaTjildDwdkXh7QmGfVK5qoc14cGuqS67wztpvyGBhaBXPnRt6WIiPUvdGLlSu18wAqJc6w0U4GCyCz5LPucABrcE5oeK+yWdGpGY74NklURY7nR+doVmXJSOV2GsXkIyk8aORkQBfbnllYC/gEIq3yc7k/BdQSwMEFAAACAgAAAgh7Cym4BhzAAAAhAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiBOKWZKSB2tJJlirG5RaqlgYWRsaWxmYWFbnKyWYppkpGhSUpiYqKxhZGSjkJeaU5OLFBXSWVBql9ibipEZ0BiSUZaZl5KZl66nntRZoo7yAKY6loAUEsBAi0AFAAACAgAAAgh7AVb/dVbAgAAEwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAAgh7Cym4BhzAAAAhAAAAAkAJAAAAAAAAAAAAAAAqAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABmAwAAAAA=
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11541,41 +11533,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -3174746691316446179, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: drawGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -3174746691316446179, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: detailedGizmos
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
       propertyPath: m_Name
       value: Hood Skeleton
-      objectReference: {fileID: 0}
-    - target: {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859057626058532528, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: _velocity
-      value: 175
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859057626058532528, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: _maxVelocity
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859057626058532528, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: _updatePathRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859057626058532528, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: _pathfindingRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1859057626058532528, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-      propertyPath: _nextWaypointDistance
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5204042849169242146, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11987,22 +11947,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ent
       objectReference: {fileID: 0}
-    - target: {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5191249042463119270, guid: 2a483e29d103da7499146922eb512797, type: 3}
-      propertyPath: _velocity
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 5191249042463119270, guid: 2a483e29d103da7499146922eb512797, type: 3}
-      propertyPath: _updatePathRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5191249042463119270, guid: 2a483e29d103da7499146922eb512797, type: 3}
-      propertyPath: _nextWaypointDistance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.18
@@ -12113,29 +12057,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -9025549059146117193, guid: 94f246969083327458f0209b3289e131, type: 3}
-      propertyPath: _velocity
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: -9025549059146117193, guid: 94f246969083327458f0209b3289e131, type: 3}
-      propertyPath: _updatePathRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -9025549059146117193, guid: 94f246969083327458f0209b3289e131, type: 3}
-      propertyPath: _velocityMultiplier
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -9025549059146117193, guid: 94f246969083327458f0209b3289e131, type: 3}
-      propertyPath: _nextWaypointDistance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
       propertyPath: m_Name
       value: Crook Shroom
-      objectReference: {fileID: 0}
-    - target: {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8538014903047075322, guid: 94f246969083327458f0209b3289e131, type: 3}
       propertyPath: m_LocalPosition.x
