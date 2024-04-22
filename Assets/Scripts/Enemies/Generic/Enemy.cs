@@ -12,8 +12,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Global Stats")]
     [SerializeField] protected int _cost;
-    [SerializeField] protected float _maxVelocity;
-    [SerializeField] protected float _acceleration;
+    [SerializeField] protected float _velocity;
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
     [SerializeField] protected float _attackDistance;
@@ -242,7 +241,7 @@ public class Enemy : MonoBehaviour
     {
         if (_playerDetected) return;
 
-        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction * _maxVelocity, _acceleration * Time.fixedDeltaTime);
+        Vector2 moveForce = _velocity * Time.deltaTime * _direction;
         _rigidbody.velocity = moveForce;
 
         _moveTimer += Time.deltaTime;
@@ -392,15 +391,13 @@ public class Enemy : MonoBehaviour
 
         if (_canAttack && (DistanceToPlayer() > _attackDistance || !_playerInSight))
         {
-            Debug.Log("Can't attack");
             _canAttack = false;
             return;
         }
 
-        if (!_canAttack && DistanceToPlayer() <= _attackDistance)
+        if (!_canAttack && DistanceToPlayer() <= _attackDistance && _playerInSight)
         {
             _canAttack = true;
-            //Debug.Log("Attack");
         }
     }
     #endregion

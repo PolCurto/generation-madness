@@ -40,7 +40,7 @@ public class HoodSkeleton : Enemy
         }
 
         _direction = ((Vector2)_path.vectorPath[_currentWaypoint] - _rigidbody.position).normalized;           
-        Vector2 moveForce = _maxVelocity * Time.deltaTime * _direction;
+        Vector2 moveForce = _velocity * Time.deltaTime * _direction;
         _rigidbody.velocity = moveForce;
 
         float distance = Vector2.Distance(_rigidbody.position, _path.vectorPath[_currentWaypoint]);
@@ -48,19 +48,6 @@ public class HoodSkeleton : Enemy
         {
             _currentWaypoint += 1;
         }
-
-        /*
-        Vector2 direction = (Vector2)_player.position - _rigidbody.position;
-        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
-        _rigidbody.velocity = moveForce;
-        
-
-        if (IsInGoalPosition())
-        {
-            _direction = _pathToTake[1];
-            _pathToTake.RemoveAt(0);
-        }
-        */
     }
 
     protected virtual void MoveWeapon()

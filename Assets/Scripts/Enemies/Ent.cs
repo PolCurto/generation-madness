@@ -8,8 +8,8 @@ public class Ent : HoodSkeleton
     {
         if (!_playerDetected || _path == null) return;
 
-        _direction = (_player.position - _rigidbody.position).normalized;           
-        Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction.normalized * _maxVelocity, _acceleration * Time.fixedDeltaTime);
+        _direction = (_player.position - _rigidbody.position).normalized;
+        Vector2 moveForce = _velocity * Time.deltaTime * _direction;
         _rigidbody.velocity = moveForce;
     }
 
