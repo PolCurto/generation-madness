@@ -17,15 +17,15 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject _testingRoomLongH;
     [SerializeField] private GameObject _testingRoomLongV;
     [SerializeField] private GameObject _testingRoomBig;
-    [SerializeField] private RoomData _startRoom;
-    [SerializeField] private RoomData _treasureRoomPrefab;
-    [SerializeField] private RoomData _weaponRoomPrefab;
-    [SerializeField] private RoomData _keyRoom;
-    [SerializeField] private RoomData _bossRoom;
-    [SerializeField] private RoomData[] _normalRooms;
-    [SerializeField] private RoomData[] _longHorizontalRooms;
-    [SerializeField] private RoomData[] _longVerticalRooms;
-    [SerializeField] private RoomData[] _bigRooms;
+    [SerializeField] private TempleRoomData _startRoom;
+    [SerializeField] private TempleRoomData _treasureRoomPrefab;
+    [SerializeField] private TempleRoomData _weaponRoomPrefab;
+    [SerializeField] private TempleRoomData _keyRoom;
+    [SerializeField] private TempleRoomData _bossRoom;
+    [SerializeField] private TempleRoomData[] _normalRooms;
+    [SerializeField] private TempleRoomData[] _longHorizontalRooms;
+    [SerializeField] private TempleRoomData[] _longVerticalRooms;
+    [SerializeField] private TempleRoomData[] _bigRooms;
 
     [Header("Floor Params")]
     [SerializeField] private int _maxGenerationIterations;
@@ -781,7 +781,7 @@ public class TempleGenerator : MonoBehaviour
             // Center to 0
             room.Position -= _startPosition * _movementScalar;
             GameObject newRoom;
-            RoomData roomData = null;
+            TempleRoomData roomData = null;
 
             foreach (Connection connection in room.Connections)
             {

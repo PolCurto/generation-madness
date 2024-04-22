@@ -17,13 +17,13 @@ public class FloorGenerator : MonoBehaviour
 
     [Header("Rooms")]
     [SerializeField] private GameObject _testingRoom;
-    [SerializeField] private RoomData _startRoom;
-    [SerializeField] private RoomData _treasureRoomData;
-    [SerializeField] private RoomData _weaponRoomData;
-    [SerializeField] private RoomData _keyRoom;
-    [SerializeField] private RoomData _managementRoom;
-    [SerializeField] private RoomData _bossRoom;
-    [SerializeField] private RoomData[] _normalRooms;
+    [SerializeField] private TempleRoomData _startRoom;
+    [SerializeField] private TempleRoomData _treasureRoomData;
+    [SerializeField] private TempleRoomData _weaponRoomData;
+    [SerializeField] private TempleRoomData _keyRoom;
+    [SerializeField] private TempleRoomData _managementRoom;
+    [SerializeField] private TempleRoomData _bossRoom;
+    [SerializeField] private TempleRoomData[] _normalRooms;
 
     [Header("Floor Params")]
     [SerializeField] private int _maxGenerationIterations;
@@ -498,7 +498,7 @@ public class FloorGenerator : MonoBehaviour
             // Center to 0
             room.Position -= _startPosition * _movementScalar;
             GameObject newRoom;
-            RoomData roomData = null;
+            TempleRoomData roomData = null;
 
             switch (room.Type)
             {
@@ -842,7 +842,7 @@ public class FloorGenerator : MonoBehaviour
 
     private bool HasClearSurroundings(Vector3Int position, List<GameObject> prefabs)
     {
-        int tileRange = 2;
+        int tileRange = 1;
         int minDistance = 5;
 
         Debug.Log("Check Surroundings");
