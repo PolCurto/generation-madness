@@ -100,7 +100,7 @@ public class ActiveWeaponController : MonoBehaviour
 
     public void StartReload()
     {
-        if (_weapon.ClipBullets == _weapon.WeaponBase.clipSize) return;    // Only reload if there are bullets missing
+        if (_weapon.ClipBullets == _weapon.WeaponBase.clipSize || _weapon.TotalBullets == 0) return;    // Only reload if there are bullets missing
         IsReloading = true;
         _animator.SetTrigger("Reload");
     }

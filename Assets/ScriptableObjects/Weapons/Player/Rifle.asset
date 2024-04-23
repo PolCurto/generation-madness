@@ -20,6 +20,7 @@ MonoBehaviour:
   clipSize: 5
   dispersion: 0
   color: {r: 0.7372549, g: 0.2509804, b: 0.8705883, a: 1}
+  overrideController: {fileID: 22100000, guid: b283e063c17f3b94693553a42de057c2, type: 2}
   bulletSprite: {fileID: 21300000, guid: db929e4ce5a74e84f8435f96cc464f54, type: 3}
   bulletSpeed: 1000
   bulletDamage: 50
