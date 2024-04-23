@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class EnemyHealthController : HealthController
 {
+    [SerializeField] Enemy _parent;
+
     protected override void Die()
     {
         base.Die();
-        gameObject.SetActive(false);
+        _parent.Die();
     }
 }

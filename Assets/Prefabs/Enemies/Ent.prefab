@@ -246,7 +246,7 @@ MonoBehaviour:
   _enablingDistance: 20
   _attackDistance: 6
   _updatePathRate: 0.5
-  _nextWaypointDistance: 0.5
+  _nextWaypointDistance: 0.3
   _loseDetectionTime: 3
   _minWalkingTime: 2
   _maxWalkingTime: 5
@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 1069484423772664255}
   - component: {fileID: 3568936660664880223}
   - component: {fileID: 6552278507801959211}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,4 +477,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfed1c0591e064b45bdefda1206e0cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxLife: 1
+  _maxLife: 10
+  _parent: {fileID: 5191249042463119270}

@@ -12057,6 +12057,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9025549059146117193, guid: 94f246969083327458f0209b3289e131, type: 3}
+      propertyPath: _maxVelocity
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
       propertyPath: m_Name
       value: Crook Shroom
@@ -12110,6 +12114,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1531548592}
   - {fileID: 4391697326104252864}
   - {fileID: 1020860997}
   - {fileID: 1038980695}
@@ -12127,5 +12132,4 @@ SceneRoots:
   - {fileID: 1687841729}
   - {fileID: 7814086694284171886}
   - {fileID: 558333215630520812}
-  - {fileID: 1531548592}
   - {fileID: 1365974206}

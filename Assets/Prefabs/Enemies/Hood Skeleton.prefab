@@ -60,7 +60,7 @@ MonoBehaviour:
   _enablingDistance: 20
   _attackDistance: 7
   _updatePathRate: 0.5
-  _nextWaypointDistance: 0.5
+  _nextWaypointDistance: 0.3
   _loseDetectionTime: 4
   _minWalkingTime: 1
   _maxWalkingTime: 4
@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxLife: 10
+  _parent: {fileID: 1859057626058532528}
 --- !u!1 &8128119352236613721
 GameObject:
   m_ObjectHideFlags: 0

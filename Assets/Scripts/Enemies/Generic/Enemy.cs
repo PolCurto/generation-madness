@@ -409,6 +409,11 @@ public class Enemy : MonoBehaviour
     {
         return Vector2.Distance(_player.transform.position, _rigidbody.position);
     }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
+    }
     
 
     public int Cost()
