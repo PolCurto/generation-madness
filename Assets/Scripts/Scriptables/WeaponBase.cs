@@ -15,6 +15,7 @@ public class WeaponBase : ScriptableObject
     public int clipSize;
     public float dispersion;
     public Color color;
+    public AnimatorOverrideController overrideController;
     
 
     [Header("Bullets")]

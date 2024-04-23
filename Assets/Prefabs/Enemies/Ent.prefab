@@ -254,6 +254,10 @@ MonoBehaviour:
   _maxWaitingTime: 3
   _weaponController: {fileID: 3731736714541779159}
   _referencePoint: {fileID: 1099293742212688483}
+  _drops:
+  - {fileID: 1199680460343595667, guid: 02de4c0ddfe691241934f4669067d74a, type: 3}
+  - {fileID: 6770843444995804888, guid: 9f03ab8ceca3ba14487d6c551604ae7e, type: 3}
+  _dropChance: 0.2
 --- !u!58 &1183586246593391619
 CircleCollider2D:
   m_ObjectHideFlags: 0

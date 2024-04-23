@@ -10,16 +10,19 @@ public class ActiveWeaponController : MonoBehaviour
 
     [SerializeField] private float _bulletSpawnOffset;
 
+    private Animator _animator;
     private Weapon _weapon;
     private float _timer;
     private float _lastTimeShot;
-
     private PlayerController _playerController;
+
+    public bool IsReloading { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
        _playerController = _player.GetComponent<PlayerController>();
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -55,6 +58,8 @@ public class ActiveWeaponController : MonoBehaviour
     {
         _weapon = weapon;
         _spriteRenderer.sprite = _weapon.WeaponBase.weaponSprite;
+        _animator.Play("Pistol_Idle");
+        _animator.runtimeAnimatorController  = _weapon.WeaponBase.overrideController;
 
        // UIController.Instance.UpdateWeaponAtIndex
 
@@ -64,12 +69,10 @@ public class ActiveWeaponController : MonoBehaviour
         CameraController.Instance.MaxOffset *= _weapon.WeaponBase.cameraOffsetMultiplier;
     }
 
-   
-
     #region Shooting
     public void Shoot(Vector2 direction)
     {
-        if (_timer - _lastTimeShot < _weapon.WeaponBase.fireRate * _playerController.AttackSpeed) return;
+        if (IsReloading || _timer - _lastTimeShot < _weapon.WeaponBase.fireRate * _playerController.AttackSpeed) return;
 
         if (_weapon.ClipBullets > 0)
         {
@@ -91,18 +94,22 @@ public class ActiveWeaponController : MonoBehaviour
         }
         else
         {
-            Reload();
+            StartReload();
         }
-
-        //Debug.Log("Total bullets: " + _weapon.TotalBullets);
-        //Debug.Log("Clip bullets: " + _weapon.ClipBullets);
     }
 
-    public void Reload()
+    public void StartReload()
+    {
+        if (_weapon.ClipBullets == _weapon.WeaponBase.clipSize) return;    // Only reload if there are bullets missing
+        IsReloading = true;
+        _animator.SetTrigger("Reload");
+    }
+
+    public void ReloadWeapon()
     {
         _weapon.Reload();
-
         UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.TotalBullets);
+
     }
 
     private void SetBulletParameters(BulletController bullet, Vector2 direction)

@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void Reload()
     {
-        _activeWeapon.Reload();
+        _activeWeapon.StartReload();
     }
     #endregion
 

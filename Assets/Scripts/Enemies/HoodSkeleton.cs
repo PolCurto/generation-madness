@@ -8,6 +8,8 @@ public class HoodSkeleton : Enemy
     [Header("Basic Enemy Parameters")]
     [SerializeField] protected EnemyWeaponController _weaponController;
     [SerializeField] protected Transform _referencePoint;
+    [SerializeField] protected GameObject[] _drops;
+    [SerializeField] protected float _dropChance;
 
     protected float _lastTimeShot;
     protected bool _isShooting;
@@ -104,6 +106,16 @@ public class HoodSkeleton : Enemy
         else return false;
     }
     */
+
+    public override void Die()
+    {
+        if (Random.value < _dropChance)
+        {
+            Instantiate(_drops[Random.Range(0, _drops.Length)], _rigidbody.position, Quaternion.identity);
+        }
+
+        base.Die();
+    }
 
     public bool IsShooting { get { return _isShooting; } set { _isShooting = value; } }
 }

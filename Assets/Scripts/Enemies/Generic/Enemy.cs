@@ -410,7 +410,7 @@ public class Enemy : MonoBehaviour
         return Vector2.Distance(_player.transform.position, _rigidbody.position);
     }
 
-    public void Die()
+    public virtual void Die()
     {
         gameObject.SetActive(false);
     }

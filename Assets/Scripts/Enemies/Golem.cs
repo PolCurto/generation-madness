@@ -32,4 +32,11 @@ public class Golem : HoodSkeleton
     protected override void MoveWeapon()
     {
     }
+
+    public override void Die()
+    {
+        base.Die();
+
+        FloorLogicController.Instance.OnBossDeath(transform.position);
+    }
 }
