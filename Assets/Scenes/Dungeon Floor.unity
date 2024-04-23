@@ -929,12 +929,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: da0f13224251c8c43a6a06ff320bb729, type: 2}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallPrefabChance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _itemsPool.Array.size
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _decoration.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _normalRooms.Array.size
@@ -969,6 +973,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7706742077520362656, guid: ebe86bf20b151bb43af9eda14818e974, type: 3}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _decoration.Array.data[3]
+      value: 
+      objectReference: {fileID: 4360939498091800827, guid: 70cfe36f3cb123a488843758ef3363b2, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _normalRooms.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 3a426cf3c61ac0841834e420e4e10678, type: 2}
@@ -1000,6 +1008,54 @@ PrefabInstance:
       propertyPath: _normalRooms.Array.data[7]
       value: 
       objectReference: {fileID: 11400000, guid: db91ef3a1c145b94abb63d3675f493be, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[0]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 1b662ee47c23f6d47b103db48b86fdbc, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[1]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: a63a2139fb3b5a643a9df8a1c59dd06e, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[2]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: ead380429d2c152488234d3a29711d3d, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[3]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 6e24c8f1c5f4b5c40bfa9127226e0f6e, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[4]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: 60b3753e5b831254c8744a2f15b10c28, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[5]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: 256dfeaa427390745bdfb7fa810fa570, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[6]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: aaedee73b90110448b670defae5d8dce, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[7]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 7828ee37a2fcccf428790fa6cbeb318f, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[8]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 6e33c9693ed942c4995190d474c5e78a, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[9]
+      value: 
+      objectReference: {fileID: 2832489869681851163, guid: 6088a36b1c5cd6941b608a5b83e696ad, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _wallDecoration.Array.data[10]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: e9bf759e575f37842b0972f6a718614f, type: 3}
     - target: {fileID: 8988955875812395203, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: m_Name
       value: Dungeon Floor Generator

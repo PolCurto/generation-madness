@@ -20,7 +20,6 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private DungeonRoomData _startRoom;
     [SerializeField] private DungeonRoomData _treasureRoomData;
     [SerializeField] private DungeonRoomData _weaponRoomData;
-    [SerializeField] private DungeonRoomData _keyRoom;
     [SerializeField] private DungeonRoomData _managementRoom;
     [SerializeField] private DungeonRoomData _bossRoom;
     [SerializeField] private DungeonRoomData[] _normalRooms;
@@ -47,6 +46,7 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private float _pullSpeed;
     [SerializeField] private TileBase _wallTile;
     [SerializeField] private float _prefabChance;
+    [SerializeField] private float _wallPrefabChance;
 
     [Header("Items & Weapons")]
     [SerializeField] private GameObject _passiveItemPrefab;
@@ -54,6 +54,7 @@ public class FloorGenerator : MonoBehaviour
     [SerializeField] private GameObject _weaponPrefab;
     [SerializeField] private WeaponBase[] _weaponsPool;
     [SerializeField] private GameObject[] _decoration;
+    [SerializeField] private GameObject[] _wallDecoration;
 
     private Vector2Int _startPosition;
     private Walker _walker;
@@ -273,25 +274,7 @@ public class FloorGenerator : MonoBehaviour
         DungeonRoom bossRoom = _deadEnds[^1];
         bossRoom.Type = DungeonRoom.DungeonRoomType.Boss;
 
-        // Sets the key room as far from the boss room as possible
-        DungeonRoom keyRoom = bossRoom;
-        float prevDistance = 0;
-
-        foreach (DungeonRoom deadEnd in _deadEnds)
-        {
-            if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
-            {
-                float currentDistance = Vector2.Distance(deadEnd.Position, bossRoom.Position);
-                if (currentDistance > prevDistance)
-                {
-                    prevDistance = currentDistance;
-                    keyRoom = deadEnd;
-                }
-            }
-        }
-        keyRoom.Type = DungeonRoom.DungeonRoomType.KeyRoom;
-
-        // Creates the charatcer room
+        // Creates the character room
         foreach (DungeonRoom deadEnd in _deadEnds)
         {
             if (deadEnd.Type == DungeonRoom.DungeonRoomType.Normal)
@@ -467,12 +450,6 @@ public class FloorGenerator : MonoBehaviour
                     room.AddSceneRoom(newRoom);
                     break;
 
-                case DungeonRoom.DungeonRoomType.KeyRoom:
-                    newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
-                    newRoom.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
-                    room.AddSceneRoom(newRoom);
-                    break;
-
                 case DungeonRoom.DungeonRoomType.Checkpoint:
                     newRoom = Instantiate(_testingRoom, room.Position, Quaternion.identity);
                     newRoom.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1);
@@ -530,12 +507,6 @@ public class FloorGenerator : MonoBehaviour
 
                 case DungeonRoom.DungeonRoomType.Loop:
                     roomData = _normalRooms[Random.Range(0, _normalRooms.Length)]; ;
-                    newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
-                    room.AddSceneRoom(newRoom);
-                    break;
-
-                case DungeonRoom.DungeonRoomType.KeyRoom:
-                    roomData = _keyRoom;
                     newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
@@ -844,9 +815,18 @@ public class FloorGenerator : MonoBehaviour
 
         foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
         {
-            if (Random.value < _prefabChance && HasClearSurroundings(position, prefabs))
+            if (HasClearSurroundings(position, prefabs) && Random.value < _prefabChance)
             {
                 prefabs.Add(Instantiate(_decoration[Random.Range(0, _decoration.Length)], position + offset, Quaternion.identity));
+            }
+        }
+
+        foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
+        {
+            if ((_tilesController.WallsTilemap.HasTile(position + Vector3Int.up) && _tilesController.FloorTilemap.HasTile(position)) && Random.value < _wallPrefabChance)
+            {
+                GameObject wallProp = Instantiate(_wallDecoration[Random.Range(0, _wallDecoration.Length)], position + offset, Quaternion.identity);
+                _tilesController.SimplePrefabToMainGrid(wallProp, _tilesController.DetailsTilemap);
             }
         }
     }

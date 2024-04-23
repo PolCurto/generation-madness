@@ -946,6 +946,54 @@ PrefabInstance:
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1706507624}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[3]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 1b662ee47c23f6d47b103db48b86fdbc, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[4]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: a63a2139fb3b5a643a9df8a1c59dd06e, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[5]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: ead380429d2c152488234d3a29711d3d, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[6]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 6e24c8f1c5f4b5c40bfa9127226e0f6e, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[7]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: 256dfeaa427390745bdfb7fa810fa570, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[8]
+      value: 
+      objectReference: {fileID: 6646450885269565204, guid: aaedee73b90110448b670defae5d8dce, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[9]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: 6e33c9693ed942c4995190d474c5e78a, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[10]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: e9bf759e575f37842b0972f6a718614f, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[11]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: e9bf759e575f37842b0972f6a718614f, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[12]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: e9bf759e575f37842b0972f6a718614f, type: 3}
+    - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _wallProps.Array.data[13]
+      value: 
+      objectReference: {fileID: 8028375548904349683, guid: e9bf759e575f37842b0972f6a718614f, type: 3}
     - target: {fileID: 7066200646264466313, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _floorTilemap
       value: 

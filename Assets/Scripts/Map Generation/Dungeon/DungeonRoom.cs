@@ -27,7 +27,6 @@ public class DungeonRoom
         Loop = 4,
         Weapon = 5,
         Checkpoint = 6,
-        KeyRoom = 7
     }
 
     public DungeonRoom(DungeonRoomType type, Vector2 position)

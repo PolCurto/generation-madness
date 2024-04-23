@@ -228,5 +228,7 @@ public class TilesController : MonoBehaviour
     }
 
     public Tilemap FloorTilemap => _floorTilemap;
+    public Tilemap WallsTilemap => _wallTilemap;
+    public Tilemap DetailsTilemap => _detailsTilemap;
     public Tilemap HolesTilemap => _holesTilemap;
 }
