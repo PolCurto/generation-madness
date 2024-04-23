@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [Header("Global Stats")]
     [SerializeField] protected int _cost;
     [SerializeField] protected float _velocity;
+    [SerializeField] protected float _maxVelocity;
     [SerializeField] protected float _detectionDistance;
     [SerializeField] protected float _enablingDistance;
     [SerializeField] protected float _attackDistance;
@@ -300,6 +301,8 @@ public class Enemy : MonoBehaviour
 
     protected void CalculatePath()
     {
+        if (!_isEnabled) return;
+
         if (_seeker.IsDone())
         {
             _seeker.StartPath(_rigidbody.position, _player.position, OnPathComplete);

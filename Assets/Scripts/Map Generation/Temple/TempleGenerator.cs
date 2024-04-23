@@ -94,11 +94,11 @@ public class TempleGenerator : MonoBehaviour
 
     private void Start()
     {
-        GenerateLevel();
+        StartCoroutine(GenerateLevel());
     }
     #endregion
 
-    private void GenerateLevel()
+    private IEnumerator GenerateLevel()
     {
         GenerateFloor();
         CreateConnections();
@@ -106,6 +106,10 @@ public class TempleGenerator : MonoBehaviour
         GetRoomsToGrid();
         InstantiateItems();
         PlaceDoors();
+
+        yield return new WaitForSeconds(0.5f);
+
+        AstarPath.active.Scan();
 
         if (LoadingScreen.Instance != null)
         {

@@ -36,7 +36,6 @@ public class CaveLogic : MonoBehaviour
     [SerializeField] private Tilemap _floorTilemap;
     [SerializeField] private TileBase _wallTile;
 
-    private MyPathfinding pathFinding;
     private int _maxDepth;
     private bool _startPointIsSet;
     private Vector2Int _worldStartPoint;
@@ -192,10 +191,6 @@ public class CaveLogic : MonoBehaviour
         {
             gridPos.Neighbours = GetNeighbors(gridPos.CellPosition);
         }
-
-        MyPathfinding.Instance.SetFloorGrid(_floorGrid);
-
-        //Debug.Log("Depth set");
     }
     #endregion
 

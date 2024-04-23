@@ -3704,6 +3704,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bandit
       objectReference: {fileID: 0}
+    - target: {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8092227949405297772, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.62194324
@@ -11455,14 +11459,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7670709679233012430, guid: f059d2d343589514188bf36f84f31423, type: 3}
-      propertyPath: showGraphs
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670709679233012430, guid: f059d2d343589514188bf36f84f31423, type: 3}
-      propertyPath: data.dataString
-      value: UEsDBBQAAAgIAAAIIewFW/3VWwIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VEtz2jAQ/iuMzk3HPJJAb61DSA8kTEgnF1+EtMYaZMmjB49k+O9dyTZ26PTE8u23u98+5E8ilK2AOW0WRvCl5kB+DEiwybdB53yCI91qtRYf0HLeBXdFINHIeaVOaMSHIczqEpwR7KfaykBOEPRK5NqUc76FVFtnEc6ptIAuo12IVgh9DsgRf25mIeSE1ug+WB9ozZLBGU0GyoHpqC2xpdUsr5ikZQU8SO7Ik0va20hT2EzDCMKZllLYRglxpyp2mtLKeuwDCVxQ7CyWD/wCxLZwIV0/+CXPLbhGkqGnB2FwQHVW8kvXUyup3dW69lT6UGd6n0yiqDrr8h/CzTC6c6PLp7bwMAlFXCHY7pWeGLWuN9c+/PBVuVcHKnd0I+G9APWsF0Z7xdHpjA+h3sLooft76S0tgO06vJZ6Bfrq/9sJPZxj+8dUinITXN8nNbCWOg487h4MruY3Co6XYZsUiAYVfyy80W3/hBrHozDWoavpUgV5G+1NoJJ5nFnoxrtUGwURbkRXoKh0pxWmcdc7vPL1yl55Hml4LE3xxte+gauQCHf8JLlyrfThsixb6MMSbPHinRQKOtHB8YxzSrVS9Yn1Z9KGrb3JKeuFbb3gX0+LzPj4fgqzZDoaz8Z30+kNY3f8djMaTjildDwdkXh7QmGfVK5qoc14cGuqS67wztpvyGBhaBXPnRt6WIiPUvdGLlSu18wAqJc6w0U4GCyCz5LPucABrcE5oeK+yWdGpGY74NklURY7nR+doVmXJSOV2GsXkIyk8aORkQBfbnllYC/gEIq3yc7k/BdQSwMEFAAACAgAAAgh7Cym4BhzAAAAhAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiBOKWZKSB2tJJlirG5RaqlgYWRsaWxmYWFbnKyWYppkpGhSUpiYqKxhZGSjkJeaU5OLFBXSWVBql9ibipEZ0BiSUZaZl5KZl66nntRZoo7yAKY6loAUEsBAi0AFAAACAgAAAgh7AVb/dVbAgAAEwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAAgh7Cym4BhzAAAAhAAAAAkAJAAAAAAAAAAAAAAAqAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABmAwAAAAA=
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11946,6 +11942,10 @@ PrefabInstance:
     - target: {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
       propertyPath: m_Name
       value: Ent
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7817742949462751975, guid: 2a483e29d103da7499146922eb512797, type: 3}
       propertyPath: m_LocalPosition.x
