@@ -799,9 +799,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1129658828}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _bossDoor
+      value: 
+      objectReference: {fileID: 3167307966368846065, guid: 757e8e652ece68d41bde3ee2c301d344, type: 3}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _commonDoor
+      value: 
+      objectReference: {fileID: 3167307966368846065, guid: 734e0a06cba522843b13e0fb36185f6e, type: 3}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _weaponDoor
+      value: 
+      objectReference: {fileID: 3167307966368846065, guid: b16a66bc28531084e9fd5ba1ee097d1b, type: 3}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _testingRoom
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
+      propertyPath: _treasureDoor
+      value: 
+      objectReference: {fileID: 3167307966368846065, guid: 7079389533bf5b6409ba7e28680b6b1c, type: 3}
     - target: {fileID: 3209150497452770102, guid: 342b42815f745b047bc7d2b911f0982d, type: 3}
       propertyPath: _testingRoomBig
       value: 

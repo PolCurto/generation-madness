@@ -53,9 +53,14 @@ public class TempleGenerator : MonoBehaviour
 
     [Header("Generation Params")]
     [SerializeField] private TileBase _wallTile;
-    [SerializeField] Vector2Int _movementScalar;
-    [SerializeField] Vector2 _connectionOffset;
-    [SerializeField] GameObject _door;
+    [SerializeField] private Vector2Int _movementScalar;
+    [SerializeField] private Vector2 _connectionOffset;
+
+    [Header("Doors")]
+    [SerializeField] private GameObject _commonDoor;
+    [SerializeField] private GameObject _treasureDoor;
+    [SerializeField] private GameObject _weaponDoor;
+    [SerializeField] private GameObject _bossDoor;
 
     [Header("Items & Weapons")]
     [SerializeField] private GameObject _passiveItemPrefab;
@@ -254,7 +259,7 @@ public class TempleGenerator : MonoBehaviour
         {
             if (deadEnd.Type == TempleRoom.TempleRoomType.Normal)
             {
-                deadEnd.Type = TempleRoom.TempleRoomType.Character;
+                deadEnd.Type = TempleRoom.TempleRoomType.Weapon;
                 _weaponRoom = deadEnd;
                 break;
             }
@@ -583,7 +588,27 @@ public class TempleGenerator : MonoBehaviour
                     if (bond.Direction == Vector2Int.down) rotation = new Vector3(0, 0, -180);
                     if (bond.Direction == Vector2Int.left) rotation = new Vector3(0, 0, -270);
 
-                    DoorController newDoor = Instantiate(_door, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
+                    DoorController newDoor;
+
+                    if (bond.LinkedBond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Treasure || bond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Treasure)
+                    {
+                        Debug.Log("Treasure door");
+                        newDoor = Instantiate(_treasureDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
+                    }
+                    else if (bond.LinkedBond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Weapon || bond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Weapon)
+                    {
+                        Debug.Log("Weapon door");
+                        newDoor = Instantiate(_weaponDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
+                    }
+                    else if (bond.LinkedBond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Boss || bond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Boss)
+                    {
+                        Debug.Log("Boss door");
+                        newDoor = Instantiate(_bossDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
+                    }
+                    else
+                    {
+                        newDoor = Instantiate(_commonDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
+                    }
 
                     newDoor.Bond = bond;
                     bond.DoorController = newDoor;
@@ -752,7 +777,7 @@ public class TempleGenerator : MonoBehaviour
                     room.SceneRoom = newRoom;
                     break;
 
-                case TempleRoom.TempleRoomType.Character:
+                case TempleRoom.TempleRoomType.Weapon:
                     newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
                     newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
                     room.SceneRoom = newRoom;
@@ -833,7 +858,7 @@ public class TempleGenerator : MonoBehaviour
                     room.Completed = true;
                     break;
 
-                case TempleRoom.TempleRoomType.Character:
+                case TempleRoom.TempleRoomType.Weapon:
                     roomData = _weaponRoomPrefab;
                     newRoom = Instantiate(_weaponRoomPrefab.roomTilemap, (Vector3Int)room.Position, Quaternion.identity);
                     room.SceneRoom = newRoom;

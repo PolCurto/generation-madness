@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Treasure Door
+  m_Controller: {fileID: 9100000, guid: d92975afca4051648a6ebfa545256aca, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 369c94f37e6adce4f9ef1ae1d1e40797, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2df3403642db0204fb9b474041dd8e8b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 66792b810532dfa409cea4b43ba33f5d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 62a0021a885424d4fb15bfe48e829118, type: 2}

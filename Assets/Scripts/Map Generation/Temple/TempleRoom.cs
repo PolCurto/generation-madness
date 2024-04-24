@@ -24,7 +24,7 @@ public class TempleRoom
         Normal = 1,
         Boss = 2,
         Treasure = 3,
-        Character = 4,
+        Weapon = 4,
         KeyRoom = 5,
         LongHorizontal = 6,
         LongVertical = 7,

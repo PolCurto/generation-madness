@@ -102,8 +102,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 842890155
-  m_SortingLayer: 2
+  m_SortingLayerID: 143768377
+  m_SortingLayer: 5
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 38d198e94045aa64c887aecee0444c35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 3223024113386081148}
   - component: {fileID: 6441830465157760920}
   - component: {fileID: 798876138641821458}
+  - component: {fileID: 4939955064547893269}
   m_Layer: 8
   m_Name: Weapon
   m_TagString: Untagged
@@ -315,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 6555832494771760596}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -359,8 +360,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 143768377
-  m_SortingLayer: 5
+  m_SortingLayerID: -1169344911
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -389,3 +390,24 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 6441830465157760920}
   _bullet: {fileID: 5742279288369313162, guid: 9d3618722b6d1034088b78a9424971eb, type: 3}
   _bulletSpawnOffset: 0
+--- !u!95 &4939955064547893269
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6555832494771760596}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f2f1f46459e9174b8d8be061c605bf1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

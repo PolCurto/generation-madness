@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6811038211853260326}
   - component: {fileID: -4765598237878280361}
   m_Layer: 0
-  m_Name: Door
+  m_Name: Treasure Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4375, y: 1.5}
+    oldSize: {x: 1.9375, y: 2}
     newSize: {x: 0.23, y: 0.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4375, y: 1.5}
+    oldSize: {x: 1.9375, y: 2}
     newSize: {x: 0.23, y: 0.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: 842890155
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 2cca0d0f87007a34995dc1112e52c7f8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6719030b7d5761f488693a6e6eec4e26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -202,7 +202,7 @@ Animator:
   m_GameObject: {fileID: 3167307966368846065}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d92975afca4051648a6ebfa545256aca, type: 2}
+  m_Controller: {fileID: 22100000, guid: 7f967a195a70dce449a6f88c8e10d41f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
