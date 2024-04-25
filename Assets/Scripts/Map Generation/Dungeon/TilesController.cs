@@ -13,15 +13,21 @@ public class TilesController : MonoBehaviour
     [SerializeField] private Tilemap _detailsTilemap;
     [SerializeField] private Tilemap _holesTilemap;
 
+    [Header("Minimap")]
+    [SerializeField] private Tilemap _minimapFloor;
+    [SerializeField] private Tilemap _minimapWalls;
+
     [Header("Tiles")]
     [SerializeField] private TileBase _floorTile;
     [SerializeField] private TileBase _wallTile;
     [SerializeField] private TileBase _limitTile;
+    [SerializeField] private TileBase _minimapFloorTile;
+    [SerializeField] private TileBase _minimapWallsTile;
 
     [Header("Wall Parameters")]
     [SerializeField] private int _tileRange;
 
-    public Vector3Int[] _surroundings = new Vector3Int[]
+    public Vector3Int[] _specialSurroundings = new Vector3Int[]
     {
         new Vector3Int (1, 0, 0),       // Right
         new Vector3Int (1, -1, 0),      // Bottom - Right
@@ -34,6 +40,14 @@ public class TilesController : MonoBehaviour
         new Vector3Int (0, -2, 0),      // Special case
         new Vector3Int (1, -2, 0),      // Special case
         new Vector3Int (-1, -2, 0)      // Special case
+    };
+
+    private Vector2Int[] surroundings = new Vector2Int[]
+    {
+        new Vector2Int (1, 0),
+        new Vector2Int (-1, 0),
+        new Vector2Int (0, 1),
+        new Vector2Int (0, -1)
     };
 
     /// <summary>
@@ -208,7 +222,7 @@ public class TilesController : MonoBehaviour
     /// <returns></returns>
     private bool CheckSurroundings(Vector3Int position)
     {
-        foreach (Vector3Int offset in _surroundings)
+        foreach (Vector3Int offset in _specialSurroundings)
         {
             if (!_wallTilemap.HasTile(position + offset) && !_floorTilemap.HasTile(position + offset) && !_holesTilemap.HasTile(position + offset))
             {
@@ -225,6 +239,37 @@ public class TilesController : MonoBehaviour
         Vector3Int gridPos = _wallTilemap.WorldToCell(Vector3Int.RoundToInt(position));
 
         _wallTilemap.SetTile(gridPos, null);
+    }
+
+    public void SetMinimap()
+    {
+        foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
+        {
+            if (_floorTilemap.HasTile(floorTilePos))
+            {
+                _minimapFloor.SetTile(floorTilePos, _minimapFloorTile);
+            }
+        }
+
+        foreach (Vector3Int wallTilePos in _wallTilemap.cellBounds.allPositionsWithin)
+        {
+            if (_wallTilemap.HasTile(wallTilePos) && HasFloorTileNear(wallTilePos))
+            {
+                _minimapWalls.SetTile(wallTilePos, _minimapWallsTile);
+            }
+        }
+    }
+
+    private bool HasFloorTileNear(Vector3Int position)
+    {
+        foreach (Vector3Int offset in surroundings)
+        {
+            if (_floorTilemap.HasTile(position + offset))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Tilemap FloorTilemap => _floorTilemap;

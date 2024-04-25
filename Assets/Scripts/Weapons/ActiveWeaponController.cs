@@ -18,14 +18,12 @@ public class ActiveWeaponController : MonoBehaviour
 
     public bool IsReloading { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-       _playerController = _player.GetComponent<PlayerController>();
+        _playerController = _player.GetComponent<PlayerController>();
         _animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         RotateOut();

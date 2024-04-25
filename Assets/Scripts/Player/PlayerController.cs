@@ -40,14 +40,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         _weaponsInventory = GetComponent<WeaponsInventory>();
     }
 
-    private void Start()
-    {
-        if (_weaponsInventory.TryGetItem(0, out Item item))
-        {
-            _activeWeapon.SwapWeapon((Weapon)item);
-        }
-    }
-
     void Update()
     {
         HandleInputs();
@@ -78,6 +70,11 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         if (data.weaponId.Count > 1)
         {
             UIController.Instance.ShowSecondWeapon();
+        }
+
+        if (_weaponsInventory.TryGetItem(0, out Item item))
+        {
+            _activeWeapon.SwapWeapon((Weapon)item);
         }
     }
 

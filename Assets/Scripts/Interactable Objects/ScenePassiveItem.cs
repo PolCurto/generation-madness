@@ -6,6 +6,7 @@ public class ScenePassiveItem : InteractableObject
 {
     [SerializeField] private ItemBase _itemBase;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _minimapIcon;
     //protected Item _item;
 
     private void Awake()
@@ -26,5 +27,6 @@ public class ScenePassiveItem : InteractableObject
     {
         _itemBase = itemBase;
         _spriteRenderer.sprite = itemBase.itemSprite;
+        _minimapIcon.sprite = itemBase.itemSprite;
     }
 }

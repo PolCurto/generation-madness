@@ -85,6 +85,7 @@ public class CaveLogic : MonoBehaviour
     {
         _tilesController.DrawWalls(_wallTile);
         _tilesController.CleanWalls();
+        _tilesController.SetMinimap();
     }
 
     public void SetBaseLogic()

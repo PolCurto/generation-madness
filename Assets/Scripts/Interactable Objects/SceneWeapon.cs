@@ -6,6 +6,7 @@ public class SceneWeapon : InteractableObject
 {
     [SerializeField] private WeaponBase _weaponBase;
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _minimapIcon;
 
     private Weapon _weapon;
 
@@ -26,6 +27,7 @@ public class SceneWeapon : InteractableObject
         _weaponBase = weapon.WeaponBase;
         _weapon = weapon;
         _spriteRenderer.sprite = _weaponBase.weaponSprite;
+        _minimapIcon.sprite = _weaponBase.weaponSprite;
     }
 
     public void SetBaseWeapon(WeaponBase weaponBase)
@@ -33,5 +35,6 @@ public class SceneWeapon : InteractableObject
         _weaponBase = weaponBase;
         _weapon = new Weapon(weaponBase);
         _spriteRenderer.sprite = _weaponBase.weaponSprite;
+        _minimapIcon.sprite = _weaponBase.weaponSprite;
     }
 }

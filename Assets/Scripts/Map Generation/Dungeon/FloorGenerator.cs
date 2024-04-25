@@ -145,6 +145,7 @@ public class FloorGenerator : MonoBehaviour
         GenerateCorridors();
         _tilesController.DrawWalls(_wallTile);
         _tilesController.CleanWalls();
+        _tilesController.SetMinimap();
         SpawnPlayer();
 
         yield return new WaitForSeconds(0.5f);
