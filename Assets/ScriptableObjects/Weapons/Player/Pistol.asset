@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a52a0f200772149ad94da46da57f69, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
+  id: 1
   name: Pistol
   cameraOffsetMultiplier: 1
   weaponSprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}

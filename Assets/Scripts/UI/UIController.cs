@@ -76,6 +76,11 @@ public class UIController : MonoBehaviour
         _ammoBars[index].color = weapon.WeaponBase.color;
     }
 
+    public void ShowSecondWeapon()
+    {
+        _weapons[1].alpha = _hiddenWeaponsAlpha;
+    }
+
     #endregion
 
     #region Pause Menu

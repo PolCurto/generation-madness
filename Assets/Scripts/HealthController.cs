@@ -10,11 +10,6 @@ public class HealthController : MonoBehaviour
     protected int _currentLife;
     protected bool _isDead;
 
-    protected virtual void Start()
-    {
-        _currentLife = _maxLife;
-    }
-
     public virtual void GetHit(int damage)
     {
         _currentLife -= damage;

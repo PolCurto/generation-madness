@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelsLoader : MonoBehaviour
+public class LevelsLoader : MonoBehaviour, IDataPersistance
 {
     [HideInInspector] public static LevelsLoader Instance;
+
+    private int _floorDepth;
 
     private void Awake()
     {
@@ -35,5 +37,15 @@ public class LevelsLoader : MonoBehaviour
             Debug.Log(operation.progress);
             yield return null;
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        _floorDepth = data.floorDepth;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.floorDepth = _floorDepth;
     }
 }

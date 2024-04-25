@@ -6,14 +6,20 @@ public class Weapon : Item
 {
     public WeaponBase WeaponBase { get; private set; }
 
-    public int TotalBullets { get; private set; }
-    public int ClipBullets { get; private set; }
+    public int TotalBullets { get; set; }
+    public int ClipBullets { get; set; }
 
     public Weapon(WeaponBase weaponBase)
     {
         WeaponBase = weaponBase;
         TotalBullets = weaponBase.maxBullets;
         ClipBullets = weaponBase.clipSize;
+    }
+
+    public Weapon(WeaponBase weaponBase, int totalBullets, int clipBullets) : this(weaponBase)
+    {
+        TotalBullets = totalBullets;
+        ClipBullets = clipBullets;
     }
 
     public void Shoot()

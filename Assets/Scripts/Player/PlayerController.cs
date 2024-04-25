@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDataPersistance
 {
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -38,10 +38,6 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         _weaponsInventory = GetComponent<WeaponsInventory>();
-        DamageMultiplier = 1;
-        AttackSpeed = 1;
-        ReloadSpeed = 1;
-        BulletSpeed = 1;
     }
 
     private void Start()
@@ -64,6 +60,55 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         MoveWeapon();
+    }
+
+    public void LoadData(GameData data)
+    {
+        _healthController.SetHealth(data.currentMaxLife, data.currentLife);
+        DamageMultiplier = data.damageMultiplier;
+        AttackSpeed = data.attackSpeed;
+        ReloadSpeed = data.reloadSpeed;
+        BulletSpeed = data.bulletSpeed;
+
+        for (int i = 0; i < data.weaponId.Count; i++)
+        {
+            _weaponsInventory.AddWeapon(data.weaponId[i], data.clipBullets[i], data.totalBullets[i], i);
+        }
+
+        if (data.weaponId.Count > 1)
+        {
+            UIController.Instance.ShowSecondWeapon();
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.currentMaxLife = _healthController.MaxLife;
+        data.currentLife = _healthController.CurrentLife;
+        data.damageMultiplier = DamageMultiplier;
+        data.attackSpeed = AttackSpeed;
+        data.reloadSpeed = ReloadSpeed;
+        data.bulletSpeed = BulletSpeed;
+
+        List<Item> weapons = _weaponsInventory.GetAllItems();
+
+        for (int i = 0; i < weapons.Count; i++ )
+        {
+            Weapon weapon = (Weapon)weapons[i];
+
+            if (data.weaponId.Count > i)
+            {
+                data.weaponId[i] = weapon.WeaponBase.id;
+                data.clipBullets[i] = weapon.ClipBullets;
+                data.totalBullets[i] = weapon.TotalBullets;
+            }
+            else 
+            {
+                data.weaponId.Add(weapon.WeaponBase.id);
+                data.clipBullets.Add(weapon.ClipBullets);
+                data.totalBullets.Add(weapon.TotalBullets);
+            }           
+        }
     }
 
     #region Inputs

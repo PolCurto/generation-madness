@@ -6,12 +6,6 @@ public class PlayerHealthController : HealthController
 {
     [SerializeField] protected int _currentMaxLife;
 
-    protected override void Start()
-    {
-        _currentLife = _currentMaxLife;
-        UIController.Instance.UpdateLife(_currentMaxLife, _currentLife);
-    }
-
     public override void GetHit(int damage)
     {
         base.GetHit(damage);
@@ -27,6 +21,11 @@ public class PlayerHealthController : HealthController
     public override void Heal(int health)
     {
         base.Heal(health);
+
+        if (_currentLife > _currentMaxLife)
+        {
+            _currentLife = _currentMaxLife;
+        }
 
         UIController.Instance.UpdateLife(_currentMaxLife, _currentLife);
     }
@@ -46,4 +45,15 @@ public class PlayerHealthController : HealthController
 
         UIController.Instance.UpdateLife(_currentMaxLife, _currentLife);
     }
+
+    public void SetHealth(int maxHealth, int currentHealth)
+    {
+        _currentMaxLife = maxHealth;
+        _currentLife = currentHealth;
+
+        UIController.Instance.UpdateLife(_currentMaxLife, _currentLife);
+    }
+
+    public int MaxLife => _currentMaxLife;
+    public int CurrentLife => _currentLife;
 }

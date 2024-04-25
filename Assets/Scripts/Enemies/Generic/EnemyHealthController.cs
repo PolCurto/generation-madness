@@ -6,6 +6,11 @@ public class EnemyHealthController : HealthController
 {
     [SerializeField] Enemy _parent;
 
+    private void Start()
+    {
+        _currentLife = _maxLife;
+    }
+
     protected override void Die()
     {
         base.Die();

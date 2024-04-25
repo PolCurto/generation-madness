@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class WeaponsInventory : InventoryController
 {
-    [SerializeField] private WeaponBase _startingWeapon;
     [SerializeField] private GameObject _pickableWeapon;
+    
+    [SerializeField] private WeaponDatabase _database;
 
     protected override void Awake()
     {
         base.Awake();
-        AddItem(new Weapon(_startingWeapon));
     }
 
     /// <summary>
@@ -39,5 +39,13 @@ public class WeaponsInventory : InventoryController
     public int GetActiveWeaponIndex()
     {
         return _items.FindIndex(a => a == _playerController.ActiveWeapon.Weapon);
+    }
+
+    public void AddWeapon(int id, int clipBullets, int totalBullets, int index)
+    {
+        Weapon weapon = new Weapon(_database.GetWeapon(id), totalBullets, clipBullets);
+        AddItem(weapon);
+
+        UIController.Instance.UpdateWeaponAtIndex(index, weapon);
     }
 }

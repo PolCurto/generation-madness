@@ -5,14 +5,41 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    public int _currentMaxLife;
-    public int _currentLife;
-    public float _damageMultiplier;
-    public float _attackSpeed;
-    public float _reloadSpeed;
-    public float _bulletSpeed;
+    public int floorDepth;
 
-    public int[] _clipBullets;
-    public int[] _totalBullets;
-    public int[] _weaponId;
+    public int currentMaxLife;
+    public int currentLife;
+    public float damageMultiplier;
+    public float attackSpeed;
+    public float reloadSpeed;
+    public float bulletSpeed;
+
+    public List<int> clipBullets;
+    public List<int> totalBullets;
+    public List<int> weaponId;
+
+    public GameData() 
+    {
+        currentMaxLife = 3;
+        currentLife = 3;
+        damageMultiplier = 1;
+        attackSpeed = 1;
+        reloadSpeed = 1;
+        bulletSpeed = 1;
+
+        clipBullets = new List<int>
+        {
+            20
+        };
+
+        totalBullets = new List<int>
+        {
+            30
+        };
+
+        weaponId = new List<int>
+        {
+            1
+        };
+    }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class WeaponBase : ScriptableObject
 {
     [Header("Weapon")]
+    public int id;
     public new string name;
     public float cameraOffsetMultiplier;
 
