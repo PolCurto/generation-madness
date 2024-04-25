@@ -8,6 +8,8 @@ public class NextFloorTeleport : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            LevelsLoader.Instance.FloorDepth += 1;
+            DataPersistanceManager.Instance.SaveGame();
             UIController.Instance.OnLevelCompleted();
         }
     }

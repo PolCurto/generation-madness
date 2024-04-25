@@ -111,6 +111,7 @@ public class TempleGenerator : MonoBehaviour
         GetRoomsToGrid();
         InstantiateItems();
         PlaceDoors();
+        _tilesController.SetMinimap();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -121,8 +122,15 @@ public class TempleGenerator : MonoBehaviour
             LoadingScreen.Instance.gameObject.SetActive(false);
             UIController.Instance.GetComponent<CanvasGroup>().alpha = 1;
         }
+
+        SpawnPlayer();
+
     }
 
+    private void SpawnPlayer()
+    {
+       // _player.transform.position = .
+    }
 
     #region Floor Generation
     /// <summary>

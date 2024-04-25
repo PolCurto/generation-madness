@@ -244,10 +244,6 @@ PrefabInstance:
       value: TilesController
       objectReference: {fileID: 0}
     - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
-      propertyPath: _tileRange
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: _wallTilemap
       value: 
       objectReference: {fileID: 1732516323}
@@ -259,6 +255,14 @@ PrefabInstance:
       propertyPath: _holesTilemap
       value: 
       objectReference: {fileID: 1732516325}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _minimapFloor
+      value: 
+      objectReference: {fileID: 1365257463}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _minimapWalls
+      value: 
+      objectReference: {fileID: 1732516326}
     - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: _detailsTilemap
       value: 
@@ -352,7 +356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2807381658974188991, guid: ed62ec5503de5f84d8417ef9d774dd95, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3208299786491007069, guid: ed62ec5503de5f84d8417ef9d774dd95, type: 3}
       propertyPath: m_Pivot.x
@@ -589,6 +593,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6154942151259948432, guid: f3dd56c448c6d66408fb4fcd3e62c0da, type: 3}
   m_PrefabInstance: {fileID: 642428264}
   m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &1365257463 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 7703602609280613862, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+  m_PrefabInstance: {fileID: 1732516321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1382583214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -721,6 +730,11 @@ Tilemap:
 --- !u!1839735485 &1732516325 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 399460093639886431, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+  m_PrefabInstance: {fileID: 1732516321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &1732516326 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 6597259859267698380, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
   m_PrefabInstance: {fileID: 1732516321}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &130536917667486731
@@ -1246,8 +1260,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 2227993118492354312}
   - {fileID: 1732516321}
-  - {fileID: 198729428}
   - {fileID: 2998297305222550557}
+  - {fileID: 569987027795016559}
+  - {fileID: 198729428}
   - {fileID: 480533725}
   - {fileID: 642428264}
   - {fileID: 130536917667486731}
@@ -1256,4 +1271,3 @@ SceneRoots:
   - {fileID: 115050154}
   - {fileID: 615161425}
   - {fileID: 7566932149416907227}
-  - {fileID: 569987027795016559}

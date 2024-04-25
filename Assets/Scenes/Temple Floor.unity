@@ -178,6 +178,63 @@ Tilemap:
   m_CorrespondingSourceObject: {fileID: 8673454928052780807, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
   m_PrefabInstance: {fileID: 1368293353120378209}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &479450644
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.3323646
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5793002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.12133803
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524976505956485572, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2062923068527758594, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
+      propertyPath: m_Name
+      value: Data Persistance Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c40af426b34a84f4baaf5b03a5a55cbd, type: 3}
 --- !u!114 &917520775 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
@@ -984,6 +1041,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+--- !u!1839735485 &1368293353120378210 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 6597259859267698380, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+  m_PrefabInstance: {fileID: 1368293353120378209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &1368293353120378211 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 7703602609280613862, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+  m_PrefabInstance: {fileID: 1368293353120378209}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5583656520815082273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1048,6 +1115,14 @@ PrefabInstance:
       propertyPath: _holesTilemap
       value: 
       objectReference: {fileID: 145316871}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _minimapFloor
+      value: 
+      objectReference: {fileID: 1368293353120378211}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _minimapWalls
+      value: 
+      objectReference: {fileID: 1368293353120378210}
     - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: _detailsTilemap
       value: 
@@ -1177,6 +1252,7 @@ SceneRoots:
   - {fileID: 665555058305703949}
   - {fileID: 1368293353120378209}
   - {fileID: 1802796506}
+  - {fileID: 479450644}
   - {fileID: 5583656520815082273}
   - {fileID: 1597445365}
   - {fileID: 1129658826}

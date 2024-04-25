@@ -8,7 +8,7 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
 {
     [HideInInspector] public static LevelsLoader Instance;
 
-    private int _floorDepth;
+    public int FloorDepth { get; set; }
 
     private void Awake()
     {
@@ -41,11 +41,11 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
 
     public void LoadData(GameData data)
     {
-        _floorDepth = data.floorDepth;
+        FloorDepth = data.floorDepth;
     }
 
     public void SaveData(ref GameData data)
     {
-        data.floorDepth = _floorDepth;
+        data.floorDepth = FloorDepth;
     }
 }
