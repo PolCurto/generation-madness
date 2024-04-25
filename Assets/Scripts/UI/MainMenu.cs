@@ -7,25 +7,23 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _loadingScreen;
 
-    public void GenerateCaveLevel()
+    public void StartNewGame(int type)
     {
-        LoadingScreen.Instance.gameObject.SetActive(true);
-        gameObject.SetActive(false);
-        LevelsLoader.Instance.LoadScene(1);
+        DataPersistanceManager.Instance.NewGame();
+        LevelsLoader.Instance.RunType = (LevelsLoader.RunLevelsType)type;
+
+        DataPersistanceManager.Instance.SaveGame();
+        LevelsLoader.Instance.LoadNextScene();
     }
 
-    public void GenerateDungeonLevel()
+    public void ContinueGame()
     {
-        LoadingScreen.Instance.gameObject.SetActive(true);
-        gameObject.SetActive(false);
-        LevelsLoader.Instance.LoadScene(2);
-    }
-
-    public void GenerateTempleLevel()
-    {
-        LoadingScreen.Instance.gameObject.SetActive(true);
-        gameObject.SetActive(false);
-        LevelsLoader.Instance.LoadScene(3);
+        if (!DataPersistanceManager.Instance.LoadGame())
+        {
+            Debug.LogWarning("There is no data to continue from");
+            return;
+        }
+        LevelsLoader.Instance.LoadNextScene();
     }
 
     public void ExitGame()

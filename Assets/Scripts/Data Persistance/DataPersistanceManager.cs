@@ -36,15 +36,18 @@ public class DataPersistanceManager : MonoBehaviour
     public void NewGame()
     {
         _gameData = new GameData();
+        LevelsLoader.Instance.FloorDepth = 0;
     }
 
-    public void LoadGame()
+    public bool LoadGame()
     {
+        bool dataExists = true;
+
         _gameData = _dataHandler.Load();
 
         if (_gameData == null)
         {
-            Debug.Log("No data found");
+            dataExists = false;
             NewGame();
         }
 
@@ -52,6 +55,8 @@ public class DataPersistanceManager : MonoBehaviour
         {
             dataPersistanceObj.LoadData(_gameData);
         }
+
+        return dataExists;
     }
 
     public void SaveGame()

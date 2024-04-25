@@ -29,7 +29,6 @@ public class Weapon : Item
 
     public void Reload()
     {
-        Debug.Log("Start reload. Total bullets: " + TotalBullets + " Clip bullets: " + ClipBullets);
         int desiredBullets = WeaponBase.clipSize - ClipBullets;
         int obtainedBullets = Mathf.Min(desiredBullets, TotalBullets);
 
@@ -37,7 +36,6 @@ public class Weapon : Item
         TotalBullets -= obtainedBullets;
 
         if (TotalBullets < 0) TotalBullets = 0;
-        Debug.Log("End reload. Total bullets: " + TotalBullets + " Clip bullets: " + ClipBullets);
 
     }
 

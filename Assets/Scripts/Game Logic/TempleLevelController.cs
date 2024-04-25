@@ -26,15 +26,11 @@ public class TempleLevelController : FloorLogicController
             enemies.Add(Instantiate(enemyData.Value, enemyPos, Quaternion.identity));
         }
 
-        Debug.Log("Enter room");
-
         StartCoroutine(CheckActiveRoomStatus(room, enemies));
     }
 
     private void OnRoomFinished(TempleRoom room)
     {
-        Debug.Log("Finished room");
-
         foreach (Connection connection in room.Connections)
         {
             foreach (Bond bond in connection.Bonds)

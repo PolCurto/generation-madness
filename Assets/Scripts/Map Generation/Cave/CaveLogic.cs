@@ -370,7 +370,6 @@ public class CaveLogic : MonoBehaviour
         while (enemyPoints > 0)
         {
             Enemy enemy = availableEnemies[Random.Range(0, _enemies.Length)];
-            Debug.Log("Enemy: " + enemy);
 
             if (enemy.Cost() <= enemyPoints)
             {

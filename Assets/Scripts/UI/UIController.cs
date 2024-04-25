@@ -121,8 +121,17 @@ public class UIController : MonoBehaviour
     public void LoadNextFloor()
     {
         Time.timeScale = 1f;
-        LoadingScreen.Instance.gameObject.SetActive(true);
-        LevelsLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LevelsLoader.Instance.LoadNextScene();
+    }
+    #endregion
+
+    #region Game Finished Screen
+    [Header("Level Complete Screen")]
+    [SerializeField] private GameObject _gameFinishedScreen;
+    public void OnGameFinished()
+    {
+        _gameFinishedScreen.SetActive(true);
+        Time.timeScale = 0;
     }
     #endregion
 

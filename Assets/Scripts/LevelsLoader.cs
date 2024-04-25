@@ -10,6 +10,16 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
 
     public int FloorDepth { get; set; }
 
+    public RunLevelsType RunType { get; set; }
+
+    public enum RunLevelsType
+    {
+        Default = 0,
+        Cave = 1,
+        Dungeon = 2,
+        Temple = 3
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -20,6 +30,50 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    // Loads the corresponding level depending on the run type and the floor depth
+    public void LoadNextScene()
+    {
+        Debug.Log("Run type: " + RunType);
+        Debug.Log("Floor depth: " + FloorDepth);
+
+        LoadingScreen.Instance.gameObject.SetActive(true);
+
+        switch (RunType)
+        {
+            case RunLevelsType.Default:
+                switch (FloorDepth)
+                {
+                    case 0:
+                    case 1:
+                        LoadScene(1);    // 1 --> Cave
+                        break;
+                    case 2:
+                    case 3:
+                        LoadScene(2);    // 2 --> Dungeon
+                        break;
+                    case 4:
+                    case 5:
+                        LoadScene(3);    // 3 --> Temple
+                        break;
+                    default:
+                        Debug.LogError("You shouldn't be here");
+                        break;
+                }
+                break;
+
+            case RunLevelsType.Cave:
+                LoadScene(1);
+                break;
+
+            case RunLevelsType.Dungeon:
+                LoadScene(2);
+                break;
+            case RunLevelsType.Temple:
+                LoadScene(3);
+                break;
         }
     }
 
@@ -34,7 +88,6 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
 
         while (!operation.isDone)
         {
-            Debug.Log(operation.progress);
             yield return null;
         }
     }
@@ -42,10 +95,12 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
     public void LoadData(GameData data)
     {
         FloorDepth = data.floorDepth;
+        RunType = (RunLevelsType)data.runType;
     }
 
     public void SaveData(ref GameData data)
     {
         data.floorDepth = FloorDepth;
+        data.runType = (int)RunType;
     }
 }

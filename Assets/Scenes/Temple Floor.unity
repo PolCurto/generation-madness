@@ -157,7 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185b3a1d2c000e24bb93c4f98a3dc397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _portal: {fileID: 8341341745548048879, guid: b3fe05379d7c60c44becbf04d1f1941e, type: 3}
+  _nextLevelPortal: {fileID: 8341341745548048879, guid: b3fe05379d7c60c44becbf04d1f1941e, type: 3}
+  _gameEndPortal: {fileID: 8341341745548048879, guid: b9b21da4288db1d4b83cfcbf50d59cc5, type: 3}
 --- !u!4 &245499271
 Transform:
   m_ObjectHideFlags: 0
@@ -1258,10 +1259,10 @@ SceneRoots:
   - {fileID: 1802796506}
   - {fileID: 479450644}
   - {fileID: 5583656520815082273}
+  - {fileID: 245499271}
   - {fileID: 1597445365}
   - {fileID: 1129658826}
   - {fileID: 1843788556}
   - {fileID: 9154311511343520747}
   - {fileID: 1408188062}
-  - {fileID: 245499271}
   - {fileID: 1889032669}

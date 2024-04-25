@@ -837,8 +837,6 @@ public class FloorGenerator : MonoBehaviour
         int tileRange = 1;
         int minDistance = 5;
 
-        Debug.Log("Check Surroundings");
-
         // Checks if it has floor tiles around
         for (int x = position.x - tileRange; x <= position.x + tileRange; x++)
         {
@@ -860,7 +858,6 @@ public class FloorGenerator : MonoBehaviour
             }
         }
 
-        Debug.Log("De locos");
         return true;
     }
     #endregion

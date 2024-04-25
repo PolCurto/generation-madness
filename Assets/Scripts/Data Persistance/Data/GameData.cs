@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameData
 {
     public int floorDepth;
+    public int runType;
 
     public int currentMaxLife;
     public int currentLife;
@@ -20,6 +21,8 @@ public class GameData
 
     public GameData() 
     {
+        floorDepth = 0;
+        runType = 0;
         currentMaxLife = 3;
         currentLife = 3;
         damageMultiplier = 1;

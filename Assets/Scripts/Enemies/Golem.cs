@@ -8,8 +8,6 @@ public class Golem : HoodSkeleton
     {
         if (!_canAttack) return;
 
-        Debug.Log("Golem attacking");
-
         if (_timer - _lastTimeShot > _weaponController.WeaponBase.fireRate)
         {
             _animator.SetTrigger("Shoot");

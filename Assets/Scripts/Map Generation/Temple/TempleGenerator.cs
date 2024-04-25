@@ -600,17 +600,14 @@ public class TempleGenerator : MonoBehaviour
 
                     if (bond.LinkedBond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Treasure || bond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Treasure)
                     {
-                        Debug.Log("Treasure door");
                         newDoor = Instantiate(_treasureDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
                     }
                     else if (bond.LinkedBond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Weapon || bond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Weapon)
                     {
-                        Debug.Log("Weapon door");
                         newDoor = Instantiate(_weaponDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
                     }
                     else if (bond.LinkedBond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Boss || bond.LinkedConnection.ParentRoom.Type == TempleRoom.TempleRoomType.Boss)
                     {
-                        Debug.Log("Boss door");
                         newDoor = Instantiate(_bossDoor, bondPosition, Quaternion.Euler(rotation)).GetComponent<DoorController>();
                     }
                     else
