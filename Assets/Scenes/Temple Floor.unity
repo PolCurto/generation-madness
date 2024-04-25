@@ -1127,6 +1127,10 @@ PrefabInstance:
       propertyPath: _detailsTilemap
       value: 
       objectReference: {fileID: 307675488}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _minimapWallsTile
+      value: 
+      objectReference: {fileID: 11400000, guid: cd4690a1599467045b828050613ebfe8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
