@@ -50,9 +50,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private Image[] _ammoBars;
     [SerializeField] private float _hiddenWeaponsAlpha;
 
-    public void HighlightWeaponAtIndex(int index)
+    public void HighlightWeaponAtIndex(int index, int weaponsCount)
     {
-        for (int i = 0; i < _weapons.Length; i++)
+        for (int i = 0; i < weaponsCount; i++)
         {
             if (i == index) _weapons[i].alpha = 1;
             else _weapons[i].alpha = _hiddenWeaponsAlpha;

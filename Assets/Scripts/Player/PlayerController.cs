@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -171,8 +172,9 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     {
         if (_weaponsInventory.TryGetItem(index, out Item item))
         {
+            Debug.Log("Item found");
             _activeWeapon.SwapWeapon((Weapon)item);
-            UIController.Instance.HighlightWeaponAtIndex(index);
+            UIController.Instance.HighlightWeaponAtIndex(index, _weaponsInventory.GetAllItems().Count);
         }
     }
     #endregion
@@ -220,7 +222,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     {
         if (_weaponsInventory.GetAllItems().Count <= 1)
         {
-            UIController.Instance.HighlightWeaponAtIndex(1);
+            UIController.Instance.HighlightWeaponAtIndex(1, _weaponsInventory.GetAllItems().Count + 1);
         }
 
         _weaponsInventory.AddItem(weapon);
