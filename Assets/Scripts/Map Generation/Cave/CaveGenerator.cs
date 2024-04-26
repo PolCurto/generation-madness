@@ -60,11 +60,11 @@ public class CaveGenerator : MonoBehaviour
         _caveLogic.SetSpecialZones();
         _caveLogic.SetWalls();
         _caveLogic.SetEnemies();
-        _caveLogic.SpawnPlayer();
 
         yield return new WaitForSeconds(0.5f);
 
         AstarPath.active.Scan();
+        _caveLogic.SpawnPlayer();
 
         if (LoadingScreen.Instance != null)
         {

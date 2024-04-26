@@ -116,20 +116,18 @@ public class TempleGenerator : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         AstarPath.active.Scan();
+        SpawnPlayer();
 
         if (LoadingScreen.Instance != null)
         {
             LoadingScreen.Instance.gameObject.SetActive(false);
             UIController.Instance.GetComponent<CanvasGroup>().alpha = 1;
         }
-
-        SpawnPlayer();
-
     }
 
     private void SpawnPlayer()
     {
-       // _player.transform.position = .
+        _player.GetComponent<PlayerController>().EnableControls();
     }
 
     #region Floor Generation

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2842717646128057247}
   - component: {fileID: 4769311138072060123}
   m_Layer: 0
-  m_Name: TilesController
+  m_Name: Tiles Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,13 +48,16 @@ MonoBehaviour:
   _wallTilemap: {fileID: 0}
   _detailsTilemap: {fileID: 0}
   _holesTilemap: {fileID: 0}
+  _obstaclesTilemap: {fileID: 0}
   _minimapFloor: {fileID: 0}
   _minimapWalls: {fileID: 0}
+  _minimapHoles: {fileID: 0}
   _floorTile: {fileID: 11400000, guid: 27e89b612492d2d4f919a8f8768e0ae4, type: 2}
   _wallTile: {fileID: 11400000, guid: f1dae5dfb6f890142bcdff8a2d7e77f8, type: 2}
   _limitTile: {fileID: 11400000, guid: 5e9dc7588270ad0439b48512cf86581b, type: 2}
   _minimapFloorTile: {fileID: 11400000, guid: 86b67a8d80d6f9c438060eca936f90ca, type: 2}
   _minimapWallsTile: {fileID: 11400000, guid: 9f6ff8734a6a2014e89523d4b60610f4, type: 2}
+  _minimapHolesTile: {fileID: 11400000, guid: 8ecf1e96273022e439fa95ca990b7c3a, type: 2}
   _tileRange: 6
   _specialSurroundings:
   - {x: 1, y: 0, z: 0}

@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlayerHealthController : HealthController
 {
     [SerializeField] protected int _currentMaxLife;
+    private PlayerController _playerController;
+
+    private void Awake()
+    {
+        _playerController = GetComponent<PlayerController>();
+    }
 
     public override void GetHit(int damage)
     {
@@ -16,6 +22,7 @@ public class PlayerHealthController : HealthController
     protected override void Die()
     {
         base.Die();
+        _playerController.OnDeath();
     }
 
     public override void Heal(int health)

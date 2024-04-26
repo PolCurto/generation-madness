@@ -20028,6 +20028,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 1963523651602762537, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814106506378159595, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6390367591410451615, guid: ffec2fd547d19314ea1b8c1a1801fb25, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

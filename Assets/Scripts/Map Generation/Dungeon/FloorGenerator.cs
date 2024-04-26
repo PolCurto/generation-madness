@@ -146,11 +146,11 @@ public class FloorGenerator : MonoBehaviour
         _tilesController.DrawWalls(_wallTile);
         _tilesController.CleanWalls();
         _tilesController.SetMinimap();
-        SpawnPlayer();
 
         yield return new WaitForSeconds(0.5f);
 
         AstarPath.active.Scan();
+        SpawnPlayer();
 
         if (LoadingScreen.Instance != null)
         {
@@ -593,6 +593,7 @@ public class FloorGenerator : MonoBehaviour
     {
         foreach (DungeonRoom room in _rooms)
         {
+            if (room.Type == DungeonRoom.DungeonRoomType.Start) _startPosition = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
             room.Position = Vector2Int.RoundToInt(room.SceneRoom.transform.position);
         }
         _tilesController.GetRoomsToMainGrid(_rooms);
@@ -824,7 +825,8 @@ public class FloorGenerator : MonoBehaviour
 
         foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
         {
-            if ((_tilesController.WallsTilemap.HasTile(position + Vector3Int.up) && _tilesController.FloorTilemap.HasTile(position)) && Random.value < _wallPrefabChance)
+            if (_tilesController.WallsTilemap.HasTile(position + Vector3Int.up) && _tilesController.FloorTilemap.HasTile(position) && 
+                !_tilesController.WallsTilemap.HasTile(position) && Random.value < _wallPrefabChance)
             {
                 GameObject wallProp = Instantiate(_wallDecoration[Random.Range(0, _wallDecoration.Length)], position + offset, Quaternion.identity);
                 _tilesController.SimplePrefabToMainGrid(wallProp, _tilesController.DetailsTilemap);
@@ -864,16 +866,7 @@ public class FloorGenerator : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Vector3 startPosition = Vector3.zero;
-
-        foreach(DungeonRoom room in _rooms)
-        {
-            if (room.Type == DungeonRoom.DungeonRoomType.Start)
-            {
-                startPosition = room.SceneRoom.transform.position;
-            }
-        }
-
-        _player.transform.position = startPosition;
+         _player.transform.position = (Vector3Int)_startPosition;
+        _player.GetComponent<PlayerController>().EnableControls();
     }
 }

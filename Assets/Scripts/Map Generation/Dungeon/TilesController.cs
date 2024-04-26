@@ -12,10 +12,12 @@ public class TilesController : MonoBehaviour
     [SerializeField] private Tilemap _wallTilemap;
     [SerializeField] private Tilemap _detailsTilemap;
     [SerializeField] private Tilemap _holesTilemap;
+    [SerializeField] private Tilemap _obstaclesTilemap;
 
     [Header("Minimap")]
     [SerializeField] private Tilemap _minimapFloor;
     [SerializeField] private Tilemap _minimapWalls;
+    [SerializeField] private Tilemap _minimapHoles;
 
     [Header("Tiles")]
     [SerializeField] private TileBase _floorTile;
@@ -23,6 +25,7 @@ public class TilesController : MonoBehaviour
     [SerializeField] private TileBase _limitTile;
     [SerializeField] private TileBase _minimapFloorTile;
     [SerializeField] private TileBase _minimapWallsTile;
+    [SerializeField] private TileBase _minimapHolesTile;
 
     [Header("Wall Parameters")]
     [SerializeField] private int _tileRange;
@@ -71,6 +74,11 @@ public class TilesController : MonoBehaviour
             if (roomTilemaps.Length > 3)
             {
                 PassOnTiles(roomTilemaps[3], _holesTilemap);
+            }
+
+            if (roomTilemaps.Length > 4)
+            {
+                PassOnTiles(roomTilemaps[4], _obstaclesTilemap);
             }
 
             Destroy(room.SceneRoom);
@@ -241,6 +249,7 @@ public class TilesController : MonoBehaviour
         _wallTilemap.SetTile(gridPos, null);
     }
 
+    #region Minimap
     public void SetMinimap()
     {
         foreach (Vector3Int floorTilePos in _floorTilemap.cellBounds.allPositionsWithin)
@@ -253,24 +262,33 @@ public class TilesController : MonoBehaviour
 
         foreach (Vector3Int wallTilePos in _wallTilemap.cellBounds.allPositionsWithin)
         {
-            if (_wallTilemap.HasTile(wallTilePos) && HasFloorTileNear(wallTilePos))
+            if (_wallTilemap.HasTile(wallTilePos) && ShowWallInMinimap(wallTilePos))
             {
                 _minimapWalls.SetTile(wallTilePos, _minimapWallsTile);
             }
         }
+
+        foreach (Vector3Int holeTilePos in _holesTilemap.cellBounds.allPositionsWithin)
+        {
+            if (_holesTilemap.HasTile(holeTilePos))
+            {
+                _minimapHoles.SetTile(holeTilePos, _minimapHolesTile);
+            }
+        }
     }
 
-    private bool HasFloorTileNear(Vector3Int position)
+    private bool ShowWallInMinimap(Vector3Int position)
     {
         foreach (Vector3Int offset in surroundings)
         {
-            if (_floorTilemap.HasTile(position + offset))
+            if (_floorTilemap.HasTile(position + offset) || _holesTilemap.HasTile(position + offset))
             {
                 return true;
             }
         }
         return false;
     }
+    #endregion
 
     public Tilemap FloorTilemap => _floorTilemap;
     public Tilemap WallsTilemap => _wallTilemap;

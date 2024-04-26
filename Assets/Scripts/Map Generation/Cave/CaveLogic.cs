@@ -429,6 +429,7 @@ public class CaveLogic : MonoBehaviour
     public void SpawnPlayer()
     {
         _player.transform.position = (Vector3Int)_floorGrid.StartPosition.WorldPosition;
+        _player.GetComponent<PlayerController>().EnableControls();
     }
 
     private List<GridPos> GetCloseNeighbors(Vector2Int position)

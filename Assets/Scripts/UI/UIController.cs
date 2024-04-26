@@ -135,4 +135,14 @@ public class UIController : MonoBehaviour
     }
     #endregion
 
+    #region Death Screen
+    [Header("Death Screen")]
+    [SerializeField] private GameObject _deathScreen;
+
+    public void OnDeath()
+    {
+        _deathScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+    #endregion
 }

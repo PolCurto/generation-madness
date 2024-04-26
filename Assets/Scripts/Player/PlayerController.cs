@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     private float _timer;
     private Vector2 _playerInput;
     private Vector2 _mousePosition;
+    private bool _controlsEnabled;
 
     private InventoryController _itemsInventory;
     private WeaponsInventory _weaponsInventory;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
 
     public bool DesiredInteraction { get; set; }
 
+    #region Unity Methods
     void Awake()
     {
         _weaponsInventory = GetComponent<WeaponsInventory>();
@@ -54,7 +56,9 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         Move();
         MoveWeapon();
     }
+    #endregion
 
+    #region Data Persistance
     public void LoadData(GameData data)
     {
         _healthController.SetHealth(data.currentMaxLife, data.currentLife);
@@ -108,6 +112,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
             }           
         }
     }
+    #endregion
 
     #region Inputs
     /// <summary>
@@ -115,6 +120,8 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     /// </summary>
     private void HandleInputs()
     {
+        if (!_controlsEnabled) return;
+
         // Movement
         _playerInput.x = Input.GetAxisRaw("Horizontal");
         _playerInput.y = Input.GetAxisRaw("Vertical");
@@ -162,6 +169,16 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     private void ResetInteraction()
     {
         DesiredInteraction = false;
+    }
+
+    public void EnableControls()
+    {
+        _controlsEnabled = true;
+    }
+
+    public void DisableControls()
+    {
+        _controlsEnabled = false;
     }
 
     /// <summary>
@@ -277,6 +294,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     /// <summary>
     /// Modifies the player's max health
     /// </summary>
+    /// </summary>
     /// <param name="health">Health points to modify</param>
     public void ModifyMaxHealth(int health)
     {
@@ -288,6 +306,16 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         _healthController.Heal(health);
     }
     #endregion
+
+    /// <summary>
+    /// WHen the player dies, disables the controls and shows the death screen
+    /// </summary>
+    public void OnDeath()
+    {
+        DisableControls();
+
+        UIController.Instance.OnDeath();
+    }
 
     public ActiveWeaponController ActiveWeapon => _activeWeapon;
     public Vector2 MousePosition => _mousePosition;

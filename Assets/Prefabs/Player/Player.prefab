@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxLife: 10
-  _currentMaxLife: 3
+  _currentMaxLife: 5
 --- !u!70 &6396933971627623118
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

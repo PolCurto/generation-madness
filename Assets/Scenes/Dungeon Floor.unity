@@ -241,7 +241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2969479133684972491, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: m_Name
-      value: TilesController
+      value: Tiles Controller
       objectReference: {fileID: 0}
     - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: _wallTilemap
@@ -260,6 +260,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1365257463}
     - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _minimapHoles
+      value: 
+      objectReference: {fileID: 216472408}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
       propertyPath: _minimapWalls
       value: 
       objectReference: {fileID: 1732516326}
@@ -267,11 +271,20 @@ PrefabInstance:
       propertyPath: _detailsTilemap
       value: 
       objectReference: {fileID: 1732516322}
+    - target: {fileID: 4769311138072060123, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+      propertyPath: _obstaclesTilemap
+      value: 
+      objectReference: {fileID: 1512657222}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a00376ae39d9b34cb69f85b4be47500, type: 3}
+--- !u!1839735485 &216472408 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 2886453347954643663, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+  m_PrefabInstance: {fileID: 1732516321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &480533725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -596,6 +609,11 @@ GameObject:
 --- !u!1839735485 &1365257463 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 7703602609280613862, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
+  m_PrefabInstance: {fileID: 1732516321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &1512657222 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 3405257443830978036, guid: 1f59f0a510cd4f74babcaa7397f46175, type: 3}
   m_PrefabInstance: {fileID: 1732516321}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1732516321
@@ -952,7 +970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _decoration.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _normalRooms.Array.size
