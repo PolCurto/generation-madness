@@ -27,6 +27,7 @@ public class DataPersistanceManager : MonoBehaviour
 
     private void Start()
     {
+        _dataPersistanceObjects = new List<IDataPersistance>();
         _dataPersistanceObjects = FindAllDataPersistanceObjects();
         _dataHandler = new FileDataHandler(Application.persistentDataPath, filename);
 
@@ -65,6 +66,8 @@ public class DataPersistanceManager : MonoBehaviour
         {
             dataPersistanceObj.SaveData(ref _gameData);
         }
+
+        LevelsLoader.Instance.SaveData(ref _gameData);
 
         _dataHandler.Save(_gameData);
     }

@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartNewGame(int type)
     {
+        Debug.Log("Start new game");
         DataPersistanceManager.Instance.NewGame();
         LevelsLoader.Instance.RunType = (LevelsLoader.RunLevelsType)type;
 

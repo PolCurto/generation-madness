@@ -20,6 +20,8 @@ public class FloorLogicController : MonoBehaviour
     public void OnBossDeath(Vector3 position)
     {
         // End the game if we are in floor 6, or if we are in floor 3 of a game restricted to a level type
+        Debug.Log("Depth 2: " + LevelsLoader.Instance.FloorDepth);
+
         if (LevelsLoader.Instance.FloorDepth >= 5 || (LevelsLoader.Instance.RunType != LevelsLoader.RunLevelsType.Default && LevelsLoader.Instance.FloorDepth >= 2))
         {
             Instantiate(_gameEndPortal, position, Quaternion.identity);

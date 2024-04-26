@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelsLoader : MonoBehaviour, IDataPersistance
+public class LevelsLoader : MonoBehaviour
 {
     [HideInInspector] public static LevelsLoader Instance;
 
@@ -29,6 +29,7 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
         }
         else
         {
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }
@@ -102,5 +103,8 @@ public class LevelsLoader : MonoBehaviour, IDataPersistance
     {
         data.floorDepth = FloorDepth;
         data.runType = (int)RunType;
+
+        Debug.Log("Depth saved: " + FloorDepth);
+        Debug.Log("Type saved: " + RunType);
     }
 }
