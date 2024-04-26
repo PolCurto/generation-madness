@@ -844,7 +844,7 @@ public class FloorGenerator : MonoBehaviour
         {
             for (int y = position.y - tileRange; y <= position.y + tileRange; y++)
             {
-                if (!_tilesController.FloorTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.HolesTilemap.HasTile(new Vector3Int(x, y)))
+                if (!_tilesController.FloorTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.HolesTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.ObstaclesTilemap.HasTile(new Vector3Int(x, y)))
                 {
                     //Debug.Log("Has no tile");
                     return false;
