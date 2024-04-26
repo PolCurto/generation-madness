@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 7935629910738329976}
-  _roomMovingOffset: 1.2
+  _roomMovingOffset: 1
 --- !u!61 &4658653651205510181
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.23, y: 0.24}
+    oldSize: {x: 1.4375, y: 1.5}
     newSize: {x: 0.23, y: 0.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.23, y: 0.24}
+    oldSize: {x: 1.4375, y: 1.5}
     newSize: {x: 0.23, y: 0.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
