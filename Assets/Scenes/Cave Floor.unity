@@ -1019,9 +1019,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 556291420755330481}
     - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponPrefab
+      value: 
+      objectReference: {fileID: 3970607278373698594, guid: 9c7832f2df99a794c8e4624895471221, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _tilesController
       value: 
       objectReference: {fileID: 1706507624}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _passiveItemPrefab
+      value: 
+      objectReference: {fileID: 8424656986260480569, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponsPool.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponsPool.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b24ddf8de8746684e82287b42f916a35, type: 2}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponsPool.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8789fc28f6d02d499d2bdda1d8dc9f9, type: 2}
+    - target: {fileID: 3867849358750557798, guid: abfcc470d62752e499680ccf748d243b, type: 3}
+      propertyPath: _weaponsPool.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3bfe790bd49f67148ac0a106320c4c8a, type: 2}
     - target: {fileID: 7027458648396526717, guid: abfcc470d62752e499680ccf748d243b, type: 3}
       propertyPath: _detailsTilemap
       value: 

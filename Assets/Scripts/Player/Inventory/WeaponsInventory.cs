@@ -32,7 +32,7 @@ public class WeaponsInventory : InventoryController
             RemoveItem(weaponIndex);
             AddItemAtIndex(newItem, weaponIndex);
 
-            Instantiate(_pickableWeapon, gameObject.transform.position, Quaternion.identity).GetComponent<SceneWeapon>().SetWeapon(oldWeapon);
+            Instantiate(_pickableWeapon, gameObject.transform.position, Quaternion.identity).GetComponentInChildren<SceneWeapon>().SetWeapon(oldWeapon);
         }
     }
     

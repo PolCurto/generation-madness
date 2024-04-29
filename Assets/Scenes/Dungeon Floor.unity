@@ -945,6 +945,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _weaponPrefab
+      value: 
+      objectReference: {fileID: 3970607278373698594, guid: 9c7832f2df99a794c8e4624895471221, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _managementRoom
       value: 
       objectReference: {fileID: 11400000, guid: bdbff7ee0b46e1641bb81c07fa9c0994, type: 2}
@@ -965,6 +969,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _passiveItemPrefab
+      value: 
+      objectReference: {fileID: 8424656986260480569, guid: a05f7a25475a58e4482e8097d7e764c9, type: 3}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _itemsPool.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -975,6 +983,10 @@ PrefabInstance:
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _normalRooms.Array.size
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _weaponsPool.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _itemsPool.Array.data[2]
@@ -1044,6 +1056,18 @@ PrefabInstance:
       propertyPath: _wallDecoration.Array.size
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _weaponsPool.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b24ddf8de8746684e82287b42f916a35, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _weaponsPool.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8789fc28f6d02d499d2bdda1d8dc9f9, type: 2}
+    - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
+      propertyPath: _weaponsPool.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3bfe790bd49f67148ac0a106320c4c8a, type: 2}
     - target: {fileID: 4714491842700461796, guid: f4dabb4edc4b51c43b6a908089ff6047, type: 3}
       propertyPath: _wallDecoration.Array.data[0]
       value: 

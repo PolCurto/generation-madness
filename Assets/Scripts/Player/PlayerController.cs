@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     void Awake()
     {
         _weaponsInventory = GetComponent<WeaponsInventory>();
+
+            _controlsEnabled = true;
     }
 
     void Update()
