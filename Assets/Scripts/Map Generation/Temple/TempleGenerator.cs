@@ -1,4 +1,4 @@
-using System.Collections;
+   using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -13,10 +13,6 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private GameObject _player;
 
     [Header("Rooms")]
-    [SerializeField] private GameObject _testingRoom;
-    [SerializeField] private GameObject _testingRoomLongH;
-    [SerializeField] private GameObject _testingRoomLongV;
-    [SerializeField] private GameObject _testingRoomBig;
     [SerializeField] private TempleRoomData _startRoom;
     [SerializeField] private TempleRoomData _treasureRoomPrefab;
     [SerializeField] private TempleRoomData _weaponRoomPrefab;
@@ -52,7 +48,6 @@ public class TempleGenerator : MonoBehaviour
     [SerializeField] private int _walkersTimeToLive;
 
     [Header("Generation Params")]
-    [SerializeField] private TileBase _wallTile;
     [SerializeField] private Vector2Int _movementScalar;
     [SerializeField] private Vector2 _connectionOffset;
 
@@ -156,8 +151,6 @@ public class TempleGenerator : MonoBehaviour
 
         while (roomsLeft > 0)
         {
-            //Debug.Log("Walker position: " + _walker.Position + " and rooms left: " + roomsLeft);
-
             if (_walker.TimeToLive <= 0)
             {
                 // Resets the walker to the start (no need to create a new one)
@@ -171,15 +164,6 @@ public class TempleGenerator : MonoBehaviour
             {
                 CreateRoom(type);
                 roomsLeft--;
-            }
-        }
-
-        foreach (var room in _rooms)
-        {
-            //Debug.Log("Room " + room.Type.HumanName() + "in Position: " + room.Position + " connected with:");
-            foreach(var connRoom in room.ConnectedRooms)
-            {
-                //Debug.Log(connRoom.Type.HumanName());
             }
         }
 
@@ -228,7 +212,6 @@ public class TempleGenerator : MonoBehaviour
             GenerateFloor();
             return;
         }
-
 
         SetSpecialRooms();
     }
@@ -392,14 +375,8 @@ public class TempleGenerator : MonoBehaviour
         if (_floorGrid[_walker.Position.x, _walker.Position.y + 1] == null) emptyRooms++;
         if (_floorGrid[_walker.Position.x, _walker.Position.y - 1] == null) emptyRooms++;
 
-        if (emptyRooms >= _minEmptyAdjacentRooms)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (emptyRooms >= _minEmptyAdjacentRooms) return true;
+        else return false;
     }
 
     /// <summary>
@@ -643,9 +620,8 @@ public class TempleGenerator : MonoBehaviour
 
         Vector2Int movement = Vector2Int.zero;
 
-        if (Random.Range(0f, 1f) > 0.5f)
+        if (Random.Range(0f, 1f) > 0.5f) //Move horizontal
         {
-            //Move horizontal
             if (Random.Range(0f, 1f) > 0.5f)
             {
                 movement.x = 1;
@@ -657,9 +633,8 @@ public class TempleGenerator : MonoBehaviour
                 _walker.Direction = Vector2Int.left;
             }
         }
-        else
+        else // Move vertical
         {
-            // Move vertical
             if (Random.Range(0f, 1f) > 0.5f)
             {
                 movement.y = 1;
@@ -726,81 +701,6 @@ public class TempleGenerator : MonoBehaviour
     #endregion
 
     #region Floor Rendering
-    /// <summary>
-    /// Renders the floor with the selected rooms once the loop has ended
-    /// </summary>
-    private void RenderFloorPrototype()
-    {
-        foreach (TempleRoom room in _rooms)
-        {
-            // Center to 0
-            room.Position -= _startPosition;
-            GameObject newRoom;
-
-            //room.Position *= 10;
-
-            Vector3 position = new Vector3(room.Position.x, room.Position.y);
-            float value = room.Depth * 30;
-
-            switch (room.Type)
-            {
-                case TempleRoom.TempleRoomType.Start:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.Normal:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.LongHorizontal:
-                    newRoom = Instantiate(_testingRoomLongH, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.LongVertical:
-                    newRoom = Instantiate(_testingRoomLongV, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.Big:
-                    newRoom = Instantiate(_testingRoomBig, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color((255 - value) / 255, (255 - value) / 255, (255 - value) / 255);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.Treasure:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 200f / 255, 0);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.Weapon:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.KeyRoom:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
-                    room.SceneRoom = newRoom;
-                    break;
-
-                case TempleRoom.TempleRoomType.Boss:
-                    newRoom = Instantiate(_testingRoom, position, Quaternion.identity);
-                    newRoom.transform.Find("Room").GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
-                    room.SceneRoom = newRoom;
-                    break;
-            }
-        }
-    }
-
     /// <summary>
     /// Renders the floor with the selected rooms once the loop has ended
     /// </summary>

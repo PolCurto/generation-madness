@@ -14,6 +14,7 @@ public class FloorGenerator : MonoBehaviour
     #region Global Variables
     [SerializeField] private TilesController _tilesController;
     [SerializeField] private GameObject _player;
+    [SerializeField] private bool _showConnections;
 
     [Header("Rooms")]
     [SerializeField] private GameObject _testingRoom;
@@ -121,13 +122,16 @@ public class FloorGenerator : MonoBehaviour
         */
         
 
-        if (_corridors != null)
+        if (_showConnections)
         {
-            foreach (Corridor corridor in _corridors)
+            if (_corridors != null)
             {
-                for (int i = 0; i < corridor.Positions.Count - 1; i++)
+                foreach (Corridor corridor in _corridors)
                 {
-                    Debug.DrawLine(new Vector3(corridor.Positions[i].x, corridor.Positions[i].y), new Vector3(corridor.Positions[i + 1].x, corridor.Positions[i + 1].y));
+                    for (int i = 0; i < corridor.Positions.Count - 1; i++)
+                    {
+                        Debug.DrawLine(new Vector3(corridor.Positions[i].x, corridor.Positions[i].y), new Vector3(corridor.Positions[i + 1].x, corridor.Positions[i + 1].y));
+                    }
                 }
             }
         }
@@ -141,9 +145,9 @@ public class FloorGenerator : MonoBehaviour
         RenderFloor();
         yield return StartCoroutine(PullRoomsTogether());
         GetRoomsToGrid();
-        InstantiatePrefabs();
         GenerateCorridors();
         _tilesController.DrawWalls(_wallTile);
+        InstantiatePrefabs();
         _tilesController.CleanWalls();
         _tilesController.SetMinimap();
 
@@ -507,7 +511,7 @@ public class FloorGenerator : MonoBehaviour
                     break;
 
                 case DungeonRoom.DungeonRoomType.Loop:
-                    roomData = _normalRooms[Random.Range(0, _normalRooms.Length)]; ;
+                    roomData = _normalRooms[Random.Range(0, _normalRooms.Length)];
                     newRoom = Instantiate(roomData.roomTilemap, room.Position, Quaternion.identity);
                     room.AddSceneRoom(newRoom);
                     break;
@@ -572,7 +576,7 @@ public class FloorGenerator : MonoBehaviour
                     velocity = Vector2.MoveTowards(sceneRooms[i].position, new Vector2(sceneRooms[i].position.x + Random.Range(-1, 1), sceneRooms[i].position.y + Random.Range(-1, 1)), _pullSpeed);
                 }
 
-                sceneRooms[i].MovePosition(velocity);
+                sceneRooms[i].velocity = -velocity;
             }
         }
 
@@ -783,14 +787,17 @@ public class FloorGenerator : MonoBehaviour
     {
         Vector3 offset = new Vector2(0, .5f);
 
+        // Item spawn
         Vector3 itemPos = _treasureRoom.Position;
         ScenePassiveItem item = Instantiate(_passiveItemPrefab, itemPos - offset, Quaternion.identity).GetComponentInChildren<ScenePassiveItem>();
         item.SetBaseItem(_itemsPool[Random.Range(0, _itemsPool.Length)]);
 
+        // Weapon spawn
         Vector3 weaponPos = _weaponRoom.Position;
         SceneWeapon weapon = Instantiate(_weaponPrefab, weaponPos - offset, Quaternion.identity).GetComponentInChildren<SceneWeapon>();
         weapon.SetBaseWeapon(_weaponsPool[Random.Range(0, _weaponsPool.Length)]);
 
+        // Enemies spawn
         foreach (DungeonRoom room in _rooms)
         {
             foreach (Vector2 position in room.EnemyPositions)
@@ -815,18 +822,18 @@ public class FloorGenerator : MonoBehaviour
         offset.x = 0.5f;
         offset.y = 0.5f;
 
+        // Decoration
         foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
         {
+            // Floor decoration
             if (HasClearSurroundings(position, prefabs) && Random.value < _prefabChance)
             {
                 prefabs.Add(Instantiate(_decoration[Random.Range(0, _decoration.Length)], position + offset, Quaternion.identity));
             }
-        }
 
-        foreach (Vector3Int position in _tilesController.FloorTilemap.cellBounds.allPositionsWithin)
-        {
-            if (_tilesController.WallsTilemap.HasTile(position + Vector3Int.up) && _tilesController.FloorTilemap.HasTile(position) && 
-                !_tilesController.WallsTilemap.HasTile(position) && Random.value < _wallPrefabChance)
+            // Walls decoration
+            if (_tilesController.WallsTilemap.HasTile(position + Vector3Int.up) && _tilesController.FloorTilemap.HasTile(position) 
+                && !_tilesController.WallsTilemap.HasTile(position) && Random.value < _wallPrefabChance)
             {
                 GameObject wallProp = Instantiate(_wallDecoration[Random.Range(0, _wallDecoration.Length)], position + offset, Quaternion.identity);
                 _tilesController.SimplePrefabToMainGrid(wallProp, _tilesController.DetailsTilemap);
@@ -844,7 +851,8 @@ public class FloorGenerator : MonoBehaviour
         {
             for (int y = position.y - tileRange; y <= position.y + tileRange; y++)
             {
-                if (!_tilesController.FloorTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.HolesTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.ObstaclesTilemap.HasTile(new Vector3Int(x, y)))
+                if (!_tilesController.FloorTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.HolesTilemap.HasTile(new Vector3Int(x, y)) || 
+                    _tilesController.ObstaclesTilemap.HasTile(new Vector3Int(x, y)) || _tilesController.WallsTilemap.HasTile(new Vector3Int(x, y)))
                 {
                     //Debug.Log("Has no tile");
                     return false;

@@ -45,7 +45,6 @@ public class Enemy : MonoBehaviour
 
     protected void Start()
     {
-        //StartCoroutine("MoveAround");
         InvokeRepeating(nameof(CalculatePath), 0, _updatePathRate);
     }
 
@@ -82,7 +81,6 @@ public class Enemy : MonoBehaviour
 
         PlayerDetection();
         SetAttackStatus();
-        //UpdatePath();
         MoveAround();
     }
     #endregion
@@ -126,29 +124,23 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void PlayerDetection()
     {
-        // If the player is within the enemy detection range, checks if is on sight
-        if (_playerWithinRange)
+        if (_playerWithinRange)  // If the player is within the enemy detection range, checks if is on sight
         {
             CheckPlayerInSight();
-            // If it hits the player, the player is detected
-            if (_playerInSight && !_playerDetected)
+            
+            if (_playerInSight && !_playerDetected)  // If it hits the player, the player is detected
             {
-                //StopCoroutine("MoveAround");
                 _playerDetected = true;
-                //FindPath();
-                //Debug.Log("Player Detected");
             }
         }
-
-        // If the player is detected and outside the detection range, stops detecting it after a certain time
-        if (_playerDetected && !_playerWithinRange)
+        
+        if (_playerDetected && !_playerWithinRange)  // If the player is detected and outside the detection range, stops detecting it after a certain time
         {
             _loseTimer += Time.deltaTime;
             if (_loseTimer >= _loseDetectionTime && _playerDetected)
             {
                 Debug.Log("Player Lost");
                 _playerDetected = false;
-                //StartCoroutine("MoveAround");
                 _loseTimer = 0;
             }
         }
@@ -195,33 +187,6 @@ public class Enemy : MonoBehaviour
     private float _pathTimer;
     protected List<Vector2> _pathToTake;
     protected bool _canAttack;
-
-    /*
-    private void UpdatePath()
-    {
-        if (!_playerDetected) return;
-
-        _pathTimer += Time.deltaTime;
-        
-        if (_pathTimer > _pathfindingRate || _pathToTake.Count <= 1)
-        {
-            FindPath();
-        }
-    }
-
-    private void FindPath()
-    {
-        _pathTimer = 0;
-        _pathToTake = Pathfinding.Instance.FindVectorPath(_rigidbody.position, _player.position);
-
-        if (_pathToTake == null)
-        {
-            Debug.Log("Path null");
-            return;
-        }
-        _pathToTake.RemoveAt(0);
-    }
-    */
 
     protected void FlipSprite()
     {
@@ -287,7 +252,7 @@ public class Enemy : MonoBehaviour
         {
             direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
             Debug.DrawRay(transform.position, direction, Color.yellow);
-            if (!Physics2D.Raycast(transform.position, direction, 1, LayerMask.GetMask("Walls")) || iterations > 100)
+            if (!Physics2D.Raycast(transform.position, direction, 2, LayerMask.GetMask("Walls")) || iterations > 100)
             {
                 break;
             }
@@ -414,7 +379,6 @@ public class Enemy : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    
 
     public int Cost()
     {

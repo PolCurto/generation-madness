@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
 
     #region Movement
     /// <summary>
-    /// Moves the player
+    /// Applies forces to the player rigidbody in order to move it
     /// </summary>
     private void Move()
     {
@@ -230,7 +230,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         Vector3 rotation = _referencePoint.localEulerAngles;
         rotation.z += 90;
         _referencePoint.localEulerAngles = rotation;
-        //_referencePoint.eulerAngles.
     }
 
     /// <summary>
@@ -315,7 +314,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     public void OnDeath()
     {
         DisableControls();
-
         UIController.Instance.OnDeath();
     }
 

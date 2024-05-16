@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class FloorGrid
 {
+    public List<GridPos> GridPositions { get; set; }
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+    public int MaxDepth { get; set; }
+    public GridPos StartPosition { get; set; }
+    public GridPos BossPosition { get; set; }
+
     private Vector2Int[] surroundings = new Vector2Int[]
     {
         new Vector2Int (1, 0),      // Right
@@ -16,13 +23,6 @@ public class FloorGrid
         new Vector2Int (0, 1),      // Up
         new Vector2Int (1, 1),      // Right Up
     };
-
-    public List<GridPos> GridPositions { get; set; }
-    public int Width { get; private set; }
-    public int Height { get; private set; }
-    public int MaxDepth { get; set; }
-    public GridPos StartPosition { get; set; }
-    public GridPos BossPosition { get; set; }
 
     public FloorGrid (int width, int height)
     {

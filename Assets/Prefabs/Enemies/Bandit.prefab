@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1494826522542752111}
   _spriteRenderer: {fileID: 7840930070921207179}
-  _cost: 2
+  _cost: 3
   _velocity: 100
   _maxVelocity: 2.5
   _detectionDistance: 16

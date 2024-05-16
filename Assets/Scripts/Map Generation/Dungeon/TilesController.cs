@@ -147,7 +147,7 @@ public class TilesController : MonoBehaviour
     }
 
     /// <summary>
-    /// Draws the corridors floor tiles in the calculated positions, and adds an extra tile to make them have 2 tiles of with
+    /// Draws the corridors floor tiles in the calculated positions, and adds an extra tile to make them have 2 tiles of width
     /// </summary>
     /// <param name="corridors"></param>
     public void DrawCorridors(List<Corridor> corridors)

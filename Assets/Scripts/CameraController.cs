@@ -41,8 +41,6 @@ public class CameraController : MonoBehaviour
     {
         if (_playerRb != null)
         {
-            //HandleLookahead();
-            //LookDown();
             FollowPlayer();
         }
     }
@@ -83,42 +81,14 @@ public class CameraController : MonoBehaviour
         transform.position = smoothedPosition;
     }
 
+    /// <summary>
+    /// Resets the offset of the camera to the default value
+    /// </summary>
     public void ResetOffset()
     {
         MaxOffset = _maxOffset;
         MouseOffset = _mouseOffset;
     }
-
-    /*
-    /// <summary>
-    /// Calculates the LookAhead offset
-    /// </summary>
-    private void HandleLookahead()
-    {
-        float playerVelocity = Mathf.Abs(_playerRb.velocity.x) * _velocitySmoother;
-        float lookAheadOffset = PlayerInputsManager.Instance.ReadHorizontalInput() != 0 ? Mathf.Min(playerVelocity, _lookAheadMaxDistance) : Mathf.Max(playerVelocity, _lookAheadMinDistance);
-
-        //Set its value to minimum 1 in case it manages to get below in certain situations
-        if (lookAheadOffset < 1) lookAheadOffset = 1;
-        _lookAheadDesiredDistance = _player.right.x == 1 ? lookAheadOffset : -lookAheadOffset;
-    }
-    */
-    
-    /*
-    private void LookDown()
-    {
-        if (_playerController.IsGrounded)
-        {
-            _dampingY = _minDampingY;
-            _verticalOffset = 3;
-        }
-        else if (_playerRb.velocity.y < _fallSpeedThreshold)
-        {
-            _dampingY = -_playerRb.velocity.y / 4;
-            _verticalOffset = 0;
-        }
-    }
-    */
 
     public float MaxOffset { get; set; }
     public float MouseOffset { get; set; }

@@ -31,23 +31,9 @@ public class HoodSkeleton : Enemy
     {
         if (!_playerDetected || _canAttack || _path == null || _isShooting) return;
 
-        if (_currentWaypoint >= _path.vectorPath.Count)
-        {
-            _reachedEndOfPath = true;
-            return;
-        }
-        else
-        {
-            _reachedEndOfPath = false;
-        }
-
         _direction = ((Vector2)_path.vectorPath[_currentWaypoint] - _rigidbody.position).normalized;
         Vector2 moveForce = Vector2.MoveTowards(_rigidbody.velocity, _direction * _maxVelocity, _velocity * Time.fixedDeltaTime);
         _rigidbody.velocity = moveForce;
-
-        //Vector2 moveForce = _velocity * Time.deltaTime * _direction;
-        //_rigidbody.AddForce(moveForce);
-
 
         float distance = Vector2.Distance(_rigidbody.position, _path.vectorPath[_currentWaypoint]);
         if (distance < _nextWaypointDistance)
@@ -95,17 +81,6 @@ public class HoodSkeleton : Enemy
     {
         _weaponController.Shoot(_player.position - _rigidbody.position);
     }
-
-    /*
-    private bool IsInGoalPosition()
-    {
-        if (Vector2.Distance(transform.position, _pathToTake[0]) < 0.25f)
-        {
-            return true;
-        }
-        else return false;
-    }
-    */
 
     public override void Die()
     {

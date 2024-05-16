@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MyPathfinding : MonoBehaviour
 {
+    /*
     private const int STRAIGHT_MOVE_COST = 10;
     private const int DIAGONAL_MOVE_COST = 14;
 
@@ -151,5 +152,6 @@ public class MyPathfinding : MonoBehaviour
         }
         return lowestFCostPos;
     }
+    */
 }
  

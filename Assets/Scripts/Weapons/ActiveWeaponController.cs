@@ -33,23 +33,11 @@ public class ActiveWeaponController : MonoBehaviour
 
     private void RotateOut()
     {
-        if (transform.position.x - _player.transform.position.x < 0)
-        {
-            transform.localEulerAngles = new Vector3(180, 0, 0);
-        }
-        else
-        {
-            transform.localEulerAngles = Vector3.zero;
-        }
+        if (transform.position.x - _player.transform.position.x < 0) transform.localEulerAngles = new Vector3(180, 0, 0);
+        else transform.localEulerAngles = Vector3.zero;
 
-        if (transform.position.y - _player.transform.position.y < 0)
-        {
-            _spriteRenderer.sortingOrder = 1;
-        }
-        else
-        {
-            _spriteRenderer.sortingOrder = -1;
-        }
+        if (transform.position.y - _player.transform.position.y < 0) _spriteRenderer.sortingOrder = 1;
+        else _spriteRenderer.sortingOrder = -1;
     }
 
     public void SwapWeapon(Weapon weapon)

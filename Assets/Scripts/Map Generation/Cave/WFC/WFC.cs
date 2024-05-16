@@ -43,7 +43,7 @@ public class WFC : MonoBehaviour
         _nodes = _reader.GetNodesFromSample();
     }
 
-    #region Grid Dividion
+    #region Grid Division
     private void DivideGrid()
     {
         //int arrayLength = Mathf.CeilToInt(_floorGrid.GridPositions.Count / 100f);
@@ -57,8 +57,6 @@ public class WFC : MonoBehaviour
                 if (x % 20 == 0 && y % 20 == 0)
                 {
                     _gridParts[index] = GetGridChunk(x, y);
-                    //Debug.Log("Index: " + index);
-                    //Debug.Log(_gridParts[index].Count);
                     index++;
                 }
             }
@@ -195,12 +193,7 @@ public class WFC : MonoBehaviour
 
         // Orders the uncollapsed positions by their entropy (lowest possible tiles)
         tempGrid.Sort((a, b) => { return a.PossibleNodes.Count - b.PossibleNodes.Count; });
-
-        //Debug.Log("Grid part index: " + _gridPartIndex);
-        //Debug.Log("Iterations: " + _iterations);
-        //Debug.Log("Original length: " + _gridParts[_gridPartIndex].Count);
         int numOptions = tempGrid[0].PossibleNodes.Count;
-        //Debug.Log("Num options: " +  numOptions);
         int stopIndex = default;
 
         // Gets the positions with the same entropy if there are
@@ -259,8 +252,8 @@ public class WFC : MonoBehaviour
 
         foreach (GridPos gridPos in gridPositions)
         {
-            //bool condition = _generateByChunks ? !gridPos.Collapsed : !gridPos.Collapsed && HasCollapsedNeighbour(gridPos);
-            if (!gridPos.Collapsed && HasCollapsedNeighbour(gridPos))
+            bool condition = _generateByChunks ? !gridPos.Collapsed : !gridPos.Collapsed && HasCollapsedNeighbour(gridPos);
+            if (condition)
             {
                 UpdatePossibleNodes(gridPos);
             }
@@ -307,10 +300,10 @@ public class WFC : MonoBehaviour
         }
 
         // Check right node
-        if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[0], out GridPos upPos2))
+        if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[0], out GridPos rightPos))
         {
             List<Node> validOptions = new List<Node>();
-            foreach (Node possibleOption in upPos2.PossibleNodes)
+            foreach (Node possibleOption in rightPos.PossibleNodes)
             {
                 validOptions.AddRange(possibleOption.LeftNodes);
             }
@@ -318,10 +311,10 @@ public class WFC : MonoBehaviour
         }
 
         // Check down node
-        if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[1], out GridPos upPos3))
+        if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[1], out GridPos downPos))
         {
             List<Node> validOptions = new List<Node>();
-            foreach (Node possibleOption in upPos3.PossibleNodes)
+            foreach (Node possibleOption in downPos.PossibleNodes)
             {
                 validOptions.AddRange(possibleOption.UpNodes);
             }
@@ -329,10 +322,10 @@ public class WFC : MonoBehaviour
         }
 
         // Check left node
-        if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[2], out GridPos upPos4))
+        if (_floorGrid.TryGetGridPosFromCell(gridPos.CellPosition + Surroundings[2], out GridPos LeftPos))
         {
             List<Node> validOptions = new List<Node>();
-            foreach (Node possibleOption in upPos4.PossibleNodes)
+            foreach (Node possibleOption in LeftPos.PossibleNodes)
             {
                 validOptions.AddRange(possibleOption.RightNodes);
             }
@@ -356,7 +349,6 @@ public class WFC : MonoBehaviour
 
     private bool HasCollapsedNeighbour(GridPos gridPos)
     {
-
         foreach (GridPos neighbour in gridPos.Neighbours)
         {
             if (neighbour.Collapsed) return true;

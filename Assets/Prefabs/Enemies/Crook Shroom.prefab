@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7175341570621315198}
   _spriteRenderer: {fileID: 4501025716486837549}
-  _cost: 4
+  _cost: 5
   _velocity: 75
   _maxVelocity: 2
   _detectionDistance: 12
@@ -71,7 +71,7 @@ MonoBehaviour:
   _drops:
   - {fileID: 1199680460343595667, guid: 02de4c0ddfe691241934f4669067d74a, type: 3}
   - {fileID: 6770843444995804888, guid: 9f03ab8ceca3ba14487d6c551604ae7e, type: 3}
-  _dropChance: 0.3
+  _dropChance: 0.4
   _velocityMultiplier: 2.5
 --- !u!58 &620909184345189905
 CircleCollider2D:

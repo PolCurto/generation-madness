@@ -288,12 +288,13 @@ public class CaveLogic : MonoBehaviour
     }
     private void SetEnemyZones()
     {
-        List<Vector2Int> enemyPositions = new List<Vector2Int>();
-
         foreach (GridPos gridPos in _floorGrid.GridPositions)
         {
-            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.CellPosition) || Vector2Int.Distance(gridPos.CellPosition, _floorGrid.BossPosition.CellPosition) < 20) continue;
-            //Debug.Log(gridPos.Depth);
+            if (gridPos.Depth <= _enemyMinDepth || !IsValidArea(1, gridPos.CellPosition) ||
+                Vector2Int.Distance(gridPos.CellPosition, _floorGrid.BossPosition.CellPosition) < 20)
+            {
+                continue;
+            }
             bool isValid = true;
 
             foreach (EnemyZone zone in _enemyZones)
@@ -303,8 +304,6 @@ public class CaveLogic : MonoBehaviour
 
             if (isValid)
             {
-                Instantiate(_enemyZone, gridPos.WorldPosition + _gridOffset, Quaternion.identity);
-
                 float depthLimit = _floorGrid.MaxDepth / 3;
                 EnemyZone.ZoneType type = 0;
 
@@ -338,17 +337,20 @@ public class CaveLogic : MonoBehaviour
     {
         foreach (EnemyZone zone in _enemyZones)
         {
-            List<Enemy> enemies = SetEnemyPool(5);
+            List<Enemy> enemies;
 
             switch (zone.Type)
             {
                 case EnemyZone.ZoneType.Easy:
+                    enemies = SetEnemyPool(4);
                     SpawnEnemies(zone, enemies);
                     break;
                 case EnemyZone.ZoneType.Medium:
+                    enemies = SetEnemyPool(8);
                     SpawnEnemies(zone, enemies);
                     break;
                 case EnemyZone.ZoneType.Hard:
+                    enemies = SetEnemyPool(12);
                     SpawnEnemies(zone, enemies);
                     break;
             }
@@ -378,7 +380,7 @@ public class CaveLogic : MonoBehaviour
             }
 
             // Avoids infinite loops
-            if (iterations > 100)
+            if (iterations > 500)
             {
                 break;
             }
@@ -418,7 +420,7 @@ public class CaveLogic : MonoBehaviour
             iterations++;
             
             // Avoids infinite loops
-            if (iterations > 100)
+            if (iterations > 500)
             {
                 break;
             }
