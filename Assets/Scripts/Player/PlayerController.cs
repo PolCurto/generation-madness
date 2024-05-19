@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     void Awake()
     {
         _weaponsInventory = GetComponent<WeaponsInventory>();
-
-            _controlsEnabled = true;
+        _controlsEnabled = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()
