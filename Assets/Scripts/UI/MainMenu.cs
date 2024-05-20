@@ -7,6 +7,11 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _loadingScreen;
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void StartNewGame(int type)
     {
         Debug.Log("Start new game");

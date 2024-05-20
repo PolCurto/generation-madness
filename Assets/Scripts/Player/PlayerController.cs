@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     private bool _shootInput;
     private float _timer;
     private Vector2 _playerInput;
-    private Vector2 _mousePosition;
     private bool _controlsEnabled;
 
     private InventoryController _itemsInventory;
@@ -164,8 +163,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         {
             ActivateWeaponAtIndex(1);
         }
-
-        _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     private void ResetInteraction()
@@ -224,7 +221,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     /// </summary>
     private void MoveWeapon()
     {
-        Vector2 direction = _mousePosition - _rigidbody.position;
+        Vector2 direction = CursorController.Instance.MousePosition - _rigidbody.position;
         _referencePoint.up = direction;
 
         Vector3 rotation = _referencePoint.localEulerAngles;
@@ -252,7 +249,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     private void Shoot()
     {
         if (_shootInput)
-        _activeWeapon.Shoot(_mousePosition - _rigidbody.position);
+        _activeWeapon.Shoot(CursorController.Instance.MousePosition - _rigidbody.position);
     }
 
     private void Reload()
@@ -318,7 +315,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     }
 
     public ActiveWeaponController ActiveWeapon => _activeWeapon;
-    public Vector2 MousePosition => _mousePosition;
     public int ActiveWeaponIndex => _weaponsInventory.GetActiveWeaponIndex();
 
 }

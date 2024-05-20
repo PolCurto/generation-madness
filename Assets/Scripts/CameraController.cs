@@ -52,7 +52,7 @@ public class CameraController : MonoBehaviour
     private void FollowPlayer()
     {
         //Gets the desired position
-        Vector2 AB = _playerController.MousePosition - _playerRb.position;
+        Vector2 AB = CursorController.Instance.MousePosition - _playerRb.position;
         Vector2 offset = Vector2.zero;
 
         if (AB.magnitude > 5)

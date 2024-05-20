@@ -159,14 +159,18 @@ public class Enemy : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _player.position - _rigidbody.position, 20f, LayerMask.GetMask("Player", "Walls"));
 
         // Debug
-        if (hit.collider.CompareTag("Player"))
+        if (hit && hit.collider != null)
         {
-            Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.green);
+            if (hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.green);
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.red);
+            }
         }
-        else
-        {
-            Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.red);
-        }
+        
 
         _playerInSight = hit.collider.CompareTag("Player");
     }

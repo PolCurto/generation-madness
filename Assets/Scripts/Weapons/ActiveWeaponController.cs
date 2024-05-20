@@ -47,7 +47,7 @@ public class ActiveWeaponController : MonoBehaviour
         _animator.Play("Pistol_Idle");
         _animator.runtimeAnimatorController  = _weapon.WeaponBase.overrideController;
 
-       // UIController.Instance.UpdateWeaponAtIndex
+        // UIController.Instance.UpdateWeaponAtIndex
 
         CameraController.Instance.ResetOffset();
 
