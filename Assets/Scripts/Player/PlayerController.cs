@@ -35,13 +35,15 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     public float BulletSpeed { get; private set; }
 
     public bool DesiredInteraction { get; set; }
+    public bool IsVulnerable { get; set; }
 
     #region Unity Methods
     void Awake()
     {
+        IsVulnerable = true;
         _weaponsInventory = GetComponent<WeaponsInventory>();
         _controlsEnabled = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        _spriteRenderer.material = new Material(_spriteRenderer.material);
     }
 
     void Update()
@@ -63,10 +65,13 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     public void LoadData(GameData data)
     {
         _healthController.SetHealth(data.currentMaxLife, data.currentLife);
+        _maxVelocity = data.maxVelocity;
         DamageMultiplier = data.damageMultiplier;
         AttackSpeed = data.attackSpeed;
         ReloadSpeed = data.reloadSpeed;
         BulletSpeed = data.bulletSpeed;
+
+        UIController.Instance.UpdateStats(_maxVelocity, DamageMultiplier, AttackSpeed, ReloadSpeed, BulletSpeed);
 
         for (int i = 0; i < data.weaponId.Count; i++)
         {
@@ -88,6 +93,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     {
         data.currentMaxLife = _healthController.MaxLife;
         data.currentLife = _healthController.CurrentLife;
+        data.maxVelocity = _maxVelocity;
         data.damageMultiplier = DamageMultiplier;
         data.attackSpeed = AttackSpeed;
         data.reloadSpeed = ReloadSpeed;
@@ -269,17 +275,21 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         ModifyMaxHealth(item.life);
         if (item.healOnObtain) Heal(item.life);
 
-        DamageMultiplier += item.attack;
         _maxVelocity += item.speed;
+        DamageMultiplier += item.attack;
         AttackSpeed += item.attackSpeed;
         ReloadSpeed += item.reloadSpeed;
         BulletSpeed += item.bulletSpeed;
 
+        UIController.Instance.UpdateStats(_maxVelocity, DamageMultiplier, AttackSpeed, ReloadSpeed, BulletSpeed);
+
+        /*
         Debug.Log("Damage: " + DamageMultiplier);
         Debug.Log("Speed: " + _maxVelocity);
         Debug.Log("Attack speed: " + AttackSpeed);
         Debug.Log("Reload speed: " + ReloadSpeed);
         Debug.Log("Bullet speed: " + BulletSpeed);
+        */
     }
 
     public void RestoreAmmo(int amount)
@@ -289,6 +299,52 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     #endregion
 
     #region Health
+
+    public void GetHit()
+    {
+        IsVulnerable = false;
+        StartCoroutine(HitVisualFeedback());
+        StartCoroutine(CameraShaker.Instance.ShakeCamera(.3f, .4f));
+    }
+
+    private IEnumerator HitVisualFeedback()
+    {
+        _spriteRenderer.material.SetFloat("_FlashAmount", 1);
+
+        yield return new WaitForSeconds(0.05f);
+
+        _spriteRenderer.material.SetFloat("_FlashAmount", 0);
+
+        for (int i = 0; i < 5; i++)
+        {
+            Color initialColor = _spriteRenderer.material.color;
+            Color finalColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0f);
+
+            float elapsedTime = 0f;
+            float fadeDuration = 0.15f;
+
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                _spriteRenderer.material.color = Color.Lerp(initialColor, finalColor, elapsedTime / fadeDuration);
+                yield return null;
+            }
+
+            initialColor = _spriteRenderer.material.color;
+            finalColor = new Color(initialColor.r, initialColor.g, initialColor.b, 1f);
+            elapsedTime = 0f;
+
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                _spriteRenderer.material.color = Color.Lerp(initialColor, finalColor, elapsedTime / fadeDuration);
+                yield return null;
+            }
+        }
+
+        IsVulnerable = true;
+    }
+
     /// <summary>
     /// Modifies the player's max health
     /// </summary>
@@ -303,7 +359,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     {
         _healthController.Heal(health);
     }
-    #endregion
 
     /// <summary>
     /// WHen the player dies, disables the controls and shows the death screen
@@ -313,6 +368,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         DisableControls();
         UIController.Instance.OnDeath();
     }
+    #endregion
 
     public ActiveWeaponController ActiveWeapon => _activeWeapon;
     public int ActiveWeaponIndex => _weaponsInventory.GetActiveWeaponIndex();

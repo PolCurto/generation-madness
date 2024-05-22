@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
         _pathToTake = new List<Vector2>();
         _animator = GetComponent<Animator>();
         _seeker = GetComponent<Seeker>();
+        _spriteRenderer.material = new Material(_spriteRenderer.material);
     }
 
     protected void Start()
@@ -169,10 +170,9 @@ public class Enemy : MonoBehaviour
             {
                 Debug.DrawRay(transform.position, (_player.position - _rigidbody.position), Color.red);
             }
-        }
-        
 
-        _playerInSight = hit.collider.CompareTag("Player");
+            _playerInSight = hit.collider.CompareTag("Player");
+        }
     }
     #endregion
 
@@ -374,15 +374,30 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    protected float DistanceToPlayer()
+    #region Damage
+    public void GetHit()
     {
-        return Vector2.Distance(_player.transform.position, _rigidbody.position);
+        StartCoroutine(FlashWhite());
     }
 
+    private IEnumerator FlashWhite()
+    {
+        _spriteRenderer.material.SetFloat("_FlashAmount", 1);
+
+        yield return new WaitForSeconds(0.05f);
+
+        _spriteRenderer.material.SetFloat("_FlashAmount", 0);
+    }
     public virtual void Die()
     {
         gameObject.SetActive(false);
     }
+    #endregion
+
+    protected float DistanceToPlayer()
+    {
+        return Vector2.Distance(_player.transform.position, _rigidbody.position);
+    } 
 
     public int Cost()
     {

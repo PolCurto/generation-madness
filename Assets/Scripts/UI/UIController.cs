@@ -86,6 +86,11 @@ public class UIController : MonoBehaviour
     #region Pause Menu
     [Header("Pause Menu")]
     [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private TextMeshProUGUI _velocityValue;
+    [SerializeField] private TextMeshProUGUI _damageValue;
+    [SerializeField] private TextMeshProUGUI _attackSpeedValue;
+    [SerializeField] private TextMeshProUGUI _reloadSpeedValue;
+    [SerializeField] private TextMeshProUGUI _bulletSpeedValue;
 
     public void TogglePauseMenu()
     {
@@ -99,6 +104,15 @@ public class UIController : MonoBehaviour
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
+    }
+
+    public void UpdateStats(float velocity, float damage, float atckSpd, float reload, float bulletSpd)
+    {
+        _velocityValue.text = velocity.ToString("#.00");
+        _damageValue.text = damage.ToString("#.00");
+        _attackSpeedValue.text = atckSpd.ToString("#.00");
+        _reloadSpeedValue.text = reload.ToString("#.00");
+        _bulletSpeedValue.text = bulletSpd.ToString("#.00");
     }
 
     public void GoMainMenu()

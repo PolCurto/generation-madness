@@ -14,6 +14,9 @@ public class PlayerHealthController : HealthController
 
     public override void GetHit(int damage)
     {
+        if (!_playerController.IsVulnerable) return;
+
+        _playerController.GetHit();
         base.GetHit(damage);
 
         UIController.Instance.UpdateLife(_currentMaxLife, _currentLife);        

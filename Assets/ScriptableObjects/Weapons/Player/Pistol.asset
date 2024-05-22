@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Pistol
   cameraOffsetMultiplier: 1
   weaponSprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}
-  fireRate: 0.6
+  fireRate: 0.5
   maxBullets: 30
   clipSize: 20
   dispersion: 1

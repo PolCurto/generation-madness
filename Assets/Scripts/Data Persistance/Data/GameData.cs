@@ -10,6 +10,7 @@ public class GameData
 
     public int currentMaxLife;
     public int currentLife;
+    public float maxVelocity;
     public float damageMultiplier;
     public float attackSpeed;
     public float reloadSpeed;
@@ -25,6 +26,7 @@ public class GameData
         runType = 0;
         currentMaxLife = 3;
         currentLife = 3;
+        maxVelocity = 5;
         damageMultiplier = 1;
         attackSpeed = 1;
         reloadSpeed = 1;

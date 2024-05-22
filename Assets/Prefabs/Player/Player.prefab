@@ -187,7 +187,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 143768377
   m_SortingLayer: 5
-  m_SortingOrder: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 38d198e94045aa64c887aecee0444c35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxItems: 2
   _playerController: {fileID: 5364020681762669152}
-  _pickableWeapon: {fileID: 2330681484569148427, guid: 70e0ffc9a79cb02468c73d6db08dea60, type: 3}
+  _pickableWeapon: {fileID: 3970607278373698594, guid: 9c7832f2df99a794c8e4624895471221, type: 3}
   _database: {fileID: 11400000, guid: dcc38883c1e52a74486f70c68c61420a, type: 2}
 --- !u!114 &8448160343743679461
 MonoBehaviour:
@@ -529,8 +529,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1169344911
-  m_SortingLayer: 4
+  m_SortingLayerID: 143768377
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ff574bb8f4b4be046be37ebad95ff60a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

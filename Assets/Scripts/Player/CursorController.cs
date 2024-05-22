@@ -15,6 +15,7 @@ public class CursorController : MonoBehaviour
     {
         if (Instance == null) Instance = this;
 
+        Cursor.lockState = CursorLockMode.Confined;
         Cursor.SetCursor(cursorSprite, new Vector2(8, 8), CursorMode.Auto);
     }
 
