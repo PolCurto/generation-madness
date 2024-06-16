@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     private void Shoot()
     {
         if (_shootInput)
-        _activeWeapon.Shoot(CursorController.Instance.MousePosition - _rigidbody.position);
+        _activeWeapon.Shoot((CursorController.Instance.MousePosition - _rigidbody.position).normalized);
     }
 
     private void Reload()
