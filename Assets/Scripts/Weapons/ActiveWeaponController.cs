@@ -76,7 +76,7 @@ public class ActiveWeaponController : MonoBehaviour
 
             _lastTimeShot = _timer;
 
-            UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.TotalBullets);
+            UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.WeaponBase.clipSize, _weapon.TotalBullets);
         }
         else
         {
@@ -94,7 +94,7 @@ public class ActiveWeaponController : MonoBehaviour
     public void ReloadWeapon()
     {
         _weapon.Reload();
-        UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.TotalBullets);
+        UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.WeaponBase.clipSize, _weapon.TotalBullets);
 
     }
 
@@ -110,7 +110,7 @@ public class ActiveWeaponController : MonoBehaviour
     public void RestoreAmmo(int amount)
     {
         _weapon.RestoreAmmo(amount);
-        UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.TotalBullets);
+        UIController.Instance.UpdateAmmoAtIndex(_playerController.ActiveWeaponIndex, _weapon.ClipBullets, _weapon.WeaponBase.clipSize, _weapon.TotalBullets);
     }
 
     public Weapon Weapon => _weapon;

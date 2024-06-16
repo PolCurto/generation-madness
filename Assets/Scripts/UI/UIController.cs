@@ -45,6 +45,7 @@ public class UIController : MonoBehaviour
     [Header("Weapons")]
     [SerializeField] private CanvasGroup[] _weapons;
     [SerializeField] private TextMeshProUGUI[] _clipBullets;
+    [SerializeField] private TextMeshProUGUI[] _maxClipBullets;
     [SerializeField] private Image[] _weaponsSprite;
     [SerializeField] private Slider[] _ammoSliders;
     [SerializeField] private Image[] _ammoBars;
@@ -59,9 +60,10 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void UpdateAmmoAtIndex(int index, int clipBullets, int totalBullets)
+    public void UpdateAmmoAtIndex(int index, int clipBullets, int maxClipBullets, int totalBullets)
     {
         _clipBullets[index].text = clipBullets.ToString();
+        _maxClipBullets[index].text = maxClipBullets.ToString();
         _ammoSliders[index].value = totalBullets;
     }
 
@@ -69,6 +71,7 @@ public class UIController : MonoBehaviour
     {
         _weaponsSprite[index].sprite = weapon.WeaponBase.weaponSprite;
         _clipBullets[index].text = weapon.ClipBullets.ToString();
+        _maxClipBullets[index].text = weapon.WeaponBase.clipSize.ToString();
 
         _ammoSliders[index].maxValue = weapon.WeaponBase.maxBullets;
         _ammoSliders[index].value = weapon.TotalBullets;
