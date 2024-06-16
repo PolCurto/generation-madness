@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
   - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-  enemyTypeLimits: ffffffff0400000002000000ffffffff
+  enemyTypeLimits: 020000000200000001000000ffffffff
   enemyPositions:
   - {x: -4, y: -1}
   - {x: 4, y: -1}

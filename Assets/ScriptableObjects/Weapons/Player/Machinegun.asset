@@ -17,13 +17,13 @@ MonoBehaviour:
   cameraOffsetMultiplier: 1
   weaponSprite: {fileID: 21300000, guid: 9d4c90342f6c55d4c967c74cc91476eb, type: 3}
   fireRate: 0.2
-  maxBullets: 100
+  maxBullets: 150
   clipSize: 25
   dispersion: 2
   color: {r: 0.2509804, g: 0.8705883, b: 0.35686275, a: 1}
   overrideController: {fileID: 22100000, guid: 916b493dfb4c212468194e568151ce72, type: 2}
   bulletSprite: {fileID: 21300000, guid: b042412b31a6ff2418869581f9ebd8f3, type: 3}
-  bulletSpeed: 400
+  bulletSpeed: 550
   bulletDamage: 8
   bulletDuration: 3
   bulletsPerShot: 1

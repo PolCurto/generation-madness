@@ -71,7 +71,7 @@ MonoBehaviour:
   _drops:
   - {fileID: 1199680460343595667, guid: 02de4c0ddfe691241934f4669067d74a, type: 3}
   - {fileID: 6770843444995804888, guid: 9f03ab8ceca3ba14487d6c551604ae7e, type: 3}
-  _dropChance: 0.4
+  _dropChance: 0.6
   _velocityMultiplier: 2.5
 --- !u!58 &620909184345189905
 CircleCollider2D:
@@ -482,5 +482,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfed1c0591e064b45bdefda1206e0cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxLife: 60
+  _maxLife: 50
   _parent: {fileID: -9025549059146117193}

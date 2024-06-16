@@ -349,7 +349,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Damage multiplier:'
+  m_text: 'Damage Multiplier:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
   m_sharedMaterial: {fileID: -5201850140136959732, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
@@ -767,7 +767,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Reload speed:'
+  m_text: 'Reload Speed:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
   m_sharedMaterial: {fileID: -5201850140136959732, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
@@ -4212,7 +4212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Attack speed:'
+  m_text: 'Attack Speed:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
   m_sharedMaterial: {fileID: -5201850140136959732, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
@@ -6705,7 +6705,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Bullet speed
+  m_text: Bullet Speed
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}
   m_sharedMaterial: {fileID: -5201850140136959732, guid: 3a4919b3873573541b0f259e22a6b5d9, type: 2}

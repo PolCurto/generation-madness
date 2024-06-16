@@ -17,7 +17,7 @@ MonoBehaviour:
   cameraOffsetMultiplier: 2
   weaponSprite: {fileID: 21300000, guid: 92e7b8e4af20e144196ae5a835ba46bc, type: 3}
   fireRate: 1.5
-  maxBullets: 10
+  maxBullets: 20
   clipSize: 5
   dispersion: 0
   color: {r: 0.7372549, g: 0.2509804, b: 0.8705883, a: 1}

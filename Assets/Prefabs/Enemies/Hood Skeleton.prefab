@@ -71,7 +71,7 @@ MonoBehaviour:
   _drops:
   - {fileID: 1199680460343595667, guid: 02de4c0ddfe691241934f4669067d74a, type: 3}
   - {fileID: 6770843444995804888, guid: 9f03ab8ceca3ba14487d6c551604ae7e, type: 3}
-  _dropChance: 0.1
+  _dropChance: 0.2
 --- !u!58 &6236811186486648957
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -22,11 +22,8 @@ MonoBehaviour:
   - {fileID: 4430053331004176014, guid: cacbe38b073bd9d4986cd9afcbcde660, type: 3}
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
-  - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
   - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
   - {fileID: 4516476245366075981, guid: 2a483e29d103da7499146922eb512797, type: 3}
-  - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
   - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
   enemyPositions:
   - {x: -6, y: 8}
@@ -34,10 +31,7 @@ MonoBehaviour:
   - {x: 1, y: 8}
   - {x: 31, y: 8}
   - {x: 1, y: 18}
-  - {x: 31, y: 18}
-  - {x: 1, y: -2}
   - {x: 31, y: -2}
   - {x: 16, y: 22}
   - {x: 16, y: -6}
   - {x: 16, y: 16}
-  - {x: 16, y: 0}

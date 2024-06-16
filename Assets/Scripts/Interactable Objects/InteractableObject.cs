@@ -19,7 +19,7 @@ public class InteractableObject : MonoBehaviour
         if (collision.TryGetComponent(out PlayerController component))
         {
             _playerController = component;
-            //_playerController.CanInteract(true);
+            _playerController.CanInteract(true);
         }
     }
 
@@ -27,7 +27,7 @@ public class InteractableObject : MonoBehaviour
     {
         if (!collision.CompareTag("Player")) return;
 
-        //_playerController.CanInteract(false);
+        _playerController.CanInteract(false);
         _playerController = null;
     }
 

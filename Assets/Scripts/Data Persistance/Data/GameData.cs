@@ -24,8 +24,8 @@ public class GameData
     {
         floorDepth = 0;
         runType = 0;
-        currentMaxLife = 3;
-        currentLife = 3;
+        currentMaxLife = 6;
+        currentLife = 6;
         maxVelocity = 5;
         damageMultiplier = 1;
         attackSpeed = 1;
@@ -39,7 +39,7 @@ public class GameData
 
         totalBullets = new List<int>
         {
-            30
+            60
         };
 
         weaponId = new List<int>

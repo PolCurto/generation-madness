@@ -874,7 +874,12 @@ public class FloorGenerator : MonoBehaviour
 
     private void SpawnPlayer()
     {
-         _player.transform.position = (Vector3Int)_startPosition;
+        _player.transform.position = (Vector3Int)_startPosition;
         _player.GetComponent<PlayerController>().EnableControls();
+
+        Vector3 cameraPos = CameraController.Instance.transform.position;
+        cameraPos.x = _player.transform.position.x;
+        cameraPos.y = _player.transform.position.y;
+        CameraController.Instance.transform.position = cameraPos;
     }
 }

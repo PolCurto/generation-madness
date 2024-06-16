@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyPool:
   - {fileID: 1424477971113716428, guid: 90e3758a82a2c204fbf28f4ec9080068, type: 3}
   - {fileID: 1356345493961234995, guid: 94f246969083327458f0209b3289e131, type: 3}
-  enemyTypeLimits: ffffffff03000000
+  enemyTypeLimits: ffffffff02000000
   enemyPositions:
   - {x: 0, y: 0}
   - {x: 9, y: 5}

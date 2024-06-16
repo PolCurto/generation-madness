@@ -377,7 +377,7 @@ public class Enemy : MonoBehaviour
     #region Damage
     public void GetHit()
     {
-        StartCoroutine(FlashWhite());
+        if (gameObject.activeSelf) StartCoroutine(FlashWhite());
     }
 
     private IEnumerator FlashWhite()

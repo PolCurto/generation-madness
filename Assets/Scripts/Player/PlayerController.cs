@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private PlayerHealthController _healthController;
     [SerializeField] private float _interactionBuffer;
+    [SerializeField] private GameObject _interactionIndicator;
 
     [Header("Movement Parameters")]
     [SerializeField] private float _maxVelocity;
@@ -197,6 +198,18 @@ public class PlayerController : MonoBehaviour, IDataPersistance
             Debug.Log("Item found");
             _activeWeapon.SwapWeapon((Weapon)item);
             UIController.Instance.HighlightWeaponAtIndex(index, _weaponsInventory.GetAllItems().Count);
+        }
+    }
+
+    public void CanInteract(bool can)
+    {
+        if (can)
+        {
+            _interactionIndicator.SetActive(true);
+        }
+        else
+        {
+            _interactionIndicator.SetActive(false);
         }
     }
     #endregion
