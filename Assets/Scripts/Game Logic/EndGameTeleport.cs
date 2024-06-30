@@ -8,6 +8,8 @@ public class EndGameTeleport : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            AudioManager.Instance.SetMusicVolume(0.2f);
+
             DataPersistanceManager.Instance.NewGame();
             UIController.Instance.OnGameFinished();
         }

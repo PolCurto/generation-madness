@@ -156,6 +156,9 @@ public class FloorGenerator : MonoBehaviour
         AstarPath.active.Scan();
         SpawnPlayer();
 
+        AudioManager.Instance.SetMusicVolume(0.7f);
+        AudioManager.Instance.PlayMusic("Dungeon");
+
         if (LoadingScreen.Instance != null)
         {
             LoadingScreen.Instance.gameObject.SetActive(false);

@@ -1220,7 +1220,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2696,11 +2696,11 @@ MonoBehaviour:
   _sfxSource: {fileID: 1529669804}
   _musicThemes:
   - name: Cave
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d9daedc462307564bb512ba3a0d69ef4, type: 3}
   - name: Dungeon
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 250c0a4072cba9e45a67c06121cb2801, type: 3}
   - name: Temple
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 891e389cd90e1384bb78320545d8f1fa, type: 3}
   _sfxSounds:
   - name: Player Hit
     clip: {fileID: 8300000, guid: 0bd644b80c556124b98972a34bea1d15, type: 3}

@@ -74,7 +74,7 @@ public class ActiveWeaponController : MonoBehaviour
             }
 
             _weapon.Shoot();
-            _audioSource.w(_weapon.WeaponBase.shotAudio);
+            _audioSource.PlayOneShot(_weapon.WeaponBase.shotAudio);
 
             _lastTimeShot = _timer;
 

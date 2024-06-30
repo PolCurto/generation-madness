@@ -12,6 +12,11 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    private void Start()
+    {
+        if (AudioManager.Instance.IsPlayingMusic()) AudioManager.Instance.StopMusic();
+    }
+
     public void StartNewGame(int type)
     {
         Debug.Log("Start new game");

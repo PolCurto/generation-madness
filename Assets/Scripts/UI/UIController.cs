@@ -101,11 +101,13 @@ public class UIController : MonoBehaviour
         {
             Time.timeScale = 1f;
             _pauseMenu.SetActive(false);
+            AudioManager.Instance.SetMusicVolume(0.7f);
         }
         else
         {
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
+            AudioManager.Instance.SetMusicVolume(0.2f);
         }
     }
 

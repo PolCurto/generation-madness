@@ -66,6 +66,9 @@ public class CaveGenerator : MonoBehaviour
         AstarPath.active.Scan();
         _caveLogic.SpawnPlayer();
 
+        AudioManager.Instance.SetMusicVolume(0.7f);
+        AudioManager.Instance.PlayMusic("Cave");
+
         if (LoadingScreen.Instance != null)
         {
             LoadingScreen.Instance.gameObject.SetActive(false);

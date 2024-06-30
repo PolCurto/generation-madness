@@ -113,6 +113,9 @@ public class TempleGenerator : MonoBehaviour
         AstarPath.active.Scan();
         SpawnPlayer();
 
+        AudioManager.Instance.SetMusicVolume(0.7f);
+        AudioManager.Instance.PlayMusic("Temple");
+
         if (LoadingScreen.Instance != null)
         {
             LoadingScreen.Instance.gameObject.SetActive(false);
