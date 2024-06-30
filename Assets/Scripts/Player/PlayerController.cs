@@ -315,6 +315,7 @@ public class PlayerController : MonoBehaviour, IDataPersistance
 
     public void GetHit()
     {
+        AudioManager.Instance.PlaySFX("Player Hit", 1);
         IsVulnerable = false;
         StartCoroutine(HitVisualFeedback());
         StartCoroutine(CameraShaker.Instance.ShakeCamera(.3f, .4f));

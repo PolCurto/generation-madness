@@ -7,6 +7,7 @@ public class ActiveWeaponController : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private GameObject _bullet;
+    [SerializeField] private AudioSource _audioSource;
 
     [SerializeField] private float _bulletSpawnOffset;
 
@@ -73,6 +74,7 @@ public class ActiveWeaponController : MonoBehaviour
             }
 
             _weapon.Shoot();
+            _audioSource.w(_weapon.WeaponBase.shotAudio);
 
             _lastTimeShot = _timer;
 

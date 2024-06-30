@@ -10,5 +10,6 @@ public class Bandit : HoodSkeleton
     {
         Vector2 direction = (_player.position + (_player.velocity.normalized * _shotOffset)) - _rigidbody.position;
         _weaponController.Shoot(direction);
+        _audioSource.PlayOneShot(_shootAudio);
     }
 }

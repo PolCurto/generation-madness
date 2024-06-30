@@ -9,6 +9,11 @@ public class Enemy : MonoBehaviour
     #region Global Variables
     [SerializeField] protected Rigidbody2D _rigidbody;
     [SerializeField] protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected AudioSource _audioSource;
+
+    [Header("Audios")]
+    [SerializeField] protected AudioClip _damageAudio;
+    [SerializeField] protected AudioClip _shootAudio;
 
     [Header("Global Stats")]
     [SerializeField] protected int _cost;
@@ -377,7 +382,10 @@ public class Enemy : MonoBehaviour
     #region Damage
     public void GetHit()
     {
-        if (gameObject.activeSelf) StartCoroutine(FlashWhite());
+        if (!gameObject.activeSelf) return;
+
+        StartCoroutine(FlashWhite());
+        _audioSource.PlayOneShot(_damageAudio);
     }
 
     private IEnumerator FlashWhite()

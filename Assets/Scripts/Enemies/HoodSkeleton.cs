@@ -79,6 +79,7 @@ public class HoodSkeleton : Enemy
 
     protected virtual void Shoot()
     {
+        _audioSource.PlayOneShot(_shootAudio);
         _weaponController.Shoot(_player.position - _rigidbody.position);
     }
 

@@ -9,6 +9,7 @@ public class Mana : Pickup
     protected override void OnPickUp(PlayerController player)
     {
         player.RestoreAmmo(_mana);
+        AudioManager.Instance.PlaySFX("Pick Ammo", 1);
 
         base.OnPickUp(player);
     }

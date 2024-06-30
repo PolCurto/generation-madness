@@ -45,6 +45,7 @@ public class SceneWeapon : InteractableObject
     protected override void Interact()
     {
         base.Interact();
+        AudioManager.Instance.PlaySFX("Pick Item", 1);
         _playerController.AddWeapon(_weapon);
         Destroy(gameObject);
     }

@@ -9,6 +9,7 @@ public class Medkit : Pickup
     protected override void OnPickUp(PlayerController player)
     {
         player.Heal(_health);
+        AudioManager.Instance.PlaySFX("Heal", 0.2f);
 
         base.OnPickUp(player);
     }

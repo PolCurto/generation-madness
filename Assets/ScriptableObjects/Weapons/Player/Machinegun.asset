@@ -22,6 +22,7 @@ MonoBehaviour:
   dispersion: 0.2
   color: {r: 0.2509804, g: 0.8705883, b: 0.35686275, a: 1}
   overrideController: {fileID: 22100000, guid: 916b493dfb4c212468194e568151ce72, type: 2}
+  shotAudio: {fileID: 8300000, guid: fea20cfad0b141048ab419dc82eb8ca4, type: 3}
   bulletSprite: {fileID: 21300000, guid: b042412b31a6ff2418869581f9ebd8f3, type: 3}
   bulletSpeed: 550
   bulletDamage: 8

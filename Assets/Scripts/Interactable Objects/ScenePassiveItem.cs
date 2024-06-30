@@ -48,6 +48,7 @@ public class ScenePassiveItem : InteractableObject
     {
         Debug.Log("Interact");
         base.Interact();
+        AudioManager.Instance.PlaySFX("Pick Item", 1);
         //_playerController.AddItem(_item);
         _playerController.ModifyStats(_itemBase);
         Destroy(gameObject);

@@ -17,6 +17,8 @@ public class WeaponBase : ScriptableObject
     public float dispersion;
     public Color color;
     public AnimatorOverrideController overrideController;
+    public AudioClip shotAudio;
+    //public AudioClip reloadAudio;
     
 
     [Header("Bullets")]
